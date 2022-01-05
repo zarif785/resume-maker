@@ -1,7 +1,9 @@
-import 'package:cv_maker/module/home/screen/home_screen.dart';
-import 'package:cv_maker/module/login/screen/login_screen.dart';
-import 'package:cv_maker/module/splashScreen/screen/splash_screen.dart';
+
 import 'package:flutter/material.dart';
+
+import 'module/home/screen/home_screen.dart';
+import 'module/login/screen/login_screen.dart';
+import 'module/splashScreen/screen/splash_screen.dart';
 
 class AppRoute{
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
