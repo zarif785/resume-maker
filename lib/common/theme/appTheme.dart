@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 mixin AppTheme{
@@ -12,7 +13,8 @@ class ThemeColor{
   static ThemeColor? _instance;
   static ThemeColor get instance => _instance??(_instance=ThemeColor._());
 
-
+  Color get appBlack => Color(0xff060201);
+  Color get appWhite => Color(0xffFEFEFE);
 
 }
 
@@ -20,6 +22,10 @@ class ThemeSize{
   ThemeSize._();
   static ThemeSize? _instance;
   static ThemeSize get instance => _instance??(_instance=ThemeSize._());
+
+
+
+
 
   double get textXXXLarge => 44.sp;
   double get textXXLarge => 36.sp;

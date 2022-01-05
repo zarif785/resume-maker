@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_route.dart';
 
@@ -14,7 +15,19 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+
+
 class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState(){
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

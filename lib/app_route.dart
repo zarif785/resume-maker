@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:resume_maker/module/register/screen/register_screen.dart';
 
 import 'module/home/screen/home_screen.dart';
 import 'module/login/screen/login_screen.dart';
@@ -11,6 +12,7 @@ class AppRoute{
   static const String splashScreen = 'splashScreen';
   static const String homeScreen = 'homeScreen';
   static const String loginScreen = 'loginScreen';
+  static const String registerScreen = 'registerScreen';
 }
 
 mixin RouteGenerator{
@@ -19,6 +21,7 @@ mixin RouteGenerator{
       switch(settings.name){
         case AppRoute.homeScreen : return const HomeScreen();
         case AppRoute.loginScreen : return const LoginScreen();
+        case AppRoute.registerScreen : return const RegisterScreen();
         default:
           return const SplashScreen();
       }
