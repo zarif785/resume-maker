@@ -1,28 +1,26 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/appAssets.dart';
 import 'package:resume_maker/common/widget/action_button.dart';
 import 'package:resume_maker/common/widget/textField.dart';
-import 'package:resume_maker/module/login/service/login_screen_service.dart';
+import 'package:resume_maker/module/register/service/register_screen_service.dart';
 
 import '../../../app_route.dart';
 
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenService{
-
-  TextEditingController usernameController = TextEditingController();
+class _RegisterScreenState extends State<RegisterScreen> with AppTheme,RegisterScreenService{
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-
+  TextEditingController confirmpasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenServ
 
               children: [
                 SizedBox(height: 30),
-                Image.asset(AppAssets.brandLogo,height:350.h,width: 350.w,),
+                Image.asset(AppAssets.brandLogo,height:300.h,width: 300.w,),
                 SizedBox(height: size.s16),
                 Text(
                   "LOGIN HERE",
@@ -53,33 +51,40 @@ class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenServ
                   ),
                 ),
                 SizedBox(height: size.s16),
-                TextFieldWidget(controller: usernameController, hintText: "Enter Email", type: 'email'),
-                SizedBox(height: size.s8),
+                TextFieldWidget(controller: firstnameController, hintText: "Enter First Name", type: 'name'),
+                SizedBox(height: size.s4),
+                TextFieldWidget(controller: lastnameController, hintText: "Enter Last Name", type: 'name'),
+                SizedBox(height: size.s4),
+                TextFieldWidget(controller: emailController, hintText: "Enter Email", type: 'email'),
+                SizedBox(height: size.s4),
                 TextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password'),
+                SizedBox(height: size.s4),
+                TextFieldWidget(controller: confirmpasswordController, hintText: "Confirm Password", type: 'password'),
                 SizedBox(height: size.s12),
-                ActionButton(onSuccess: onLoginButtonPress, title: "Login"),
-                SizedBox(height: size.s42),
+                ActionButton(onSuccess: onRegisterButtonPress, title: "Register"),
+
+                SizedBox(height: size.s32),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account?",
+                      "Already have an account?",
                       style: TextStyle(
                         fontSize: size.textXXSmall,
                         fontWeight: FontWeight.w400,
                         color: clr.appWhite,
                       ),
                     ),
-                    SizedBox(width: size.s12),
+                    SizedBox(width: size.s12,),
                     GestureDetector(
-                      onTap: onRegisterPress,
-                      child: Text('Register',
+                      onTap: onLoginPress,
+                      child: Text('Login',
                         style: TextStyle(
-                        fontSize: size.textSmall,
-                        fontWeight: FontWeight.w800,
-                        color: clr.appWhite,
+                          fontSize: size.textSmall,
+                          fontWeight: FontWeight.w800,
+                          color: clr.appWhite,
                           decoration: TextDecoration.underline,
-                      ),),
+                        ),),
                     )
                   ],
                 )
@@ -97,9 +102,7 @@ class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenServ
   }
 
   @override
-  void navigateToRegisterScreen() {
-    Navigator.of(context).pushNamed(AppRoute.registerScreen);
+  void navigateToLoginScreen() {
+    Navigator.of(context).pushNamed(AppRoute.loginScreen);
   }
 }
-
-
