@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:resume_maker/module/register/screen/register_screen.dart';
+import 'package:resume_maker/module/resume_Create/screen/resume_create_screen.dart';
+import 'package:resume_maker/module/resume_Update/screen/resume_update_screen.dart';
 
 import 'module/home/screen/home_screen.dart';
 import 'module/login/screen/login_screen.dart';
@@ -13,6 +15,8 @@ class AppRoute{
   static const String homeScreen = 'homeScreen';
   static const String loginScreen = 'loginScreen';
   static const String registerScreen = 'registerScreen';
+  static const String resumeCreateScreen = 'resumeCreateScreen';
+  static const String resumeUpdateScreen = 'resumeUpdateScreen';
 }
 
 mixin RouteGenerator{
@@ -22,8 +26,11 @@ mixin RouteGenerator{
         case AppRoute.homeScreen : return const HomeScreen();
         case AppRoute.loginScreen : return const LoginScreen();
         case AppRoute.registerScreen : return const RegisterScreen();
+        case AppRoute.resumeCreateScreen : return  ResumeCreateScreen();
+        case AppRoute.resumeUpdateScreen : return const ResumeUpdateScreen();
         default:
-          return const SplashScreen();
+          return  SplashScreen();
+          // return const SplashScreen();
       }
     });
   }

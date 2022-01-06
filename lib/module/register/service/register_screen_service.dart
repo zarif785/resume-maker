@@ -21,4 +21,11 @@ mixin RegisterScreenService <T extends StatefulWidget> on State<T> implements _V
 
   }
 
+
+  Future<void> onRegisterButtonPress() async{
+    await Future.delayed(Duration(milliseconds: 1000));
+    _view.navigateToHomeScreen();
+
+  }
+
 }

@@ -61,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> with AppTheme,RegisterS
                 SizedBox(height: size.s4),
                 TextFieldWidget(controller: confirmpasswordController, hintText: "Confirm Password", type: 'password'),
                 SizedBox(height: size.s12),
-                ActionButton(onSuccess: null, title: "Register"),
+                ActionButton(onSuccess: onRegisterButtonPress, title: "Register"),
 
                 SizedBox(height: size.s32),
                 Row(

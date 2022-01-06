@@ -21,4 +21,10 @@ mixin LoginScreenService <T extends StatefulWidget> on State<T> implements _View
 
   }
 
+  Future<void> onLoginButtonPress() async{
+    await Future.delayed(Duration(milliseconds: 1000));
+    _view.navigateToHomeScreen();
+
+  }
+
 }

@@ -21,6 +21,8 @@ class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenServ
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenServ
                 SizedBox(height: size.s8),
                 TextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password'),
                 SizedBox(height: size.s12),
-                ActionButton(onSuccess: null, title: "Login"),
+                ActionButton(onSuccess: onLoginButtonPress, title: "Login"),
                 SizedBox(height: size.s42),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
