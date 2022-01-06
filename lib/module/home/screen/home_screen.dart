@@ -16,9 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with AppTheme,HomeScreenService{
   @override
   Widget build(BuildContext context) {
-    return RoundedAppBar(title: "Resume Builder", child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: double.infinity,
+    return RoundedAppBar(title: "Resume Builder",
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -53,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> with AppTheme,HomeScreenService
                 )
             ],
           ),
-        )
+
 
     );
   }
