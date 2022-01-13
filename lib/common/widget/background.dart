@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 
-class RoundedAppBar extends StatelessWidget with AppTheme{
+class RoundedAppBar extends StatefulWidget {
   final String title;
   final Widget child;
-  const RoundedAppBar({Key? key, required this.title, required this.child}) : super(key: key);
+  final bool? onBack;
+  const RoundedAppBar({Key? key, required this.title, required this.child,  this.onBack}) : super(key: key);
 
+  @override
+  State<RoundedAppBar> createState() => _RoundedAppBarState();
+}
+
+class _RoundedAppBarState extends State<RoundedAppBar> with AppTheme{
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -23,19 +29,21 @@ class RoundedAppBar extends StatelessWidget with AppTheme{
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: size.s8,horizontal: size.s16),
                       child: GestureDetector(
-                        onTap: null,
+                        onTap: _onBackPressed,
                         child: Icon(Icons.arrow_back,size: size.s24,color: clr.appWhite,),
 
                       ),
                     ),
                     Expanded(
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          color: clr.appWhite,
-                          fontSize: size.textLarge,
+
+                        child: Text(
+                          widget.title,
+                          style: TextStyle(
+                            color: clr.appWhite,
+                            fontSize: size.textLarge,
+                          ),
                         ),
-                      ),
+
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: size.s8,horizontal: size.s16),
@@ -51,6 +59,7 @@ class RoundedAppBar extends StatelessWidget with AppTheme{
                 SizedBox(height: size.s12,),
                 Expanded(
                   child: Container(
+
                     height: double.infinity,
                     width: double.maxFinite,
                     decoration: BoxDecoration(
@@ -60,7 +69,7 @@ class RoundedAppBar extends StatelessWidget with AppTheme{
                         topRight: Radius.circular(20.r),
                       )
                     ),
-                    child: child,
+                    child: widget.child,
                   ),
                 )
               ],
@@ -69,5 +78,11 @@ class RoundedAppBar extends StatelessWidget with AppTheme{
         ),
 
         );
+  }
+
+  void _onBackPressed() async{
+    if(widget.onBack != null) {
+      return Navigator.of(context).pop();
+    }
   }
 }
