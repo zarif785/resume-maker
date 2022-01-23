@@ -18,7 +18,7 @@ class _RoundedAppBarState extends State<RoundedAppBar> with AppTheme{
     return WillPopScope(
         onWillPop: null,
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           backgroundColor: clr.appBlack,
           body: SafeArea(
             child: Column(

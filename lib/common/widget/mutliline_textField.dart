@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 
-class TextFieldWidget extends StatelessWidget with AppTheme{
+class MultiLineTextFieldWidget extends StatelessWidget with AppTheme{
   final TextEditingController controller;
   final String hintText;
   final String type;
-  const TextFieldWidget({Key? key, required this.controller, required this.hintText, required this.type}) : super(key: key);
+  const MultiLineTextFieldWidget({Key? key, required this.controller, required this.hintText, required this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      margin: EdgeInsets.symmetric(horizontal: size.s16,vertical: size.s4),
-      padding: EdgeInsets.symmetric(horizontal: size.s16,vertical: size.s4),
+      margin: EdgeInsets.symmetric(horizontal: size.s16,vertical: size.s8),
+      padding: EdgeInsets.symmetric(horizontal: size.s16,vertical: size.s42),
       decoration: BoxDecoration(
         color: clr.appWhite,
         border: Border.all(
@@ -26,7 +26,7 @@ class TextFieldWidget extends StatelessWidget with AppTheme{
         obscureText:  type=='password'? true:false,
         controller: controller,
         keyboardType: type=='email'? TextInputType.emailAddress: type=='number'?TextInputType.number:TextInputType.multiline,
-        maxLines: 1,
+        maxLines: 8,
         minLines: 1,
         style: TextStyle(
           color: clr.appBlack,
