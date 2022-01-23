@@ -25,7 +25,7 @@ class TextFieldWidget extends StatelessWidget with AppTheme{
       child: TextField(
         obscureText:  type=='password'? true:false,
         controller: controller,
-        keyboardType: type=='email'? TextInputType.emailAddress: type=='number'?TextInputType.number:TextInputType.multiline,
+        keyboardType: type=='email'? TextInputType.emailAddress: type=='number'?TextInputType.number:TextInputType.text,
         maxLines: 1,
         minLines: 1,
         style: TextStyle(
