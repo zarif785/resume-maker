@@ -13,7 +13,7 @@ class ThemeColor{
   static ThemeColor? _instance;
   static ThemeColor get instance => _instance??(_instance=ThemeColor._());
 
-  Color get appBlack => Color(0xff060201);
+  Color get appBlack => Color(0xff0e937f);
   Color get appWhite => Color(0xffFEFEFE);
 
 }

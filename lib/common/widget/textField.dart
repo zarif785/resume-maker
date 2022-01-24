@@ -29,14 +29,17 @@ class TextFieldWidget extends StatelessWidget with AppTheme{
         maxLines: 1,
         minLines: 1,
         style: TextStyle(
-          color: clr.appBlack,
+          color: Colors.black,
           fontSize: size.textSmall,
+          fontWeight: FontWeight.w600
         ),
         decoration: InputDecoration(
             border: InputBorder.none,
             isDense: true,
             hintText: hintText,
             hintStyle: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.w400,
               fontSize: size.textSmall,
             )
         ),

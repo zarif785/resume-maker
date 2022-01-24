@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/common/widget/date_input_field.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 
 class Academic extends StatefulWidget {
@@ -18,8 +19,8 @@ class _AcademicState extends State<Academic> with AppTheme{
   List<TextFieldWidget> _instituteList = [];
   List<TextEditingController> _cgpaContoller = [];
   List<TextFieldWidget> _cgpaList = [];
-  List<TextEditingController> _passingYearContoller = [];
-  List<TextFieldWidget> _passingYearList = [];
+  List<DateInput> _passingYearList=[];
+
   bool addTapped =  false;
 
 
@@ -30,23 +31,23 @@ class _AcademicState extends State<Academic> with AppTheme{
     final degree = TextEditingController();
     final institute = TextEditingController();
     final cgpa = TextEditingController();
-    final passing_year = TextEditingController();
 
-    final degreeField = TextFieldWidget(controller: degree, type: 'degree', hintText: 'Degree',);
+
+    final degreeField = TextFieldWidget(controller: degree, type: 'degree', hintText: 'Exam Name',);
     final instituteField = TextFieldWidget(controller:institute, type: 'name', hintText: 'Institute Name',);
     final cgpaField = TextFieldWidget(controller: cgpa, type: 'number', hintText: 'CGPA',);
-    final passingYearField = TextFieldWidget(controller: passing_year, type: 'number', hintText: 'Passing Year',);
+    final passingYear = DateInput(hintText: "Passing Year",);
 
     setState(() {
       if(function == "add") {
         _degreeControllers.add(degree);
         _instituteControllers.add(institute);
         _cgpaContoller.add(cgpa);
-        _passingYearContoller.add(passing_year);
+
         _degreeList.add(degreeField);
         _instituteList.add(instituteField);
         _cgpaList.add(cgpaField);
-        _passingYearList.add(passingYearField);
+        _passingYearList.add(passingYear);
         addTapped = true;
       }
       // else{
@@ -67,38 +68,41 @@ class _AcademicState extends State<Academic> with AppTheme{
 
 
   Widget _listView() {
-    DegreeStatus? _status = DegreeStatus.completed;
+    int? _value = 0;
+    bool active=false;
     final children = [
       for (var i = 0; i < _degreeControllers.length; i++)
         Container(
 
           child: Column(
             children: [
+              Text('${i+1}'),
+
               _degreeList[i],
               _instituteList[i],
               _cgpaList[i],
               Row(
                 children: [
-                  Radio<DegreeStatus>(
-                    value: DegreeStatus.completed,
-                    groupValue: _status,
-                    onChanged: (DegreeStatus? value){
+                  Radio(
+                    value:1,
+                    groupValue: _value ,
+                    onChanged: (int? value){
                       setState(() {
-                        _status = value;
-                        _passingYearContoller[i].text= "Completed";
+                         _value= value;
+
                       });
                     },
                   ),
 
                   Text("Completed"),
 
-                  Radio<DegreeStatus>(
-                    value: DegreeStatus.pursuing,
-                    groupValue: _status,
-                    onChanged: (DegreeStatus? value){
+                  Radio(
+                    value:2,
+                    groupValue: _value ,
+                    onChanged: (int? value){
                       setState(() {
-                        _status = value;
-                        _passingYearContoller[i].text= "Pursuing";
+                        _value= value;
+                        active= true;
                       });
                     },
                   ),
@@ -107,7 +111,7 @@ class _AcademicState extends State<Academic> with AppTheme{
                 ],
               ),
 
-              _passingYearList[i],
+              active?DateInput(hintText:"XXX00"):Offstage(),
               SizedBox(height: size.s20,)
             ],
           ),
@@ -175,7 +179,9 @@ class _AcademicState extends State<Academic> with AppTheme{
           _isShowing?Container(
             child: Column(
               children: [
-                !addTapped? Text("Tap the ""+"" button to add your Academic accomplishments"):Offstage(),
+                !addTapped? Text("Tap the ""+"" button to add your Academic accomplishments",
+                    style: TextStyle(color: clr.appBlack),
+                ):Offstage(),
                 SizedBox(height: size.s20,),
                 _listView(),
 

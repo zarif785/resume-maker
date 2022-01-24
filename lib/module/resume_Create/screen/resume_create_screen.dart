@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:resume_maker/common/core/app.dart';
@@ -18,6 +19,13 @@ class ResumeCreateScreen extends StatefulWidget {
 }
 
 class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

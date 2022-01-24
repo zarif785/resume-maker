@@ -66,30 +66,29 @@ class _ExperienceState extends State<Experience> with AppTheme{
 
 
 
-List<int> testGroupValue=[];
 
   Widget _listView() {
-    DegreeStatus? _status = DegreeStatus.completed;
-    for (var m = 0; m < _degreeControllers.length; m++){
-      testGroupValue.add(m);
-    }
+    int? _value = 0;
+
 
     final children = [
+
       for (var i = 0; i < _degreeControllers.length; i++)
         Container(
           child: Column(
             children: [
+              Text('${i+1}'),
               _degreeList[i],
               _instituteList[i],
               _cgpaList[i],
               Row(
                 children: [
                   Radio(
-                    value: 0,
-                    groupValue: testGroupValue[i],
+                    value:1,
+                    groupValue: _value ,
                     onChanged: (int? value){
                       setState(() {
-                        testGroupValue[i] = value!;
+                        _value= value;
                         _passingYearContoller[i].text= "Currently Employed";
                       });
                     },
@@ -98,11 +97,11 @@ List<int> testGroupValue=[];
                   Text("Currently Employed"),
 
                   Radio(
-                    value: 2,
-                    groupValue: testGroupValue[i],
+                    value:1,
+                    groupValue: _value ,
                     onChanged: (int? value){
                       setState(() {
-                        testGroupValue[i] = value!;
+                        _value= value;
                         _passingYearContoller[i].text= "Previously Employed";
                       });
                     },
@@ -180,7 +179,9 @@ List<int> testGroupValue=[];
           _isShowing?Container(
             child: Column(
               children: [
-                !addTapped? Text("Tap the ""+"" button to add your Work Experience"):Offstage(),
+                !addTapped? Text("Tap the ""+"" button to add your Work Experience",
+                  style: TextStyle(color: clr.appBlack),
+                ):Offstage(),
                 SizedBox(height: size.s20,),
                 _listView(),
 
@@ -236,4 +237,4 @@ List<int> testGroupValue=[];
     );
   }
 }
-enum DegreeStatus { completed, pursuing }
+
