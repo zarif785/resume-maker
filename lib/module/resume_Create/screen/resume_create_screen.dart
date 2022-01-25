@@ -7,6 +7,11 @@ import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/background.dart';
 
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/account.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/experience.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/project.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/reference.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/user_image.dart';
 
 class ResumeCreateScreen extends StatefulWidget {
   @override
@@ -47,7 +52,7 @@ class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
             LinearContainer(),
             FormContent(icon: Icons.connect_without_contact, title: "Reference"),
             LinearContainer(),
-            FormContent(icon: Icons.camera, title: "Camera"),
+            FormContent(icon: Icons.camera, title: "Image"),
             LinearContainer(),
             FormContent(icon: Icons.gesture, title: "Signature"),
 
@@ -144,7 +149,7 @@ class _FormContentState extends State<FormContent>with AppTheme {
           //       ]
           //   ),
           // ):Offstage(),
-          Academic(),
+          UserImage(),
           Container(
             height: 1.2,
             width: MediaQuery.of(context).size.width -100,

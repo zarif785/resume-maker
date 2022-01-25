@@ -248,6 +248,8 @@ class Academic extends StatefulWidget {
 }
 
 class _AcademicState extends State<Academic> with AppTheme{
+  int? _value =0;
+  bool active = false;
   final degree = TextEditingController();
   final institute = TextEditingController();
   final cgpa = TextEditingController();
@@ -258,7 +260,38 @@ class _AcademicState extends State<Academic> with AppTheme{
         TextFieldWidget(controller: degree, type: 'degree', hintText: 'Exam Name',),
         TextFieldWidget(controller:institute, type: 'name', hintText: 'Institute Name',),
         TextFieldWidget(controller: cgpa, type: 'number', hintText: 'CGPA',),
-        DateInput(hintText: "Passing Year",),
+
+    Row(
+                children: [
+                  Radio(
+                    value:1,
+                    groupValue: _value ,
+                    onChanged: (int? value){
+                      setState(() {
+                         _value= value;
+
+                      });
+                    },
+                  ),
+
+                  Text("Completed"),
+
+                  Radio(
+                    value:2,
+                    groupValue: _value ,
+                    onChanged: (int? value){
+                      setState(() {
+                        _value= value;
+                        active= true;
+                      });
+                    },
+                  ),
+
+                  Text("Pursuing"),
+                ],
+              ),
+
+        _value==1?DateInput(hintText:"Passing Year"):Offstage(),
 
         GestureDetector(
               onTap: ()=>null,
