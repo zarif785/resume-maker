@@ -244,19 +244,7 @@ class _ProjectState extends State<Project> with AppTheme{
 
         SizedBox(height: size.s20,),
 
-        GestureDetector(
-          onTap: ()=>null,
-          child: Container(
-              margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: clr.appBlack,
-                borderRadius: BorderRadius.circular(50.r),
 
-              ),
-              child:Icon(Icons.add,color: Colors.white,)
-          ),
-        ),
       ],
 
     );

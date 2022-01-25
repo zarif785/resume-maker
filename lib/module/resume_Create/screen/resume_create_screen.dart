@@ -11,6 +11,7 @@ import 'package:resume_maker/module/resume_Create/screen/resumeForm/account.dart
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/experience.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/project.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/reference.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/signature.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/user_image.dart';
 
 class ResumeCreateScreen extends StatefulWidget {
@@ -41,21 +42,46 @@ class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LinearContainer(),
-            FormContent(icon: Icons.person, title: "Account"),
-            LinearContainer(),
-            FormContent(icon: Icons.school, title: "Academic"),
-            LinearContainer(),
-            FormContent(icon: Icons.work, title: "Experience"),
-            LinearContainer(),
-            FormContent(icon: Icons.assignment, title: "Project"),
-            LinearContainer(),
-            FormContent(icon: Icons.connect_without_contact, title: "Reference"),
-            LinearContainer(),
-            FormContent(icon: Icons.camera, title: "Image"),
-            LinearContainer(),
-            FormContent(icon: Icons.gesture, title: "Signature"),
 
+
+            LinearContainer(),
+            FormContent(
+              icon: Icons.person, title: "Account", canAdd: false,
+              content: (){
+                return Account();
+              },
+            ),
+            LinearContainer(),
+            FormContent(icon: Icons.school, title: "Academic", canAdd: true,
+              content: (){
+                return Academic();
+              },),
+            LinearContainer(),
+            FormContent(icon: Icons.work, title: "Experience", canAdd: true,
+              content: (){
+                return Experience();
+              },),
+            LinearContainer(),
+            FormContent(icon: Icons.assignment, title: "Project", canAdd: true,
+              content: (){
+                return Project();
+              },
+            ),
+            LinearContainer(),
+            FormContent(icon: Icons.connect_without_contact, title: "Reference", canAdd: true,
+              content: (){
+                return Reference();
+              },),
+            LinearContainer(),
+            FormContent(icon: Icons.camera, title: "Image", canAdd: false,
+              content: (){
+                return UserImage();
+              },),
+            LinearContainer(),
+            FormContent(icon: Icons.gesture, title: "Signature", canAdd: false, content: () {
+              return SignatureSection();
+            },),
+            LinearContainer(),
           ],
         ),
       )
@@ -82,7 +108,9 @@ class LinearContainer extends StatelessWidget with AppTheme{
 class FormContent extends StatefulWidget {
   final IconData icon;
   final String title;
-  const FormContent({Key? key, required this.icon, required this.title}) : super(key: key);
+  final bool canAdd;
+  final Widget Function() content;
+  const FormContent({Key? key, required this.icon, required this.title, required this.canAdd, required this.content, }) : super(key: key);
 
   @override
   _FormContentState createState() => _FormContentState();
@@ -142,14 +170,53 @@ class _FormContentState extends State<FormContent>with AppTheme {
 
             ),
           ),
-          // _isShowing?Container(
-          //   child: Column(
-          //     children: [
-          //       Academics()
-          //       ]
-          //   ),
-          // ):Offstage(),
-          UserImage(),
+
+          _isShowing?Container(
+            child: Column(
+              children: [
+                widget.content(),
+                Container(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(),
+                      widget.canAdd?GestureDetector(
+                        onTap: ()=>null,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: clr.appBlack,
+                              borderRadius: BorderRadius.circular(50.r),
+
+                            ),
+                            child:Icon(Icons.add,color: Colors.white,)
+                        ),
+                      ):Offstage(),
+
+
+
+                      GestureDetector(
+                        onTap: _toggleViewer,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: clr.appBlack,
+                              borderRadius: BorderRadius.circular(50.r),
+
+                            ),
+                            child:Icon(Icons.check,color: Colors.white,)
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ]
+            ),
+          ):Offstage(),
+
           Container(
             height: 1.2,
             width: MediaQuery.of(context).size.width -100,

@@ -149,41 +149,13 @@ class _AccountState extends State<Account> with AppTheme{
     return Column(
               children: [
                 TextFieldWidget(hintText: 'Name', type: 'name', controller: usernameController,),
-                TextFieldWidget(hintText: 'Number', type: 'number', controller: usernameController,),
-                TextFieldWidget(hintText: 'Email', type: 'email', controller: usernameController,),
+                TextFieldWidget(hintText: 'Number', type: 'number', controller: mobileNoController,),
+                TextFieldWidget(hintText: 'Email', type: 'email', controller: emailController,),
                 MultiLineTextFieldWidget(controller: addressController, hintText: "Address", type: 'address'),
 
                 SizedBox(height: size.s24,),
 
-                Row(
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(bottom: size.s8,left: size.s4),
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: clr.appBlack,
-                            borderRadius: BorderRadius.circular(50.r),
 
-                          ),
-                          child:Icon(Icons.west,color: Colors.white,)
-                      ),
-
-                      Spacer(),
-                      GestureDetector(
-                        onTap: null,
-                        child: Container(
-                            margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: clr.appBlack,
-                              borderRadius: BorderRadius.circular(50.r),
-
-                            ),
-                            child:Icon(Icons.east,color: Colors.white,)
-                        ),
-                      ),
-                    ]
-                ),
 
               ],
             );

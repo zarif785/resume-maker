@@ -300,41 +300,6 @@ class _ExperienceState extends State<Experience> with AppTheme{
 
         _value==1?DateInput(hintText: "To(Duration"):Offstage(),
 
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-
-
-                      GestureDetector(
-                        onTap: null,
-                        child: Container(
-                            margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: clr.appBlack,
-                              borderRadius: BorderRadius.circular(50.r),
-
-                            ),
-                            child:Icon(Icons.add,color: Colors.white,)
-                        ),
-                      ),
-
-                      // GestureDetector(
-                      //   onTap: ()=>_addTile('remove'),
-                      //   child: Container(
-                      //       margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                      //       padding: EdgeInsets.all(8),
-                      //       decoration: BoxDecoration(
-                      //         color: clr.appBlack,
-                      //         borderRadius: BorderRadius.circular(50.r),
-                      //
-                      //       ),
-                      //       child:Icon(Icons.delete,color: Colors.white,)
-                      //   ),
-                      // ),
-                    ]
-                ),
               ],
             );
   }

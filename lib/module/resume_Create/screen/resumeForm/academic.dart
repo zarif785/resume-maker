@@ -293,19 +293,7 @@ class _AcademicState extends State<Academic> with AppTheme{
 
         _value==1?DateInput(hintText:"Passing Year"):Offstage(),
 
-        GestureDetector(
-              onTap: ()=>null,
-                child: Container(
-                    margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: clr.appBlack,
-                      borderRadius: BorderRadius.circular(50.r),
 
-                    ),
-                    child:Icon(Icons.add,color: Colors.white,)
-                ),
-              ),
   ],
     );
   }
