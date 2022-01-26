@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,12 +17,12 @@ import 'package:resume_maker/module/resume_Create/screen/resumeForm/signature.da
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/user_image.dart';
 
 class ResumeCreateScreen extends StatefulWidget {
+  final accountKey = GlobalKey<State<Account>>();
   @override
   _ResumeCreateScreen createState() => _ResumeCreateScreen();
 }
 
 class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
-
   @override
   void initState() {
     // TODO: implement initState
@@ -48,11 +50,11 @@ class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
             FormContent(
               icon: Icons.person, title: "Account", canAdd: false,
               content: (){
-                return Account();
+                return Account(key: GlobalKey(),);
               },
             ),
             LinearContainer(),
-            FormContent(icon: Icons.school, title: "Academic", canAdd: true,
+            FormContent(icon: Icons.school, title: "Academic", canAdd: true,key: UniqueKey(),
               content: (){
                 return Academic();
               },),
@@ -62,7 +64,7 @@ class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
                 return Experience();
               },),
             LinearContainer(),
-            FormContent(icon: Icons.assignment, title: "Project", canAdd: true,
+            FormContent(icon: Icons.assignment, title: "Project", canAdd: true,key: UniqueKey(),
               content: (){
                 return Project();
               },
@@ -118,13 +120,27 @@ class FormContent extends StatefulWidget {
 
 class _FormContentState extends State<FormContent>with AppTheme {
 
+
+
   bool _isShowing= false;
+  bool added = true;
+  List<Widget> contentList = [];
+
+
   void _toggleViewer() {
     setState(() {
       _isShowing = !_isShowing;
     });
   }
 
+  List<Widget> _cardList = [];
+
+  void _addCardWidget() {
+    setState(() {
+       added = false;
+      _cardList.add(widget.content());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,50 +188,59 @@ class _FormContentState extends State<FormContent>with AppTheme {
           ),
 
           _isShowing?Container(
-            child: Column(
-              children: [
-                widget.content(),
-                Container(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Column(
                     children: [
-                      Container(),
-                      widget.canAdd?GestureDetector(
-                        onTap: ()=>null,
-                        child: Container(
-                            margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: clr.appBlack,
-                              borderRadius: BorderRadius.circular(50.r),
+                      widget.canAdd?Column(
+                        children: _cardList.map((e) => e).toList(),
+                      ):widget.content(),
+                      SizedBox(height: 20,),
+                      Container(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(),
+                            Column(
+                              children: [
+                                widget.canAdd?Text('Tap the "+" button to add Fields'):Offstage(),
+                                widget.canAdd?GestureDetector(
+                                  onTap:_addCardWidget,
+                                  child: Container(
+                                      margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: clr.appBlack,
+                                        borderRadius: BorderRadius.circular(50.r),
 
+                                      ),
+                                      child:Icon(Icons.add,color: Colors.white,)
+                                  ),
+                                ):Offstage(),
+                              ],
                             ),
-                            child:Icon(Icons.add,color: Colors.white,)
-                        ),
-                      ):Offstage(),
 
 
 
-                      GestureDetector(
-                        onTap: _toggleViewer,
-                        child: Container(
-                            margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: clr.appBlack,
-                              borderRadius: BorderRadius.circular(50.r),
+                            GestureDetector(
+                              onTap: _toggleViewer,
+                              child: Container(
+                                  margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: clr.appBlack,
+                                    borderRadius: BorderRadius.circular(50.r),
 
+                                  ),
+                                  child:Icon(Icons.check,color: Colors.white,)
+                              ),
                             ),
-                            child:Icon(Icons.check,color: Colors.white,)
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ]
                 ),
-                ]
-            ),
-          ):Offstage(),
+              ):Offstage(),
+
 
           Container(
             height: 1.2,
@@ -228,6 +253,9 @@ class _FormContentState extends State<FormContent>with AppTheme {
       ),
     );
   }
+
+
+
 }
 
 

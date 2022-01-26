@@ -14,6 +14,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 //   }
 // }
 class LoadingView extends StatelessWidget {
+
   final double size;
   const LoadingView({Key? key, required this.size}) : super(key: key);
 
