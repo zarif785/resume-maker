@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resume_maker/app_route.dart';
+import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/appAssets.dart';
 import 'package:resume_maker/module/splashScreen/service/splash_screen_service.dart';
 
@@ -10,11 +11,11 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SplashScreenService{
+class _SplashScreenState extends State<SplashScreen> with SplashScreenService,AppTheme{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: clr.appBlack,
       body: Center(
         child: Image.asset(
           AppAssets.brandLogo

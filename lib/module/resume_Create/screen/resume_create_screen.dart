@@ -1,88 +1,262 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:im_stepper/stepper.dart';
-import 'package:resume_maker/common/core/app.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/model/Academics.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/common/widget/background.dart';
+
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/account.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/experience.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/project.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/reference.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/signature.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/user_image.dart';
 
 class ResumeCreateScreen extends StatefulWidget {
+  final accountKey = GlobalKey<State<Account>>();
   @override
   _ResumeCreateScreen createState() => _ResumeCreateScreen();
 }
 
 class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
-  int currentStep = 0;
-  TextEditingController firstnameController = TextEditingController();
-  TextEditingController lastnameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmpasswordController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: Text(
-            'Create Resume',
-            style: TextStyle(
-              color: Colors.black,
-                fontSize: size.textLarge,
-                fontWeight: FontWeight.w800
-            ),
-          ),
-        ),
-          body: Container(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent, // navigation bar color
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,// status bar color
+    ));
+    return RoundedAppBar(
+      onBack: true,
+      title: 'Create Resume',
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-            child: Stepper(
 
-                type: StepperType.horizontal,
-                steps: getSteps(),
-                onStepContinue: (){
-                  bool isLastStep = currentStep==getSteps().length-1;
-                  if(isLastStep){
-                    print("Complete");
-                  }
-                  else{
-                    setState(() {
-                      currentStep +=1;
-                    });
-                  }
-
-                },
-              onStepCancel: currentStep==0? null:(){
-                setState(() {
-                  currentStep -=1;
-                });
+            LinearContainer(),
+            FormContent(
+              icon: Icons.person, title: "Account", canAdd: false,
+              content: (){
+                return Account(key: GlobalKey(),);
               },
             ),
-          ),
-      ),
+            LinearContainer(),
+            FormContent(icon: Icons.school, title: "Academic", canAdd: true,key: UniqueKey(),
+              content: (){
+                return Academic();
+              },),
+            LinearContainer(),
+            FormContent(icon: Icons.work, title: "Experience", canAdd: true,
+              content: (){
+                return Experience();
+              },),
+            LinearContainer(),
+            FormContent(icon: Icons.assignment, title: "Project", canAdd: true,key: UniqueKey(),
+              content: (){
+                return Project();
+              },
+            ),
+            LinearContainer(),
+            FormContent(icon: Icons.connect_without_contact, title: "Reference", canAdd: true,
+              content: (){
+                return Reference();
+              },),
+            LinearContainer(),
+            FormContent(icon: Icons.camera, title: "Image", canAdd: false,
+              content: (){
+                return UserImage();
+              },),
+            LinearContainer(),
+            FormContent(icon: Icons.gesture, title: "Signature", canAdd: false, content: () {
+              return SignatureSection();
+            },),
+            LinearContainer(),
+          ],
+        ),
+      )
     );
 
   }
 
-  List<Step> getSteps() =>[
-
-      Step(
-        state: currentStep > 0?StepState.complete:StepState.indexed,
-        isActive: currentStep >=0,
-       title:Text("Account"),
-       content: Container(
-        child: Column(
-           children: [
-           ],
-         )
-       )),
-    Step(
-        state: currentStep > 1?StepState.complete:StepState.indexed,
-        isActive: currentStep >= 1,
-        title:Text("Address"),
-        content: Container()),
-    Step(
-        state: currentStep > 2?StepState.complete:StepState.indexed,
-        isActive: currentStep>=2,
-        title:Text("Complete"),
-        content: Container()),
-  ];
 
 }
+class LinearContainer extends StatelessWidget with AppTheme{
+  const LinearContainer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 18.w),
+      height: size.s64,
+      width: 3.w,
+      color: clr.appBlack,
+    );
+  }
+}
+
+class FormContent extends StatefulWidget {
+  final IconData icon;
+  final String title;
+  final bool canAdd;
+  final Widget Function() content;
+  const FormContent({Key? key, required this.icon, required this.title, required this.canAdd, required this.content, }) : super(key: key);
+
+  @override
+  _FormContentState createState() => _FormContentState();
+}
+
+class _FormContentState extends State<FormContent>with AppTheme {
+
+
+
+  bool _isShowing= false;
+  bool added = true;
+  List<Widget> contentList = [];
+
+
+  void _toggleViewer() {
+    setState(() {
+      _isShowing = !_isShowing;
+    });
+  }
+
+  List<Widget> _cardList = [];
+
+  void _addCardWidget() {
+    setState(() {
+       added = false;
+      _cardList.add(widget.content());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 2.w),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: _toggleViewer,
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: clr.appBlack,
+                    borderRadius: BorderRadius.circular(50.r),
+
+                  ),
+                  child:Icon(widget.icon,color: Colors.white,)
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: size.s12),
+                    padding: EdgeInsets.symmetric(vertical: size.s12,),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:16.0),
+                      child: Text(
+                        widget.title,
+                        style: TextStyle(
+                          // color:widget.service.currentChapterId == widget.chapter.id ?Colors.orange:Colors.black.withOpacity(.7),
+                          fontSize: 19,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(size.s8),
+                  child: Icon(_isShowing?Icons.keyboard_arrow_up:Icons.keyboard_arrow_down, size: 26, color: Colors.grey.withOpacity(.9),),
+                ),
+              ],
+
+            ),
+          ),
+
+          _isShowing?Container(
+                child: Column(
+                    children: [
+                      widget.canAdd?Column(
+                        children: _cardList.map((e) => e).toList(),
+                      ):widget.content(),
+                      SizedBox(height: 20,),
+                      Container(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(),
+                            Column(
+                              children: [
+                                added&&widget.canAdd?Text('Tap the "+" button to add Fields'):Offstage(),
+                                widget.canAdd?GestureDetector(
+                                  onTap:_addCardWidget,
+                                  child: Container(
+                                      margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: clr.appBlack,
+                                        borderRadius: BorderRadius.circular(50.r),
+
+                                      ),
+                                      child:Icon(Icons.add,color: Colors.white,)
+                                  ),
+                                ):Offstage(),
+                              ],
+                            ),
+
+
+
+                            GestureDetector(
+                              onTap: _toggleViewer,
+                              child: Container(
+                                  margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: clr.appBlack,
+                                    borderRadius: BorderRadius.circular(50.r),
+
+                                  ),
+                                  child:Icon(Icons.check,color: Colors.white,)
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]
+                ),
+              ):Offstage(),
+
+
+          Container(
+            height: 1.2,
+            width: MediaQuery.of(context).size.width -100,
+            color: Colors.grey.withOpacity(.25),
+          ),
+
+          // Divider(thickness: 3,indent: 30,endIndent: 30,)
+        ],
+      ),
+    );
+  }
+
+
+
+}
+
+
+
