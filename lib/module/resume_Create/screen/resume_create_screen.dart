@@ -202,7 +202,7 @@ class _FormContentState extends State<FormContent>with AppTheme {
                             Container(),
                             Column(
                               children: [
-                                widget.canAdd?Text('Tap the "+" button to add Fields'):Offstage(),
+                                added&&widget.canAdd?Text('Tap the "+" button to add Fields'):Offstage(),
                                 widget.canAdd?GestureDetector(
                                   onTap:_addCardWidget,
                                   child: Container(
