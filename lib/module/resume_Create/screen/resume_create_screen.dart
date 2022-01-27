@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:resume_maker/common/model/Academics.dart';
+
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/background.dart';
 
