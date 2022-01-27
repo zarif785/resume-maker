@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 
-class TextFieldWidget extends StatelessWidget with AppTheme{
+class TextFieldWidget extends StatefulWidget{
   final TextEditingController controller;
   final String hintText;
   final String type;
   const TextFieldWidget({Key? key, required this.controller, required this.hintText, required this.type}) : super(key: key);
 
+  @override
+  State<TextFieldWidget> createState() => _TextFieldWidgetState();
+}
+
+class _TextFieldWidgetState extends State<TextFieldWidget> with AppTheme {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,9 +28,9 @@ class TextFieldWidget extends StatelessWidget with AppTheme{
         borderRadius: BorderRadius.circular(size.s12),
       ),
       child: TextField(
-        obscureText:  type=='password'? true:false,
-        controller: controller,
-        keyboardType: type=='email'? TextInputType.emailAddress: type=='number'?TextInputType.number:TextInputType.text,
+        obscureText:  widget.type=='password'? true:false,
+        controller: widget.controller,
+        keyboardType: widget.type=='email'? TextInputType.emailAddress: widget.type=='number'?TextInputType.number:TextInputType.text,
         maxLines: 1,
         minLines: 1,
         style: TextStyle(
@@ -36,7 +41,7 @@ class TextFieldWidget extends StatelessWidget with AppTheme{
         decoration: InputDecoration(
             border: InputBorder.none,
             isDense: true,
-            hintText: hintText,
+            hintText: widget.hintText,
             hintStyle: TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.w400,

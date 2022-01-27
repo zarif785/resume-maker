@@ -139,13 +139,21 @@ class Account extends StatefulWidget {
   _AccountState createState() => _AccountState();
 }
 
-class _AccountState extends State<Account> with AppTheme{
+class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClientMixin{
   TextEditingController usernameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileNoController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
               children: [
                 TextFieldWidget(hintText: 'Name', type: 'name', controller: usernameController,),
@@ -160,4 +168,7 @@ class _AccountState extends State<Account> with AppTheme{
               ],
             );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

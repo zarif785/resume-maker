@@ -256,6 +256,7 @@ class _AcademicState extends State<Academic> with AppTheme{
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFieldWidget(controller: degree, type: 'degree', hintText: 'Exam Name',),
         TextFieldWidget(controller:institute, type: 'name', hintText: 'Institute Name',),
@@ -292,6 +293,8 @@ class _AcademicState extends State<Academic> with AppTheme{
               ),
 
         _value==1?DateInput(hintText:"Passing Year"):Offstage(),
+
+
 
 
   ],

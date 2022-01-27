@@ -17,13 +17,15 @@ import 'package:resume_maker/module/resume_Create/screen/resumeForm/signature.da
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/user_image.dart';
 
 class ResumeCreateScreen extends StatefulWidget {
-  final accountKey = GlobalKey<State<Account>>();
+
   @override
   _ResumeCreateScreen createState() => _ResumeCreateScreen();
 }
 
 class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
+  final accountKey = GlobalKey<State<Account>>();
   @override
+
   void initState() {
     // TODO: implement initState
 
@@ -49,38 +51,38 @@ class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
             LinearContainer(),
             FormContent(
               icon: Icons.person, title: "Account", canAdd: false,
-              content: (){
-                return Account(key: GlobalKey(),);
+              content: (x){
+                return Account();
               },
             ),
             LinearContainer(),
             FormContent(icon: Icons.school, title: "Academic", canAdd: true,key: UniqueKey(),
-              content: (){
+              content: (x){
                 return Academic();
               },),
             LinearContainer(),
             FormContent(icon: Icons.work, title: "Experience", canAdd: true,
-              content: (){
+              content: (x){
                 return Experience();
               },),
             LinearContainer(),
             FormContent(icon: Icons.assignment, title: "Project", canAdd: true,key: UniqueKey(),
-              content: (){
+              content: (x){
                 return Project();
               },
             ),
             LinearContainer(),
             FormContent(icon: Icons.connect_without_contact, title: "Reference", canAdd: true,
-              content: (){
+              content: (x){
                 return Reference();
               },),
             LinearContainer(),
             FormContent(icon: Icons.camera, title: "Image", canAdd: false,
-              content: (){
+              content: (x){
                 return UserImage();
               },),
             LinearContainer(),
-            FormContent(icon: Icons.gesture, title: "Signature", canAdd: false, content: () {
+            FormContent(icon: Icons.gesture, title: "Signature", canAdd: false, content: (x) {
               return SignatureSection();
             },),
             LinearContainer(),
@@ -111,7 +113,7 @@ class FormContent extends StatefulWidget {
   final IconData icon;
   final String title;
   final bool canAdd;
-  final Widget Function() content;
+  final Widget Function(BuildContext context) content;
   const FormContent({Key? key, required this.icon, required this.title, required this.canAdd, required this.content, }) : super(key: key);
 
   @override
@@ -124,7 +126,7 @@ class _FormContentState extends State<FormContent>with AppTheme {
 
   bool _isShowing= false;
   bool added = true;
-  List<Widget> contentList = [];
+
 
 
   void _toggleViewer() {
@@ -133,14 +135,27 @@ class _FormContentState extends State<FormContent>with AppTheme {
     });
   }
 
-  List<Widget> _cardList = [];
+  final List<Widget> _cardList = [];
 
   void _addCardWidget() {
     setState(() {
        added = false;
-      _cardList.add(widget.content());
+      _cardList.add(widget.content(context));
     });
   }
+
+  void _deleteContent(){
+    setState(() {
+      if(_cardList.length>0)
+      _cardList.removeLast();
+    });
+  }
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _cardList.add(widget.content(context));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -186,38 +201,48 @@ class _FormContentState extends State<FormContent>with AppTheme {
 
             ),
           ),
-
           _isShowing?Container(
                 child: Column(
                     children: [
                       widget.canAdd?Column(
                         children: _cardList.map((e) => e).toList(),
-                      ):widget.content(),
-                      SizedBox(height: 20,),
+                      ):widget.content(context),
+
+
+
+                      // Text('Tap the "+" button to add Fields'),
+                       SizedBox(height: 10,),
                       Container(
                         width: double.infinity,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(),
-                            Column(
-                              children: [
-                                added&&widget.canAdd?Text('Tap the "+" button to add Fields'):Offstage(),
-                                widget.canAdd?GestureDetector(
-                                  onTap:_addCardWidget,
-                                  child: Container(
-                                      margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: clr.appBlack,
-                                        borderRadius: BorderRadius.circular(50.r),
+                            if (_cardList.length>0)GestureDetector(
+                              onTap: _deleteContent,
+                              child: Container(
+                                  margin: EdgeInsets.only(bottom: size.s8,left: size.s4),
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: clr.appBlack,
+                                    borderRadius: BorderRadius.circular(50.r),
 
-                                      ),
-                                      child:Icon(Icons.add,color: Colors.white,)
                                   ),
-                                ):Offstage(),
-                              ],
+                                  child:Icon(Icons.delete,color: Colors.white,)
+                              ),
                             ),
+                            widget.canAdd?GestureDetector(
+                              onTap:_addCardWidget,
+                              child: Container(
+                                  margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: clr.appBlack,
+                                    borderRadius: BorderRadius.circular(50.r),
+
+                                  ),
+                                  child:Icon(Icons.add,color: Colors.white,)
+                              ),
+                            ):Offstage(),
 
 
 
@@ -240,6 +265,7 @@ class _FormContentState extends State<FormContent>with AppTheme {
                     ]
                 ),
               ):Offstage(),
+
 
 
           Container(
