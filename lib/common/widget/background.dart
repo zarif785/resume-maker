@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/module/login/screen/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoundedAppBar extends StatefulWidget {
   final String title;
@@ -13,6 +15,15 @@ class RoundedAppBar extends StatefulWidget {
 }
 
 class _RoundedAppBarState extends State<RoundedAppBar> with AppTheme{
+
+  void signOut() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.clear();
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const LoginScreen()),
+  );
+}
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -48,8 +59,8 @@ class _RoundedAppBarState extends State<RoundedAppBar> with AppTheme{
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: size.s8,horizontal: size.s16),
                       child: GestureDetector(
-                        onTap: null,
-                        child: Icon(Icons.info,size: size.s24,color: clr.appWhite,),
+                        onTap: signOut,
+                        child: Icon(Icons.logout,size: size.s24,color: clr.appWhite,),
 
                       ),
                     ),

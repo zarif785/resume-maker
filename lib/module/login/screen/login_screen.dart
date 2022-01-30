@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/utils/appAssets.dart';
 import 'package:resume_maker/common/widget/action_button.dart';
 import 'package:resume_maker/common/widget/textField.dart';
@@ -19,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenService{
 
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
 
@@ -53,12 +54,16 @@ class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenServ
                   ),
                 ),
                 SizedBox(height: size.s16),
-                TextFieldWidget(controller: usernameController, hintText: "Enter Email", type: 'email'),
+                TextFieldWidget(controller: emailController, hintText: "Enter Email", type: 'email'),
                 SizedBox(height: size.s8),
                 TextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password'),
                 SizedBox(height: size.s12),
-                ActionButton(onSuccess: onLoginButtonPress, title: "Login"),
+                ActionButton(  title: "Login",
+                  onCheck:()=> validateLoginFormData(emailController,passwordController),
+                  tapAction:()=> doLogIn(emailController,passwordController),
+                  onSuccess: onLoginSuccess,),
                 SizedBox(height: size.s42),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -99,6 +104,11 @@ class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenServ
   @override
   void navigateToRegisterScreen() {
     Navigator.of(context).pushNamed(AppRoute.registerScreen);
+  }
+
+  @override
+  void showWarning(String message) {
+    Toasty.of(context).showWarning(message);
   }
 }
 

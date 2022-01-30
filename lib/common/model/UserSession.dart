@@ -29,7 +29,7 @@ class UserSession {
     isActive = json['is_active']??false;
     createdAt = json['created_at']??"";
     updatedAt = json['updated_at']??"";
-    accessToken = json['accessToken']??"";
+    accessToken = json['token']??"";
     tokenType = json['tokenType']??"bearer";
 
 
@@ -43,8 +43,12 @@ class UserSession {
     data['is_active'] = this.isActive;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['accessToken']= this.accessToken;
+    data['token']= this.accessToken;
     data['tokenType'] = this.tokenType;
     return data;
   }
+
+  bool get isEmpty => accessToken.isEmpty;
 }
+
+

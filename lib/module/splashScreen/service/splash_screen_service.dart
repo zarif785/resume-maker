@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:resume_maker/common/core/app.dart';
 
 abstract class _ViewModel{
   void navigateToHomeScreen();
@@ -15,10 +16,21 @@ mixin SplashScreenService <T extends StatefulWidget> on State<T> implements _Vie
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { _fetchUserSession();});
   }
 
-  Future<void> _fetchUserSession() async{
-    await Future.delayed(Duration(milliseconds: 3000));
-    _view.navigateToLoginScreen();
+  void _fetchUserSession() async{
+    ///Delayed for 2 seconds
+    await Future.delayed(const Duration(milliseconds:2000));
 
+    ///Navigate to logical page
+    App.getCurrentSession().then((session)async{
+      if(session.isEmpty){
+        ///Navigate to login screen
+        _view.navigateToLoginScreen();
+      }else{
+        ///Navigate to Home screen
+        _view.navigateToHomeScreen();
+      }
+    });
   }
 
   }
+
