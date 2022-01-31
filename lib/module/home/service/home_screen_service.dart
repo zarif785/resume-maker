@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:resume_maker/common/core/app.dart';
 
 abstract class _ViewModel{
   void navigateToUpdateResumeScreen();
@@ -7,6 +10,8 @@ abstract class _ViewModel{
 
 mixin HomeScreenService <T extends StatefulWidget> on State<T> implements _ViewModel{
   late _ViewModel _view;
+  final TextEditingController _userNameController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -14,6 +19,8 @@ mixin HomeScreenService <T extends StatefulWidget> on State<T> implements _ViewM
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { });
   }
+
+
 
  void onUpdate(){
     _view.navigateToUpdateResumeScreen();

@@ -38,7 +38,7 @@ mixin RegisterScreenService <T extends StatefulWidget> on State<T> implements _V
     }    else if(Validator.isEmpty(passwordController.text)){
       _view.showWarning("Password is required!");
       return false;
-    }    else if(Validator.isEmpty(confirmPasswordController.text)){
+    }else if(Validator.isEmpty(confirmPasswordController.text)){
       _view.showWarning("Confirm Password!");
       return false;
     }else{

@@ -20,8 +20,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenService{
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController(text: 'zarifarefeen@gmail.com');
+  TextEditingController passwordController = TextEditingController(text: '123456');
 
 
   @override

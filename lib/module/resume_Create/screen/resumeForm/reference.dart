@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/model/ReferenceModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/common/widget/mutliline_textField.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 
@@ -213,7 +215,8 @@ import 'package:resume_maker/common/widget/textField.dart';
 // }
 
 class Reference extends StatefulWidget {
-  const Reference({Key? key}) : super(key: key);
+  final ReferenceModel model;
+  const Reference({Key? key, required this.model}) : super(key: key);
 
   @override
   _ReferenceState createState() => _ReferenceState();
@@ -225,6 +228,26 @@ class _ReferenceState extends State<Reference> with AppTheme{
     final institute = TextEditingController();
     final email = TextEditingController();
     final mobile_no = TextEditingController();
+
+
+      void initState() {
+        name.text = widget.model.name;
+        designation.text = widget.model.designation;
+        institute.text = widget.model.institution;
+        email.text = widget.model.email;
+        mobile_no.text = widget.model.contactNo;
+
+        super.initState();
+
+      }
+
+      onChange(){
+        widget.model.name = name.text;
+        widget.model.designation = designation.text;
+        widget.model.institution = institute.text;
+        widget.model.email = email.text;
+        widget.model.contactNo = mobile_no.text;
+      }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -235,6 +258,7 @@ class _ReferenceState extends State<Reference> with AppTheme{
             TextFieldWidget(controller: email, type: 'name', hintText: 'Email',),
             TextFieldWidget(controller: mobile_no, type: 'name', hintText: 'Mobile Number',),
         SizedBox(height: size.s20,),
+        CircularButton(onTap: onChange, icon: Icons.save),
 
 
       ],

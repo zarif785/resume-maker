@@ -23,6 +23,7 @@ class _SignatureSectionState extends State<SignatureSection> with AppTheme{
     controller = SignatureController(
       penColor: Colors.black
     );
+
   }
 
   @override

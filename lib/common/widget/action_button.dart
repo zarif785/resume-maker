@@ -43,7 +43,7 @@ class _ActionButtonState<T> extends State<ActionButton<T>> with AppTheme{
   void initState() {
     _expanded = true;
     _stateIndex = 0;
-    _buttonTextColor = Colors.white;
+    _buttonTextColor = clr.appBlack;
     super.initState();
     if(widget.controller != null) widget.controller?._setAutoTapEventHandler(_onTap);
     if(widget.controller != null) widget.controller?._setForceTapEventHandler(_executeRequest);
@@ -116,11 +116,11 @@ class _ActionButtonState<T> extends State<ActionButton<T>> with AppTheme{
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOutCubic,
-          height: 44.w,
-          width: _expanded?MediaQuery.of(context).size.width:44.w,
+          height: 40.w,
+          width: _expanded?MediaQuery.of(context).size.width-35:40.w,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: clr.appBlack,
+            color: clr.appWhite,
             borderRadius: BorderRadius.circular(_expanded?size.s12:100),
             boxShadow: const [
               BoxShadow(
@@ -139,11 +139,11 @@ class _ActionButtonState<T> extends State<ActionButton<T>> with AppTheme{
                 Text(
                   widget.title,
                   style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w800,
                     color: _buttonTextColor,
                     wordSpacing: 2,
-                    letterSpacing: 1.1,
+                    letterSpacing: 3,
                   ),
                 ),
 

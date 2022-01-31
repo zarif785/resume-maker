@@ -4,9 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/model/AcademicModel.dart';
+import 'package:resume_maker/common/model/AccountsModel.dart';
+import 'package:resume_maker/common/model/ExperienceModel.dart';
+import 'package:resume_maker/common/model/FormContentModels.dart';
+import 'package:resume_maker/common/model/ProjectModel.dart';
+import 'package:resume_maker/common/model/ReferenceModel.dart';
 
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/background.dart';
+import 'package:resume_maker/common/widget/circularButton.dart';
 
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/account.dart';
@@ -23,7 +30,7 @@ class ResumeCreateScreen extends StatefulWidget {
 }
 
 class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
-  final accountKey = GlobalKey<State<Account>>();
+  // final accountKey = GlobalKey<State<Account>>();
   @override
 
   void initState() {
@@ -50,39 +57,39 @@ class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
 
             LinearContainer(),
             FormContent(
-              icon: Icons.person, title: "Account", canAdd: false,
+              icon: Icons.person, title: "Account", canAdd: true,
               content: (x){
-                return Account();
+                return Account(model: x.accountsModel,);
               },
             ),
             LinearContainer(),
-            FormContent(icon: Icons.school, title: "Academic", canAdd: true,key: UniqueKey(),
+            FormContent(icon: Icons.school, title: "Academic", canAdd: true,
               content: (x){
-                return Academic();
+                return Academic( model: x.academicModel,);
               },),
             LinearContainer(),
             FormContent(icon: Icons.work, title: "Experience", canAdd: true,
               content: (x){
-                return Experience();
+                return Experience(model: x.experienceModel,);
               },),
             LinearContainer(),
-            FormContent(icon: Icons.assignment, title: "Project", canAdd: true,key: UniqueKey(),
+            FormContent(icon: Icons.assignment, title: "Project", canAdd: true,
               content: (x){
-                return Project();
+                return Project(model: x.projectModel,);
               },
             ),
             LinearContainer(),
             FormContent(icon: Icons.connect_without_contact, title: "Reference", canAdd: true,
               content: (x){
-                return Reference();
+                return Reference(model: x.referenceModel,);
               },),
             LinearContainer(),
-            FormContent(icon: Icons.camera, title: "Image", canAdd: false,
+            FormContent(icon: Icons.camera, title: "Image", canAdd: true,
               content: (x){
-                return UserImage();
+                return UserImage(model: x.imageModel,);
               },),
             LinearContainer(),
-            FormContent(icon: Icons.gesture, title: "Signature", canAdd: false, content: (x) {
+            FormContent(icon: Icons.gesture, title: "Signature", canAdd: true, content: (x) {
               return SignatureSection();
             },),
             LinearContainer(),
@@ -113,7 +120,7 @@ class FormContent extends StatefulWidget {
   final IconData icon;
   final String title;
   final bool canAdd;
-  final Widget Function(BuildContext context) content;
+  final Widget Function(FormContentModel) content;
   const FormContent({Key? key, required this.icon, required this.title, required this.canAdd, required this.content, }) : super(key: key);
 
   @override
@@ -134,21 +141,30 @@ class _FormContentState extends State<FormContent>with AppTheme {
       _isShowing = !_isShowing;
     });
   }
+  final List<FormContentModel> _cardList=[];
+  // final List<AccountsModel> accountList =[];
+  // final List<AcademicModel> academicList =[];
+  // final List<ExperienceModel> experienceList =[];
+  // final List<ProjectModel> projectList =[];
+  // final List<ReferenceModel> referenceList =[];
 
-  final List<Widget> _cardList = [];
+
 
   void _addCardWidget() {
     setState(() {
        added = false;
-      _cardList.add(widget.content(context));
+       _cardList.add(FormContentModel());
+      // academicList.add(FormContentModel().academicModel);
+      //  accountList.add(AccountsModel.empty());
     });
   }
 
   void _deleteContent(){
     setState(() {
       if(_cardList.length>0)
-      _cardList.removeLast();
+        _cardList.removeLast();
     });
+
   }
   //
   // @override
@@ -185,7 +201,6 @@ class _FormContentState extends State<FormContent>with AppTheme {
                       child: Text(
                         widget.title,
                         style: TextStyle(
-                          // color:widget.service.currentChapterId == widget.chapter.id ?Colors.orange:Colors.black.withOpacity(.7),
                           fontSize: 19,
                           fontWeight: FontWeight.w600,
                         ),
@@ -205,8 +220,8 @@ class _FormContentState extends State<FormContent>with AppTheme {
                 child: Column(
                     children: [
                       widget.canAdd?Column(
-                        children: _cardList.map((e) => e).toList(),
-                      ):widget.content(context),
+                        children: _cardList.map((e) => widget.content(e)).toList()
+                      ): widget.content(FormContentModel()),
 
 
 
@@ -217,48 +232,12 @@ class _FormContentState extends State<FormContent>with AppTheme {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            if (_cardList.length>0)GestureDetector(
-                              onTap: _deleteContent,
-                              child: Container(
-                                  margin: EdgeInsets.only(bottom: size.s8,left: size.s4),
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: clr.appBlack,
-                                    borderRadius: BorderRadius.circular(50.r),
-
-                                  ),
-                                  child:Icon(Icons.delete,color: Colors.white,)
-                              ),
-                            ),
-                            widget.canAdd?GestureDetector(
-                              onTap:_addCardWidget,
-                              child: Container(
-                                  margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: clr.appBlack,
-                                    borderRadius: BorderRadius.circular(50.r),
-
-                                  ),
-                                  child:Icon(Icons.add,color: Colors.white,)
-                              ),
-                            ):Offstage(),
+                            if (_cardList.length>0)CircularButton(onTap: _deleteContent, icon: Icons.delete),
+                            widget.canAdd?CircularButton(onTap: _addCardWidget, icon: Icons.add):Offstage(),
 
 
 
-                            GestureDetector(
-                              onTap: _toggleViewer,
-                              child: Container(
-                                  margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: clr.appBlack,
-                                    borderRadius: BorderRadius.circular(50.r),
-
-                                  ),
-                                  child:Icon(Icons.check,color: Colors.white,)
-                              ),
-                            ),
+                            CircularButton(onTap: _toggleViewer, icon: Icons.check),
                           ],
                         ),
                       ),

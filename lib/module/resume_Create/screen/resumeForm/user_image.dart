@@ -2,20 +2,34 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:resume_maker/common/model/ImageModel.dart';
 
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:resume_maker/common/widget/circularButton.dart';
 
 class UserImage extends StatefulWidget {
-  const UserImage({Key? key}) : super(key: key);
+  final ImageModel model;
+  const UserImage({Key? key, required this.model}) : super(key: key);
 
   @override
   _UserImageState createState() => _UserImageState();
 }
 
 class _UserImageState extends State<UserImage>with AppTheme {
+
   File? imageFile;
 
+  void initState() {
+    imageFile = widget.model.image;
+
+    super.initState();
+
+  }
+
+  onChange(){
+    widget.model.image = imageFile;
+  }
 
  Future  getImage(ImageSource source) async{
    Navigator.of(context).pop();
@@ -115,34 +129,41 @@ class _UserImageState extends State<UserImage>with AppTheme {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: bottomSheet,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        width: 120.0,
-        height: 120.0,
-        decoration: new BoxDecoration(
-          border: Border.all(
-            color: clr.appBlack,
-            width: 5.0,
-          ),
-          // color: Colors.orange,
-          shape: BoxShape.circle,
-        ),
-        child: imageFile== null?Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add,
-              size: 40,
-              color: clr.appBlack,
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: bottomSheet,
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            width: 120.0,
+            height: 120.0,
+            decoration: new BoxDecoration(
+              border: Border.all(
+                color: clr.appBlack,
+                width: 5.0,
+              ),
+              // color: Colors.orange,
+              shape: BoxShape.circle,
             ),
-            Text(
-              'Add Image',style: TextStyle(color: Colors.grey,fontSize: size.textSmall,fontWeight: FontWeight.w600),
-            )
-          ],
-        ):ClipOval(child: Image.file(imageFile!,fit: BoxFit.cover,)),
-      ),
+            child: imageFile== null?Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.add,
+                  size: 40,
+                  color: clr.appBlack,
+                ),
+                Text(
+                  'Add Image',style: TextStyle(color: Colors.grey,fontSize: size.textSmall,fontWeight: FontWeight.w600),
+                )
+
+              ],
+            ):ClipOval(child: Image.file(imageFile!,fit: BoxFit.cover,)),
+
+          ),
+        ),
+        CircularButton(onTap: onChange, icon: Icons.save),
+      ],
     );
   }
 }

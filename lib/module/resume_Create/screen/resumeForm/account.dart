@@ -128,12 +128,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/model/AccountsModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/common/widget/mutliline_textField.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 
 class Account extends StatefulWidget {
-  const Account({Key? key}) : super(key: key);
+  final AccountsModel model;
+  const Account( {Key? key, required this.model}) : super(key: key);
 
   @override
   _AccountState createState() => _AccountState();
@@ -147,10 +150,21 @@ class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClie
 
   @override
   void initState() {
-    // TODO: implement initState
+    usernameController.text = widget.model.name;
+    addressController.text = widget.model.address;
+    emailController.text = widget.model.email;
+    mobileNoController.text = widget.model.contactNo;
+
     super.initState();
+
   }
 
+  onChange(){
+    widget.model.name = usernameController.text;
+    widget.model.contactNo = mobileNoController.text;
+    widget.model.address = addressController.text;
+    widget.model.email = emailController.text;
+  }
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -160,7 +174,7 @@ class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClie
                 TextFieldWidget(hintText: 'Number', type: 'number', controller: mobileNoController,),
                 TextFieldWidget(hintText: 'Email', type: 'email', controller: emailController,),
                 MultiLineTextFieldWidget(controller: addressController, hintText: "Address", type: 'address'),
-
+                CircularButton(onTap: onChange, icon: Icons.save),
                 SizedBox(height: size.s24,),
 
 

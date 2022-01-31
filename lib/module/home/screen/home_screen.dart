@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/core/app.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/background.dart';
 import 'package:resume_maker/module/home/service/home_screen_service.dart';
@@ -14,6 +15,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with AppTheme,HomeScreenService{
+
+
+
   @override
   Widget build(BuildContext context) {
     return RoundedAppBar(title: "Resume Builder", onBack: false,
@@ -28,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> with AppTheme,HomeScreenService
                       Text('Welcome,',style: TextStyle(
                         fontSize: size.textLarge,fontWeight: FontWeight.w600
                       ),),
-                      Text('Zarif Arefeen',style: TextStyle(
+                      Text(App.currentSession.name,style: TextStyle(
                           fontSize: size.textXLarge,fontWeight: FontWeight.w800
                       ),),
                     ],

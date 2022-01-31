@@ -1,7 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/model/AcademicModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/common/utils/Toasty.dart';
+import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/common/widget/date_input_field.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 
@@ -241,7 +244,8 @@ import 'package:resume_maker/common/widget/textField.dart';
 // enum DegreeStatus { completed, pursuing }
 
 class Academic extends StatefulWidget {
-  const Academic({Key? key}) : super(key: key);
+  final AcademicModel model;
+  const Academic({Key? key, required this.model}) : super(key: key);
 
   @override
   _AcademicState createState() => _AcademicState();
@@ -253,10 +257,35 @@ class _AcademicState extends State<Academic> with AppTheme{
   final degree = TextEditingController();
   final institute = TextEditingController();
   final cgpa = TextEditingController();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    degree.text = widget.model.examName;
+    institute.text= widget.model.instituteName;
+    cgpa.text = "";
+    if(widget.model.completed ==false){
+      _value =1;
+    }
+  }
+
+  void onChange(){
+    if(mounted){
+      widget.model.examName = degree.text;
+      widget.model.instituteName = institute.text;
+      widget.model.cgpa = cgpa.text as double;
+      widget.model.completed = _value==2? true:false;
+
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         TextFieldWidget(controller: degree, type: 'degree', hintText: 'Exam Name',),
         TextFieldWidget(controller:institute, type: 'name', hintText: 'Institute Name',),
@@ -293,8 +322,21 @@ class _AcademicState extends State<Academic> with AppTheme{
               ),
 
         _value==1?DateInput(hintText:"Passing Year"):Offstage(),
+        // GestureDetector(
+        //   onTap: onChange,
+        //   child: Container(
+        //       margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
+        //       padding: EdgeInsets.all(8),
+        //       decoration: BoxDecoration(
+        //         color: clr.appBlack,
+        //         borderRadius: BorderRadius.circular(50.r),
+        //
+        //       ),
+        //       child:Icon(Icons.save,color: Colors.white,)
+        //   ),
+        // ),
 
-
+        CircularButton(onTap: onChange, icon: Icons.save),
 
 
   ],
