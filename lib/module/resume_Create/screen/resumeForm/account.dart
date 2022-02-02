@@ -129,13 +129,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/model/AccountsModel.dart';
+import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/common/widget/mutliline_textField.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 
 class Account extends StatefulWidget {
-  final AccountsModel model;
+  final FormContentModel model;
   const Account( {Key? key, required this.model}) : super(key: key);
 
   @override
@@ -150,20 +151,20 @@ class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClie
 
   @override
   void initState() {
-    usernameController.text = widget.model.name;
-    addressController.text = widget.model.address;
-    emailController.text = widget.model.email;
-    mobileNoController.text = widget.model.contactNo;
+    usernameController.text = widget.model.accountsModel.name;
+    addressController.text = widget.model.accountsModel.address;
+    emailController.text = widget.model.accountsModel.email;
+    mobileNoController.text = widget.model.accountsModel.contactNo;
 
     super.initState();
 
   }
 
   onChange(){
-    widget.model.name = usernameController.text;
-    widget.model.contactNo = mobileNoController.text;
-    widget.model.address = addressController.text;
-    widget.model.email = emailController.text;
+    widget.model.accountsModel.name = usernameController.text;
+    widget.model.accountsModel.contactNo = mobileNoController.text;
+    widget.model.accountsModel.address = addressController.text;
+    widget.model.accountsModel.email = emailController.text;
   }
   @override
   Widget build(BuildContext context) {
@@ -174,8 +175,8 @@ class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClie
                 TextFieldWidget(hintText: 'Number', type: 'number', controller: mobileNoController,),
                 TextFieldWidget(hintText: 'Email', type: 'email', controller: emailController,),
                 MultiLineTextFieldWidget(controller: addressController, hintText: "Address", type: 'address'),
-                CircularButton(onTap: onChange, icon: Icons.save),
-                SizedBox(height: size.s24,),
+                // CircularButton(onTap: onChange, icon: Icons.save),
+                // SizedBox(height: size.s24,),
 
 
 

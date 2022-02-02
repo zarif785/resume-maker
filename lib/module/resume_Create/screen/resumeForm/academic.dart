@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/model/AcademicModel.dart';
+import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
@@ -244,7 +245,7 @@ import 'package:resume_maker/common/widget/textField.dart';
 // enum DegreeStatus { completed, pursuing }
 
 class Academic extends StatefulWidget {
-  final AcademicModel model;
+  final FormContentModel model;
   const Academic({Key? key, required this.model}) : super(key: key);
 
   @override
@@ -263,20 +264,20 @@ class _AcademicState extends State<Academic> with AppTheme{
   void initState() {
     // TODO: implement initState
     super.initState();
-    degree.text = widget.model.examName;
-    institute.text= widget.model.instituteName;
+    degree.text = widget.model.academicModel.examName;
+    institute.text= widget.model.academicModel.instituteName;
     cgpa.text = "";
-    if(widget.model.completed ==false){
+    if(widget.model.academicModel.completed ==false){
       _value =1;
     }
   }
 
   void onChange(){
     if(mounted){
-      widget.model.examName = degree.text;
-      widget.model.instituteName = institute.text;
-      widget.model.cgpa = cgpa.text as double;
-      widget.model.completed = _value==2? true:false;
+      widget.model.academicModel.examName = degree.text;
+      widget.model.academicModel.instituteName = institute.text;
+      widget.model.academicModel.cgpa = cgpa.text as double;
+      widget.model.academicModel.completed = _value==2? true:false;
 
     }
 
@@ -336,7 +337,7 @@ class _AcademicState extends State<Academic> with AppTheme{
         //   ),
         // ),
 
-        CircularButton(onTap: onChange, icon: Icons.save),
+        // CircularButton(onTap: onChange, icon: Icons.save),
 
 
   ],

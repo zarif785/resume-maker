@@ -1,11 +1,15 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:resume_maker/common/model/FormContentModels.dart';
+import 'package:resume_maker/common/model/SignatureModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:signature/signature.dart';
 
 class SignatureSection extends StatefulWidget {
-  const SignatureSection({Key? key}) : super(key: key);
+  final FormContentModel model;
+  const SignatureSection({Key? key, required this.model}) : super(key: key);
 
   @override
   _SignatureSectionState createState() => _SignatureSectionState();
@@ -16,13 +20,20 @@ class _SignatureSectionState extends State<SignatureSection> with AppTheme{
 
   Uint8List? _signatureImage;
 
+
+  onChange(){
+    widget.model.signatureModel.signature =  _signatureImage;
+    ;
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     controller = SignatureController(
       penColor: Colors.black
     );
+    _signatureImage = widget.model.signatureModel.signature;
 
   }
 
@@ -89,34 +100,40 @@ class _SignatureSectionState extends State<SignatureSection> with AppTheme{
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: bottomSheet,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        width: 300.0,
-        height: 100.0,
-        decoration: new BoxDecoration(
-          border: Border.all(
-            color: clr.appBlack,
-            width: 5.0,
-          ),
-          // color: Colors.orange,
-          shape: BoxShape.rectangle,
-        ),
-        child:_signatureImage != null ? Image.memory(_signatureImage!):Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add,
-              size: 40,
-              color: clr.appBlack,
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: bottomSheet,
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            width: 300.0,
+            height: 100.0,
+            decoration: new BoxDecoration(
+              border: Border.all(
+                color: clr.appBlack,
+                width: 5.0,
+              ),
+              // color: Colors.orange,
+              shape: BoxShape.rectangle,
             ),
-            Text(
-              'Add Signature',style: TextStyle(color: Colors.grey,fontSize: size.textSmall,fontWeight: FontWeight.w600),
+            child:_signatureImage != null ? Image.memory(_signatureImage!):Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.add,
+                  size: 40,
+                  color: clr.appBlack,
+                ),
+                Text(
+                  'Add Signature',style: TextStyle(color: Colors.grey,fontSize: size.textSmall,fontWeight: FontWeight.w600),
+                )
+              ],
             )
-          ],
-        )
-      ),
+          ),
+        ),
+        // CircularButton(onTap: onChange, icon: Icons.save),
+      ],
+
     );;
   }
 

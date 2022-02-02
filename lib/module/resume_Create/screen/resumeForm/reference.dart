@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
@@ -215,7 +216,7 @@ import 'package:resume_maker/common/widget/textField.dart';
 // }
 
 class Reference extends StatefulWidget {
-  final ReferenceModel model;
+  final FormContentModel model;
   const Reference({Key? key, required this.model}) : super(key: key);
 
   @override
@@ -231,22 +232,22 @@ class _ReferenceState extends State<Reference> with AppTheme{
 
 
       void initState() {
-        name.text = widget.model.name;
-        designation.text = widget.model.designation;
-        institute.text = widget.model.institution;
-        email.text = widget.model.email;
-        mobile_no.text = widget.model.contactNo;
+        name.text = widget.model.referenceModel.name;
+        designation.text = widget.model.referenceModel.designation;
+        institute.text = widget.model.referenceModel.institution;
+        email.text = widget.model.referenceModel.email;
+        mobile_no.text = widget.model.referenceModel.contactNo;
 
         super.initState();
 
       }
 
       onChange(){
-        widget.model.name = name.text;
-        widget.model.designation = designation.text;
-        widget.model.institution = institute.text;
-        widget.model.email = email.text;
-        widget.model.contactNo = mobile_no.text;
+        widget.model.referenceModel.name = name.text;
+        widget.model.referenceModel.designation = designation.text;
+        widget.model.referenceModel.institution = institute.text;
+        widget.model.referenceModel.email = email.text;
+        widget.model.referenceModel.contactNo = mobile_no.text;
       }
   @override
   Widget build(BuildContext context) {
@@ -258,7 +259,7 @@ class _ReferenceState extends State<Reference> with AppTheme{
             TextFieldWidget(controller: email, type: 'name', hintText: 'Email',),
             TextFieldWidget(controller: mobile_no, type: 'name', hintText: 'Mobile Number',),
         SizedBox(height: size.s20,),
-        CircularButton(onTap: onChange, icon: Icons.save),
+        // CircularButton(onTap: onChange, icon: Icons.save),
 
 
       ],

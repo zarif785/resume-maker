@@ -6,6 +6,7 @@ import 'package:resume_maker/module/resume_Update/screen/resume_update_screen.da
 
 import 'module/home/screen/home_screen.dart';
 import 'module/login/screen/login_screen.dart';
+import 'module/resume_Create/screen/new_create_screen.dart';
 import 'module/splashScreen/screen/splash_screen.dart';
 
 class AppRoute{
@@ -16,6 +17,7 @@ class AppRoute{
   static const String loginScreen = 'loginScreen';
   static const String registerScreen = 'registerScreen';
   static const String resumeCreateScreen = 'resumeCreateScreen';
+  static const String resumeCreateScreenNew = 'resumeCreateScreenNew';
   static const String resumeUpdateScreen = 'resumeUpdateScreen';
 }
 
@@ -27,6 +29,7 @@ mixin RouteGenerator{
         case AppRoute.loginScreen : return const LoginScreen();
         case AppRoute.registerScreen : return const RegisterScreen();
         case AppRoute.resumeCreateScreen : return  ResumeCreateScreen();
+        case AppRoute.resumeCreateScreenNew : return  ResumeCreateNew();
         case AppRoute.resumeUpdateScreen : return const ResumeUpdateScreen();
         default:
           return  SplashScreen();

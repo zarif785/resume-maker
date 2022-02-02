@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/ImageModel.dart';
 
 import 'package:resume_maker/common/theme/appTheme.dart';
@@ -9,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
 
 class UserImage extends StatefulWidget {
-  final ImageModel model;
+  final FormContentModel model;
   const UserImage({Key? key, required this.model}) : super(key: key);
 
   @override
@@ -21,14 +22,14 @@ class _UserImageState extends State<UserImage>with AppTheme {
   File? imageFile;
 
   void initState() {
-    imageFile = widget.model.image;
+    imageFile = widget.model.imageModel.image;
 
     super.initState();
 
   }
 
   onChange(){
-    widget.model.image = imageFile;
+    widget.model.imageModel.image = imageFile;
   }
 
  Future  getImage(ImageSource source) async{
@@ -37,6 +38,7 @@ class _UserImageState extends State<UserImage>with AppTheme {
    setState(() {
      imageFile = File(image!.path);
    });
+
  }
 
   void bottomSheet() {
@@ -162,7 +164,7 @@ class _UserImageState extends State<UserImage>with AppTheme {
 
           ),
         ),
-        CircularButton(onTap: onChange, icon: Icons.save),
+        // CircularButton(onTap: onChange, icon: Icons.save),
       ],
     );
   }

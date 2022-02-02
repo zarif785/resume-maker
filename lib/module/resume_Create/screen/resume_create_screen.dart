@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:resume_maker/common/model/AcademicModel.dart';
 import 'package:resume_maker/common/model/AccountsModel.dart';
 import 'package:resume_maker/common/model/ExperienceModel.dart';
 import 'package:resume_maker/common/model/FormContentModels.dart';
+import 'package:resume_maker/common/model/ImageModel.dart';
 import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
 
@@ -31,6 +33,9 @@ class ResumeCreateScreen extends StatefulWidget {
 
 class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
   // final accountKey = GlobalKey<State<Account>>();
+
+  ImageModel imageModel=ImageModel.empty();
+
   @override
 
   void initState() {
@@ -57,40 +62,40 @@ class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
 
             LinearContainer(),
             FormContent(
-              icon: Icons.person, title: "Account", canAdd: true,
+              icon: Icons.person, title: "Account", canAdd: false,
               content: (x){
-                return Account(model: x.accountsModel,);
+                return Account(model: x,);
               },
             ),
             LinearContainer(),
             FormContent(icon: Icons.school, title: "Academic", canAdd: true,
               content: (x){
-                return Academic( model: x.academicModel,);
+                return Academic( model: x,);
               },),
             LinearContainer(),
             FormContent(icon: Icons.work, title: "Experience", canAdd: true,
               content: (x){
-                return Experience(model: x.experienceModel,);
+                return Experience(model: x,);
               },),
             LinearContainer(),
             FormContent(icon: Icons.assignment, title: "Project", canAdd: true,
               content: (x){
-                return Project(model: x.projectModel,);
+                return Project(model: x,);
               },
             ),
             LinearContainer(),
             FormContent(icon: Icons.connect_without_contact, title: "Reference", canAdd: true,
               content: (x){
-                return Reference(model: x.referenceModel,);
+                return Reference(model: x,);
               },),
             LinearContainer(),
-            FormContent(icon: Icons.camera, title: "Image", canAdd: true,
+            FormContent(icon: Icons.camera, title: "Image", canAdd: false,
               content: (x){
-                return UserImage(model: x.imageModel,);
+                return UserImage(model: x);
               },),
             LinearContainer(),
-            FormContent(icon: Icons.gesture, title: "Signature", canAdd: true, content: (x) {
-              return SignatureSection();
+            FormContent(icon: Icons.gesture, title: "Signature", canAdd: false, content: (x) {
+              return SignatureSection(model: x);
             },),
             LinearContainer(),
           ],
@@ -232,12 +237,12 @@ class _FormContentState extends State<FormContent>with AppTheme {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            if (_cardList.length>0)CircularButton(onTap: _deleteContent, icon: Icons.delete),
-                            widget.canAdd?CircularButton(onTap: _addCardWidget, icon: Icons.add):Offstage(),
-
-
-
-                            CircularButton(onTap: _toggleViewer, icon: Icons.check),
+                            // if (_cardList.length>0)CircularButton(onTap: _deleteContent, icon: Icons.delete),
+                            // widget.canAdd?CircularButton(onTap: _addCardWidget, icon: Icons.add):Offstage(),
+                            //
+                            //
+                            //
+                            // CircularButton(onTap: _toggleViewer, icon: Icons.check),
                           ],
                         ),
                       ),

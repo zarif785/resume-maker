@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with AppTheme,HomeScreenService
 
   @override
   void navigateToCreateResumeScreen() {
-    Navigator.of(context).pushNamed(AppRoute.resumeCreateScreen);
+    Navigator.of(context).pushNamed(AppRoute.resumeCreateScreenNew);
   }
 
   @override

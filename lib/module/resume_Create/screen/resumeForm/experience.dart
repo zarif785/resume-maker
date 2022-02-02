@@ -242,13 +242,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/model/ExperienceModel.dart';
+import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/common/widget/date_input_field.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 
 class Experience extends StatefulWidget {
-  final ExperienceModel model;
+  final FormContentModel model;
+
   const Experience({Key? key, required this.model}) : super(key: key);
 
   @override
@@ -264,8 +266,8 @@ class _ExperienceState extends State<Experience> with AppTheme{
 
     @override
     void initState() {
-      organization.text = widget.model.organizationName;
-      designation.text = widget.model.designation;
+      organization.text = widget.model.experienceModel.organizationName;
+      designation.text = widget.model.experienceModel.designation;
       // emailController.text = widget.model.email;
       // mobileNoController.text = widget.model.contactNo;
 
@@ -274,8 +276,8 @@ class _ExperienceState extends State<Experience> with AppTheme{
     }
 
     onChange(){
-      widget.model.organizationName = organization.text;
-      widget.model.designation = designation.text;
+      widget.model.experienceModel.organizationName = organization.text;
+      widget.model.experienceModel.designation = designation.text;
     }
 
   @override
@@ -321,7 +323,7 @@ class _ExperienceState extends State<Experience> with AppTheme{
         ),
 
         _value==1?DateInput(hintText: "To(Duration"):Offstage(),
-        CircularButton(onTap: onChange, icon: Icons.save),
+        // CircularButton(onTap: onChange, icon: Icons.save),
               ],
             );
   }

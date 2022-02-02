@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
@@ -224,7 +225,7 @@ import 'package:resume_maker/common/widget/textField.dart';
 // }
 
 class Project extends StatefulWidget {
-  final ProjectModel model;
+  final FormContentModel model;
   const Project({Key? key, required this.model}) : super(key: key);
 
   @override
@@ -239,20 +240,20 @@ class _ProjectState extends State<Project> with AppTheme{
 
   @override
   void initState() {
-    projectName.text = widget.model.projectName;
-    description.text = widget.model.description;
-    role.text = widget.model.role;
-    links.text = widget.model.link;
+    projectName.text = widget.model.projectModel.projectName;
+    description.text = widget.model.projectModel.description;
+    role.text = widget.model.projectModel.role;
+    links.text = widget.model.projectModel.link;
 
     super.initState();
 
   }
 
   onChange(){
-    widget.model.projectName = projectName.text;
-    widget.model.description = description.text;
-    widget.model.role = role.text;
-    widget.model.link = links.text;
+    widget.model.projectModel.projectName = projectName.text;
+    widget.model.projectModel.description = description.text;
+    widget.model.projectModel.role = role.text;
+    widget.model.projectModel.link = links.text;
   }
 
   @override
@@ -263,8 +264,8 @@ class _ProjectState extends State<Project> with AppTheme{
       MultiLineTextFieldWidget(controller:description, type: 'name', hintText: 'Description',),
       TextFieldWidget(controller: role, type: 'number', hintText: 'Role',),
       TextFieldWidget(controller: links, type: 'name', hintText: 'Link(if any)',),
-        CircularButton(onTap: onChange, icon: Icons.save),
-        SizedBox(height: size.s20,),
+        // CircularButton(onTap: onChange, icon: Icons.save),
+        // SizedBox(height: size.s20,),
 
 
       ],
