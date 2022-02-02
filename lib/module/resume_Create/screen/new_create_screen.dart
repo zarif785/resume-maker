@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:resume_maker/common/model/AcademicModel.dart';
 import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
+import 'package:resume_maker/common/utils/Toasty.dart';
+import 'package:resume_maker/common/widget/AlertBox.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/common/widget/stepper.dart';
 import 'package:resume_maker/common/widget/titleCard.dart';
@@ -35,78 +37,79 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.dark, // status bar color
     ));
-    return Scaffold(
-       resizeToAvoidBottomInset: false,
-      body: Container(
+    return WillPopScope(
+      onWillPop: onBackPress,
+      child: Scaffold(
+         resizeToAvoidBottomInset: false,
+        body: Container(
 
-        padding: EdgeInsets.only(top: 80.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-
-          Center(
-            child: StreamBuilder<String>(
-              initialData: "Step 1 out of 7",
-              stream: stepNumberStream,
-              builder: (context, snapshot) {
-                return Text(
-                  snapshot.data!,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w700,
-                  ),
-                );
+          padding: EdgeInsets.only(top: 80.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+            Center(
+              child: StreamBuilder<String>(
+                initialData: "Step 1 out of 7",
+                stream: stepNumberStream,
+                builder: (context, snapshot) {
+                  return Text(
+                    snapshot.data!,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: StreamBuilder<String>(
+                initialData: "Account",
+                stream: formTitleStream,
+                builder: (context, snapshot) {
+                  return Text(
+                    snapshot.data!,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            TitleCardWidget(
+              onItemChanged: (e){
+                  controller.animateToPage(e, duration: Duration(milliseconds: 400), curve: Curves.easeIn);
               },
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: StreamBuilder<String>(
-              initialData: "Account",
-              stream: formTitleStream,
-              builder: (context, snapshot) {
-                return Text(
-                  snapshot.data!,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w700,
-                  ),
-                );
-              },
+
+            SizedBox(
+              height: 40,
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          TitleCardWidget(
-            onItemChanged: (e){
-           if(e=='Reference'){
-             print(e);
-           }
-            },
-          ),
+            Flexible(
 
-          SizedBox(
-            height: 40,
-          ),
-          Flexible(
-
-              child: ResumeContent(
-            controller: controller,
-            onContentChanged: onContentChanged,
-          )),
+                child: ResumeContent(
+              controller: controller,
+              onContentChanged: onContentChanged,
+            )),
 
 
-        ]),
+          ]),
+        ),
       ),
     );
   }
@@ -197,76 +200,54 @@ class _ResumeContentState extends State<ResumeContent> {
     );
   }
 }
-// Spacer(),
-// StreamBuilder<int>(
-//   initialData: 1,
-//   stream: buttonStateStream,
-//   builder: (context, snapshot) {
-//     var data = snapshot.data;
-//     if (data == 1) {
-//       return Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Row(
-//           children: [
-//             // CircularButton(onTap: null, icon: Icons.arrow_back),
-//             Spacer(),
-//             CircularButton(
-//                 onTap: null,
-//                 child: Icon(
-//                   Icons.arrow_forward,
-//                   color: Colors.white,
-//                 )),
-//           ],
-//         ),
-//       );
-//     } else if (data == 2) {
-//       return Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Row(
-//           children: [
-//             CircularButton(
-//                 onTap: null,
-//                 child: Icon(
-//                   Icons.arrow_back,
-//                   color: Colors.white,
-//                 )),
-//             Spacer(),
-//             CircularButton(
-//                 onTap: null,
-//                 child: Icon(
-//                   Icons.arrow_forward,
-//                   color: Colors.white,
-//                 )),
-//           ],
-//         ),
-//       );
-//     } else {
-//       return Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Row(
-//           children: [
-//             CircularButton(
-//                 onTap: null,
-//                 child: Icon(
-//                   Icons.arrow_back,
-//                   color: Colors.white,
-//                 )),
-//             Spacer(),
-//             CircularButton(
-//                 onTap: null,
-//                 child: Text(
-//                   "GENERATE",
-//                   style: TextStyle(
-//                     color: Colors.white,
-//                     fontSize: size.textSmall,
-//                     fontWeight: FontWeight.w600
-//                   ),
-//                 )),
-//             // CircularButton(onTap: null, icon: Icons.arrow_forward),
-//           ],
-//         ),
-//       );
-//     }
-//   },
-// )
-//
+
+
+class TitleCardWidget extends StatefulWidget {
+  final  ValueChanged<int> onItemChanged;
+  const TitleCardWidget({Key? key, required this.onItemChanged,}) : super(key: key);
+
+
+  @override
+  State<TitleCardWidget> createState() => _TitleCardWidgetState();
+}
+
+class _TitleCardWidgetState extends State<TitleCardWidget>  with AppTheme{
+  List<String> title = ['Account', 'Academic', 'Experience', 'Project', 'Reference', 'Image', 'Signature'];
+
+  void _onTap(){
+
+  }
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children:title
+              .map((e) => GestureDetector(
+            onTap: (){
+              widget.onItemChanged(title.indexOf(e));
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 5),
+              height: 45,
+              width: 140,
+              decoration: new BoxDecoration(
+                  color: clr.appBlack,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(15)),
+              child: Center(
+                child: Text(
+                  e,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: clr.appWhite,
+                      fontSize: size.textXMedium),
+                ),
+              ),
+            ),
+          ))
+              .toList(),
+        ));
+  }
+}

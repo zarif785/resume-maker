@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:resume_maker/common/core/app.dart';
+import 'package:resume_maker/common/widget/AlertBox.dart';
 
 abstract class _ViewModel{
   void navigateToUpdateResumeScreen();
@@ -20,7 +21,13 @@ mixin HomeScreenService <T extends StatefulWidget> on State<T> implements _ViewM
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { });
   }
 
+  Future<bool> onBackPress() {
 
+    return showPromptDialog(
+      context: context,
+      description:"Do you really want to exit? Your unsaved data will be lost.", onConfirm: true,
+    );
+  }
 
  void onUpdate(){
     _view.navigateToUpdateResumeScreen();
