@@ -216,14 +216,15 @@ import 'package:resume_maker/common/widget/textField.dart';
 // }
 
 class Reference extends StatefulWidget {
-  final FormContentModel model;
+  final ReferenceModel model;
+  // final FormContentModel model;
   const Reference({Key? key, required this.model}) : super(key: key);
 
   @override
   _ReferenceState createState() => _ReferenceState();
 }
 
-class _ReferenceState extends State<Reference> with AppTheme{
+class _ReferenceState extends State<Reference> with AppTheme,AutomaticKeepAliveClientMixin{
       final name = TextEditingController();
     final designation = TextEditingController();
     final institute = TextEditingController();
@@ -232,22 +233,32 @@ class _ReferenceState extends State<Reference> with AppTheme{
 
 
       void initState() {
-        name.text = widget.model.referenceModel.name;
-        designation.text = widget.model.referenceModel.designation;
-        institute.text = widget.model.referenceModel.institution;
-        email.text = widget.model.referenceModel.email;
-        mobile_no.text = widget.model.referenceModel.contactNo;
+        // name.text = widget.model.referenceModel.name;
+        // designation.text = widget.model.referenceModel.designation;
+        // institute.text = widget.model.referenceModel.institution;
+        // email.text = widget.model.referenceModel.email;
+        // mobile_no.text = widget.model.referenceModel.contactNo;
+        name.text = widget.model.name;
+        designation.text = widget.model.designation;
+        institute.text = widget.model.institution;
+        email.text = widget.model.email;
+        mobile_no.text = widget.model.contactNo;
 
         super.initState();
 
       }
 
       onChange(){
-        widget.model.referenceModel.name = name.text;
-        widget.model.referenceModel.designation = designation.text;
-        widget.model.referenceModel.institution = institute.text;
-        widget.model.referenceModel.email = email.text;
-        widget.model.referenceModel.contactNo = mobile_no.text;
+        // widget.model.referenceModel.name = name.text;
+        // widget.model.referenceModel.designation = designation.text;
+        // widget.model.referenceModel.institution = institute.text;
+        // widget.model.referenceModel.email = email.text;
+        // widget.model.referenceModel.contactNo = mobile_no.text;
+        widget.model.name = name.text;
+        widget.model.designation = designation.text;
+        widget.model.institution = institute.text;
+        widget.model.email = email.text;
+        widget.model.contactNo = mobile_no.text;
       }
   @override
   Widget build(BuildContext context) {
@@ -256,13 +267,24 @@ class _ReferenceState extends State<Reference> with AppTheme{
             TextFieldWidget(controller: name, type: 'degree', hintText: 'Name',),
             TextFieldWidget(controller:designation, type: 'name', hintText: 'Designation',),
             TextFieldWidget(controller: institute, type: 'number', hintText: 'Institute',),
-            TextFieldWidget(controller: email, type: 'name', hintText: 'Email',),
-            TextFieldWidget(controller: mobile_no, type: 'name', hintText: 'Mobile Number',),
-        SizedBox(height: size.s20,),
+            TextFieldWidget(controller: email, type: 'email', hintText: 'Email',),
+            TextFieldWidget(controller: mobile_no, type: 'number', hintText: 'Mobile Number',),
+        SizedBox(height: size.s12,),
+        Divider(
+          thickness: 1,
+          indent: size.s20,
+          endIndent: size.s20,
+        ),
+
+        SizedBox(height: size.s12,),
         // CircularButton(onTap: onChange, icon: Icons.save),
 
 
       ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

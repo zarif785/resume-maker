@@ -8,21 +8,23 @@ import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:signature/signature.dart';
 
 class SignatureSection extends StatefulWidget {
-  final FormContentModel model;
+  final SignatureModel model;
+  // final FormContentModel model;
   const SignatureSection({Key? key, required this.model}) : super(key: key);
 
   @override
   _SignatureSectionState createState() => _SignatureSectionState();
 }
 
-class _SignatureSectionState extends State<SignatureSection> with AppTheme{
+class _SignatureSectionState extends State<SignatureSection> with AppTheme,AutomaticKeepAliveClientMixin{
   late SignatureController controller;
 
   Uint8List? _signatureImage;
 
 
   onChange(){
-    widget.model.signatureModel.signature =  _signatureImage;
+    widget.model.signature =  _signatureImage;
+    // widget.model.signatureModel.signature =  _signatureImage;
     ;
   }
 
@@ -33,7 +35,8 @@ class _SignatureSectionState extends State<SignatureSection> with AppTheme{
     controller = SignatureController(
       penColor: Colors.black
     );
-    _signatureImage = widget.model.signatureModel.signature;
+    // _signatureImage = widget.model.signatureModel.signature;
+    _signatureImage = widget.model.signature;
 
   }
 
@@ -156,4 +159,8 @@ class _SignatureSectionState extends State<SignatureSection> with AppTheme{
     iconSize: 36,
     icon: Icon(Icons.clear,color: Colors.red,), onPressed: () { controller.clear();  },
   );
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

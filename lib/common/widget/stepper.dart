@@ -14,8 +14,8 @@ class _StepperWidgetState extends State<StepperWidget> {
     return Row(
       children: [
         Container(
-        width: 20.0,
-        height: 20.0,
+        width: 15.0,
+        height: 15.0,
     decoration: new BoxDecoration(
     color: Colors.orange,
     shape: BoxShape.circle,

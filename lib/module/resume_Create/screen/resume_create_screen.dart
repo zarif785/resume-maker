@@ -1,22 +1,12 @@
-import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:resume_maker/common/model/AcademicModel.dart';
-import 'package:resume_maker/common/model/AccountsModel.dart';
-import 'package:resume_maker/common/model/ExperienceModel.dart';
 import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/ImageModel.dart';
-import 'package:resume_maker/common/model/ProjectModel.dart';
-import 'package:resume_maker/common/model/ReferenceModel.dart';
-
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/background.dart';
-import 'package:resume_maker/common/widget/circularButton.dart';
-
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/account.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/experience.dart';
@@ -55,51 +45,51 @@ class _ResumeCreateScreen extends State<ResumeCreateScreen> with AppTheme{
       onBack: true,
       title: 'Create Resume',
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-
-            LinearContainer(),
-            FormContent(
-              icon: Icons.person, title: "Account", canAdd: false,
-              content: (x){
-                return Account(model: x,);
-              },
-            ),
-            LinearContainer(),
-            FormContent(icon: Icons.school, title: "Academic", canAdd: true,
-              content: (x){
-                return Academic( model: x,);
-              },),
-            LinearContainer(),
-            FormContent(icon: Icons.work, title: "Experience", canAdd: true,
-              content: (x){
-                return Experience(model: x,);
-              },),
-            LinearContainer(),
-            FormContent(icon: Icons.assignment, title: "Project", canAdd: true,
-              content: (x){
-                return Project(model: x,);
-              },
-            ),
-            LinearContainer(),
-            FormContent(icon: Icons.connect_without_contact, title: "Reference", canAdd: true,
-              content: (x){
-                return Reference(model: x,);
-              },),
-            LinearContainer(),
-            FormContent(icon: Icons.camera, title: "Image", canAdd: false,
-              content: (x){
-                return UserImage(model: x);
-              },),
-            LinearContainer(),
-            FormContent(icon: Icons.gesture, title: "Signature", canAdd: false, content: (x) {
-              return SignatureSection(model: x);
-            },),
-            LinearContainer(),
-          ],
-        ),
+        // child: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //
+        //
+        //     LinearContainer(),
+        //     FormContent(
+        //       icon: Icons.person, title: "Account", canAdd: false,
+        //       content: (x){
+        //         return Account(model: x,);
+        //       },
+        //     ),
+        //     LinearContainer(),
+        //     FormContent(icon: Icons.school, title: "Academic", canAdd: true,
+        //       content: (x){
+        //         return Academic( model: x,);
+        //       },),
+        //     LinearContainer(),
+        //     FormContent(icon: Icons.work, title: "Experience", canAdd: true,
+        //       content: (x){
+        //         return Experience(model: x,);
+        //       },),
+        //     LinearContainer(),
+        //     FormContent(icon: Icons.assignment, title: "Project", canAdd: true,
+        //       content: (x){
+        //         return Project(model: x,);
+        //       },
+        //     ),
+        //     LinearContainer(),
+        //     FormContent(icon: Icons.connect_without_contact, title: "Reference", canAdd: true,
+        //       content: (x){
+        //         return Reference(model: x,);
+        //       },),
+        //     LinearContainer(),
+        //     FormContent(icon: Icons.camera, title: "Image", canAdd: false,
+        //       content: (x){
+        //         return UserImage(model: x);
+        //       },),
+        //     LinearContainer(),
+        //     FormContent(icon: Icons.gesture, title: "Signature", canAdd: false, content: (x) {
+        //       return SignatureSection(model: x);
+        //     },),
+        //     LinearContainer(),
+        //   ],
+        // ),
       )
     );
 

@@ -25,7 +25,7 @@ mixin HomeScreenService <T extends StatefulWidget> on State<T> implements _ViewM
 
     return showPromptDialog(
       context: context,
-      description:"Do you really want to exit? Your unsaved data will be lost.", onConfirm: true,
+      description:"Do you really want to exit? ", onConfirm: true,
     );
   }
 

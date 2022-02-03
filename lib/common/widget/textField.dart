@@ -28,6 +28,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> with AppTheme {
         borderRadius: BorderRadius.circular(size.s12),
       ),
       child: TextField(
+
         obscureText:  widget.type=='password'? true:false,
         controller: widget.controller,
         keyboardType: widget.type=='email'? TextInputType.emailAddress: widget.type=='number'?TextInputType.number:TextInputType.text,

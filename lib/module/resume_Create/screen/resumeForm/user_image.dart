@@ -10,26 +10,30 @@ import 'package:image_picker/image_picker.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
 
 class UserImage extends StatefulWidget {
-  final FormContentModel model;
+  // final FormContentModel model;
+  final ImageModel model;
   const UserImage({Key? key, required this.model}) : super(key: key);
 
   @override
   _UserImageState createState() => _UserImageState();
 }
 
-class _UserImageState extends State<UserImage>with AppTheme {
+class _UserImageState extends State<UserImage>with AppTheme ,AutomaticKeepAliveClientMixin{
 
   File? imageFile;
 
   void initState() {
-    imageFile = widget.model.imageModel.image;
+    imageFile = widget.model.image;
+    // imageFile = widget.model.imageModel.image;
+
 
     super.initState();
 
   }
 
   onChange(){
-    widget.model.imageModel.image = imageFile;
+    // widget.model.imageModel.image = imageFile;
+    widget.model.image = imageFile;
   }
 
  Future  getImage(ImageSource source) async{
@@ -168,4 +172,8 @@ class _UserImageState extends State<UserImage>with AppTheme {
       ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

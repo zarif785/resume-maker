@@ -225,14 +225,15 @@ import 'package:resume_maker/common/widget/textField.dart';
 // }
 
 class Project extends StatefulWidget {
-  final FormContentModel model;
+  // final FormContentModel model;
+  final ProjectModel model;
   const Project({Key? key, required this.model}) : super(key: key);
 
   @override
   _ProjectState createState() => _ProjectState();
 }
 
-class _ProjectState extends State<Project> with AppTheme{
+class _ProjectState extends State<Project> with AppTheme,AutomaticKeepAliveClientMixin{
   final projectName = TextEditingController();
   final description = TextEditingController();
   final role = TextEditingController();
@@ -240,20 +241,28 @@ class _ProjectState extends State<Project> with AppTheme{
 
   @override
   void initState() {
-    projectName.text = widget.model.projectModel.projectName;
-    description.text = widget.model.projectModel.description;
-    role.text = widget.model.projectModel.role;
-    links.text = widget.model.projectModel.link;
+    // projectName.text = widget.model.projectModel.projectName;
+    // description.text = widget.model.projectModel.description;
+    // role.text = widget.model.projectModel.role;
+    // links.text = widget.model.projectModel.link;
+    projectName.text = widget.model.projectName;
+    description.text = widget.model.description;
+    role.text = widget.model.role;
+    links.text = widget.model.link;
 
     super.initState();
 
   }
 
   onChange(){
-    widget.model.projectModel.projectName = projectName.text;
-    widget.model.projectModel.description = description.text;
-    widget.model.projectModel.role = role.text;
-    widget.model.projectModel.link = links.text;
+    widget.model.projectName = projectName.text;
+    widget.model.description = description.text;
+    widget.model.role = role.text;
+    widget.model.link = links.text;
+    // widget.model.projectModel.projectName = projectName.text;
+    // widget.model.projectModel.description = description.text;
+    // widget.model.projectModel.role = role.text;
+    // widget.model.projectModel.link = links.text;
   }
 
   @override
@@ -265,12 +274,23 @@ class _ProjectState extends State<Project> with AppTheme{
       TextFieldWidget(controller: role, type: 'number', hintText: 'Role',),
       TextFieldWidget(controller: links, type: 'name', hintText: 'Link(if any)',),
         // CircularButton(onTap: onChange, icon: Icons.save),
-        // SizedBox(height: size.s20,),
+        SizedBox(height: size.s12,),
+        Divider(
+          thickness: 1,
+          indent: size.s20,
+          endIndent: size.s20,
+        ),
+
+        SizedBox(height: size.s12,),
 
 
       ],
 
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 

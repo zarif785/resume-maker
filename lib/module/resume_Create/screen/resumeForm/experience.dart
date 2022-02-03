@@ -249,7 +249,8 @@ import 'package:resume_maker/common/widget/date_input_field.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 
 class Experience extends StatefulWidget {
-  final FormContentModel model;
+  // final FormContentModel model;
+  final ExperienceModel model;
 
   const Experience({Key? key, required this.model}) : super(key: key);
 
@@ -257,7 +258,7 @@ class Experience extends StatefulWidget {
   _ExperienceState createState() => _ExperienceState();
 }
 
-class _ExperienceState extends State<Experience> with AppTheme{
+class _ExperienceState extends State<Experience> with AppTheme,AutomaticKeepAliveClientMixin{
 
 
     final organization = TextEditingController();
@@ -266,8 +267,10 @@ class _ExperienceState extends State<Experience> with AppTheme{
 
     @override
     void initState() {
-      organization.text = widget.model.experienceModel.organizationName;
-      designation.text = widget.model.experienceModel.designation;
+      // organization.text = widget.model.experienceModel.organizationName;
+      // designation.text = widget.model.experienceModel.designation;
+      organization.text = widget.model.organizationName;
+      designation.text = widget.model.designation;
       // emailController.text = widget.model.email;
       // mobileNoController.text = widget.model.contactNo;
 
@@ -276,8 +279,10 @@ class _ExperienceState extends State<Experience> with AppTheme{
     }
 
     onChange(){
-      widget.model.experienceModel.organizationName = organization.text;
-      widget.model.experienceModel.designation = designation.text;
+      // widget.model.experienceModel.organizationName = organization.text;
+      // widget.model.experienceModel.designation = designation.text;
+      widget.model.organizationName = organization.text;
+      widget.model.designation = designation.text;
     }
 
   @override
@@ -323,8 +328,20 @@ class _ExperienceState extends State<Experience> with AppTheme{
         ),
 
         _value==1?DateInput(hintText: "To(Duration"):Offstage(),
+        SizedBox(height: size.s12,),
+        Divider(
+          thickness: 1,
+          indent: size.s20,
+          endIndent: size.s20,
+        ),
+
+        SizedBox(height: size.s12,),
         // CircularButton(onTap: onChange, icon: Icons.save),
               ],
             );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

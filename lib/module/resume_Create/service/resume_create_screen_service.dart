@@ -1,20 +1,27 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:resume_maker/common/model/AcademicModel.dart';
+import 'package:resume_maker/common/model/AccountsModel.dart';
+import 'package:resume_maker/common/utils/validator.dart';
 import 'package:resume_maker/common/widget/AlertBox.dart';
+import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
 
-mixin ResumeCreateService<T extends StatefulWidget> on State<T>{
+abstract class _ViewModel{
+
+  void showWarning(String message);
+}
 
 
-  List<String> title = [
-    "Information",
-    "Academics",
-    "Experience",
-    "Project",
-    "Reference",
-    "Image",
-    "Signature"
-  ];
+mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _ViewModel{
+  late _ViewModel _view;
+
+  @override
+  void initState() {
+    _view = this;
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { });
+  }
 
   StreamController<String> _stepNumberStreamController =
   StreamController.broadcast();
@@ -84,11 +91,36 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T>{
     }
   }
 
+
+
   Future<bool> onBackPress() {
 
       return showPromptDialog(
         context: context,
         description:"Do you really want to exit? Your unsaved data will be lost.", onConfirm: false,
       );
+    }
+    bool validateAccountFormData(String name,String address, String contact_no){
+        if(Validator.isEmpty(name)){
+          _view.showWarning("Name is required!");
+          return false;
+        }
+        else if(Validator.isEmpty(address)){
+          _view.showWarning("Address is required!");
+          return false;
+        }
+        else if(Validator.isEmpty(contact_no)){
+          _view.showWarning("Contact Number is required!");
+          return false;
+        }
+        else if(Validator.isValidMobileNo(contact_no)){
+          _view.showWarning("Enter a Valid Bangladeshi Contact Number");
+          return false;
+        }
+
+        else{
+          return true;
+        }
+
     }
   }

@@ -8,6 +8,7 @@ import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/common/widget/date_input_field.dart';
 import 'package:resume_maker/common/widget/textField.dart';
+import 'package:resume_maker/module/resume_Create/service/resume_create_screen_service.dart';
 
 // class Academic extends StatefulWidget {
 //   const Academic({Key? key}) : super(key: key);
@@ -245,7 +246,8 @@ import 'package:resume_maker/common/widget/textField.dart';
 // enum DegreeStatus { completed, pursuing }
 
 class Academic extends StatefulWidget {
-  final FormContentModel model;
+  // final FormContentModel model;
+  final AcademicModel model;
   const Academic({Key? key, required this.model}) : super(key: key);
 
   @override
@@ -264,20 +266,30 @@ class _AcademicState extends State<Academic> with AppTheme{
   void initState() {
     // TODO: implement initState
     super.initState();
-    degree.text = widget.model.academicModel.examName;
-    institute.text= widget.model.academicModel.instituteName;
+    // degree.text = widget.model.academicModel.examName;
+    // institute.text= widget.model.academicModel.instituteName;
+    // cgpa.text = "";
+    // if(widget.model.academicModel.completed ==false){
+    //   _value =1;
+    // }
+    degree.text = widget.model.examName;
+    institute.text= widget.model.instituteName;
     cgpa.text = "";
-    if(widget.model.academicModel.completed ==false){
+    if(widget.model.completed ==false){
       _value =1;
     }
   }
 
   void onChange(){
     if(mounted){
-      widget.model.academicModel.examName = degree.text;
-      widget.model.academicModel.instituteName = institute.text;
-      widget.model.academicModel.cgpa = cgpa.text as double;
-      widget.model.academicModel.completed = _value==2? true:false;
+      // widget.model.academicModel.examName = degree.text;
+      // widget.model.academicModel.instituteName = institute.text;
+      // widget.model.academicModel.cgpa = cgpa.text as double;
+      // widget.model.academicModel.completed = _value==2? true:false;
+      widget.model.examName = degree.text;
+      widget.model.instituteName = institute.text;
+      widget.model.cgpa = cgpa.text as double;
+      widget.model.completed = _value==2? true:false;
 
     }
 
@@ -323,22 +335,15 @@ class _AcademicState extends State<Academic> with AppTheme{
               ),
 
         _value==1?DateInput(hintText:"Passing Year"):Offstage(),
-        // GestureDetector(
-        //   onTap: onChange,
-        //   child: Container(
-        //       margin: EdgeInsets.only(bottom: size.s8,right: size.s4),
-        //       padding: EdgeInsets.all(8),
-        //       decoration: BoxDecoration(
-        //         color: clr.appBlack,
-        //         borderRadius: BorderRadius.circular(50.r),
-        //
-        //       ),
-        //       child:Icon(Icons.save,color: Colors.white,)
-        //   ),
-        // ),
 
-        // CircularButton(onTap: onChange, icon: Icons.save),
+        SizedBox(height: size.s12,),
+        Divider(
+          thickness: 1,
+          indent: size.s20,
+          endIndent: size.s20,
+        ),
 
+        SizedBox(height: size.s12,),
 
   ],
     );
