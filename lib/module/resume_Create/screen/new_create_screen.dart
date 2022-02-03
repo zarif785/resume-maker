@@ -198,7 +198,7 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService{
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: CircularButton(onTap:(){
-                    if(validateAccountFormData("asdasd", "asdasd","asdasd")){
+                    if(validateAccountFormData(x.accountsModel.name!, x.accountsModel.address!, x.accountsModel.name!)){
 
                     }
                   }, child: Icon(Icons.save,color: Colors.white,)),
