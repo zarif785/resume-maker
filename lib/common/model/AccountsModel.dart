@@ -1,3 +1,5 @@
+import 'package:resume_maker/common/core/app.dart';
+
 class AccountsModel{
 
    String? name;
@@ -14,6 +16,7 @@ class AccountsModel{
   }
   AccountsModel.fromJson(Map<String, dynamic> json) {
     name = json['name']??"";
+    email = json['email']??App.currentSession.email;
     contactNo = json['contact_no']??"";
     address = json['address']??"";
   }

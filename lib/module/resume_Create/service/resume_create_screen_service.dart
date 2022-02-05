@@ -3,13 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:resume_maker/common/model/AcademicModel.dart';
 import 'package:resume_maker/common/model/AccountsModel.dart';
+import 'package:resume_maker/common/model/ActionResult.dart';
 import 'package:resume_maker/common/utils/validator.dart';
 import 'package:resume_maker/common/widget/AlertBox.dart';
+import 'package:resume_maker/module/resume_Create/gateway/resume_create_gateway.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
 
 abstract class _ViewModel{
 
-  void showWarning(String message);
+  void showWarning(String message,bool successValue);
 }
 
 
@@ -91,7 +93,9 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
     }
   }
 
-
+  void doNothing(String name){
+    print(name);
+  }
 
   Future<bool> onBackPress() {
 
@@ -100,27 +104,47 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
         description:"Do you really want to exit? Your unsaved data will be lost.", onConfirm: false,
       );
     }
-    bool validateAccountFormData(String name,String address, String contact_no){
+  Future<bool> validateAccountFormData(String name,String address, String contact_no){
+    Completer<bool> _completer = Completer();
         if(Validator.isEmpty(name)){
-          _view.showWarning("Name is required!");
-          return false;
+          _view.showWarning("Name is required!",false);
+          _completer.complete(false);
+          return _completer.future;
         }
         else if(Validator.isEmpty(address)){
-          _view.showWarning("Address is required!");
-          return false;
+          _view.showWarning("Address is required!",false);
+          _completer.complete(false);
+          return _completer.future;
         }
         else if(Validator.isEmpty(contact_no)){
-          _view.showWarning("Contact Number is required!");
-          return false;
+          _view.showWarning("Contact Number is required!",false);
+          _completer.complete(false);
+          return _completer.future;
         }
-        else if(Validator.isValidMobileNo(contact_no)){
-          _view.showWarning("Enter a Valid Bangladeshi Contact Number");
-          return false;
-        }
+        // else if(Validator.isValidMobileNumber(contact_no)){
+        //   _view.showWarning("Enter a Valid Bangladeshi Contact Number");
+        //   return false;
+        // }
 
         else{
-          return true;
+          _completer.complete(true);
+          return _completer.future;
         }
 
     }
+  Future<ActionResult<AccountsModel>> saveDetails(String name, String contact_no, String address) async{
+    return ResumeCreateGateway.saveAccountDetails(name.trim(), contact_no.trim(), address.trim()).then((value){
+      if(value.isSuccess != true){
+        _view.showWarning(value.message,value.isSuccess);
+      }
+      else{
+        _view.showWarning(value.message,value.isSuccess);
+      }
+      print(value.message);
+      return value;
+    });
   }
+
+}
+
+

@@ -137,26 +137,27 @@ import 'package:resume_maker/common/widget/mutliline_textField.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 
 class Account extends StatefulWidget {
+  final TextEditingController usernameController;
+  final TextEditingController addressController ;
+  final TextEditingController emailController ;
+  final TextEditingController mobileNoController;
   // final FormContentModel model;
   final AccountsModel model;
-  const Account( {Key? key, required this.model}) : super(key: key);
+  const Account( {Key? key, required this.model, required this.usernameController, required this.addressController, required this.emailController, required this.mobileNoController}) : super(key: key);
 
   @override
   _AccountState createState() => _AccountState();
 }
 
 class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClientMixin{
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController mobileNoController = TextEditingController();
+
 
   @override
   void initState() {
-    usernameController.text = widget.model.name!;
-    addressController.text = widget.model.address!;
-    emailController.text = App.currentSession.email;
-    mobileNoController.text = widget.model.contactNo!;
+    widget.usernameController.text = widget.model.name!;
+    widget.addressController.text = widget.model.address!;
+    widget.emailController.text = App.currentSession.email;
+    widget.mobileNoController.text = widget.model.contactNo!;
     // usernameController.text = widget.model.accountsModel.name;
     // addressController.text = widget.model.accountsModel.address;
     // emailController.text = widget.model.accountsModel.email;
@@ -171,10 +172,10 @@ class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClie
     // widget.model.accountsModel.contactNo = mobileNoController.text;
     // widget.model.accountsModel.address = addressController.text;
     // widget.model.accountsModel.email = emailController.text;
-    widget.model.name = usernameController.text;
-    widget.model.contactNo = mobileNoController.text;
-    widget.model.address = addressController.text;
-    widget.model.email = emailController.text;
+    widget.model.name = widget.usernameController.text;
+    widget.model.contactNo = widget.mobileNoController.text;
+    widget.model.address = widget.addressController.text;
+    widget.model.email = widget.emailController.text;
   }
   @override
   Widget build(BuildContext context) {
@@ -182,11 +183,11 @@ class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClie
     return Container(
       child: Column(
                 children: [
-                  TextFieldWidget(hintText: 'Name', type: 'name', controller: usernameController,
+                  TextFieldWidget(hintText: 'Name', type: 'name', controller: widget.usernameController,
                   ),
-                  TextFieldWidget(hintText: 'Number', type: 'number', controller: mobileNoController,),
-                  TextFieldWidget(hintText: 'Email', type: 'email', controller: emailController,),
-                  MultiLineTextFieldWidget(controller: addressController, hintText: "Address", type: 'address'),
+                  TextFieldWidget(hintText: 'Number', type: 'number', controller: widget.mobileNoController,),
+                  TextFieldWidget(hintText: 'Email', type: 'email', controller: widget.emailController,),
+                  MultiLineTextFieldWidget(controller: widget.addressController, hintText: "Address", type: 'address'),
                   // CircularButton(onTap: onChange, icon: Icons.save),
                   // SizedBox(height: size.s24,),
 

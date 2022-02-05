@@ -7,6 +7,7 @@ import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
+import 'package:resume_maker/common/widget/action_button.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/account.dart';
@@ -117,7 +118,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
   }
 
   @override
-  void showWarning(String message) {
+  void showWarning(String message,bool successValue) {
     Toasty.of(context).showWarning(message);
   }
 }
@@ -137,12 +138,19 @@ class ResumeContent extends StatefulWidget {
   _ResumeContentState createState() => _ResumeContentState();
 }
 
-class _ResumeContentState extends State<ResumeContent> with ResumeCreateService{
+class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,AppTheme{
   final FormContentModel x = FormContentModel();
   final List<AcademicModel> academicList =[];
   final List<ProjectModel> projectList =[];
   final List<ExperienceModel> experienceList =[];
   final List<ReferenceModel> referenceList =[];
+
+
+  // Controllers //
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController mobileNoController = TextEditingController();
 
 
   @override
@@ -192,17 +200,25 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService{
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 if (index == 0)
-                  Account(
-                    model: x.accountsModel,
-                  ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: CircularButton(onTap:(){
-                    if(validateAccountFormData(x.accountsModel.name!, x.accountsModel.address!, x.accountsModel.name!)){
+                  Column(
+                    children: [                  Account(
+                      model: x.accountsModel,usernameController: usernameController, addressController: addressController, emailController: emailController, mobileNoController: mobileNoController,
+                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: CircularButton(onTap: (){
+                          validateAccountFormData(usernameController.text, addressController.text, mobileNoController.text).then((value){
+                            if(value==true){
+                              saveDetails(usernameController.text, addressController.text, mobileNoController.text);
+                            }
 
-                    }
-                  }, child: Icon(Icons.save,color: Colors.white,)),
-                ),
+                          } );
+                        }, child: Icon(Icons.save,color: clr.appWhite,)),
+                      ),
+                    ],
+                  ),
+
+
                 if (index == 1)
                   Column(
                     children: academicList.map((e) => Academic(model: e,)).toList(),
@@ -252,8 +268,13 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService{
   }
 
   @override
-  void showWarning(String message) {
-    Toasty.of(context).showWarning(message);
+  void showWarning(String message, bool successValue) {
+    if(successValue) {
+      Toasty.of(context).showSuccess(message);
+    }
+    else{
+      Toasty.of(context).showWarning(message);
+    }
   }
 }
 
