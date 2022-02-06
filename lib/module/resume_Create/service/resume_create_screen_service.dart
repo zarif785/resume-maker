@@ -22,8 +22,18 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   void initState() {
     _view = this;
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { });
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { getAccountsDetails();});
   }
+
+  StreamController<PageState> _accountsInfoStreamController =
+  StreamController.broadcast();
+
+  Stream<PageState> get accountsInfoStream => _accountsInfoStreamController.stream;
+
+  Sink<PageState>? get _accountsInfoSink =>
+      !_accountsInfoStreamController.isClosed
+          ? _accountsInfoStreamController.sink
+          : null;
 
   StreamController<String> _stepNumberStreamController =
   StreamController.broadcast();
@@ -93,8 +103,13 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
     }
   }
 
-  void doNothing(String name){
-    print(name);
+  getAccountsDetails(){
+    return ResumeCreateGateway.getAccountDetails().then((value){
+      if(value.isSuccess==true){
+        _accountsInfoSink!.add(DataLoadedState(value.data!));
+
+      }
+    });
   }
 
   Future<bool> onBackPress() {
@@ -127,6 +142,7 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
         // }
 
         else{
+          _view.showWarning("Updated Successfully!",true);
           _completer.complete(true);
           return _completer.future;
         }
@@ -137,9 +153,9 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
       if(value.isSuccess != true){
         _view.showWarning(value.message,value.isSuccess);
       }
-      else{
-        _view.showWarning(value.message,value.isSuccess);
-      }
+      // else{
+      //   _view.showWarning(value.message,value.isSuccess);
+      // }
       print(value.message);
       return value;
     });
@@ -147,4 +163,14 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
 
 }
 
+abstract class PageState {}
+
+class LoadingState extends PageState {}
+
+class EmptyState extends PageState {}
+
+class DataLoadedState extends PageState {
+  final AccountsModel data;
+  DataLoadedState(this.data);
+}
 

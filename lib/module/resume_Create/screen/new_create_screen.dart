@@ -9,6 +9,7 @@ import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/widget/action_button.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
+import 'package:resume_maker/common/widget/titleCard.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/account.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/experience.dart';
@@ -147,10 +148,13 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
 
 
   // Controllers //
+
+  // Accounts//
   TextEditingController usernameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileNoController = TextEditingController();
+
 
 
   @override
@@ -200,22 +204,48 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 if (index == 0)
-                  Column(
-                    children: [                  Account(
-                      model: x.accountsModel,usernameController: usernameController, addressController: addressController, emailController: emailController, mobileNoController: mobileNoController,
-                    ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: CircularButton(onTap: (){
-                          validateAccountFormData(usernameController.text, addressController.text, mobileNoController.text).then((value){
-                            if(value==true){
-                              saveDetails(usernameController.text, addressController.text, mobileNoController.text);
-                            }
-
-                          } );
-                        }, child: Icon(Icons.save,color: clr.appWhite,)),
-                      ),
-                    ],
+                  StreamBuilder<PageState>(
+                      initialData: LoadingState(),
+                      stream: accountsInfoStream,
+                    builder: (context, snapshot) {
+                      var state = snapshot.data;
+                      if (state is DataLoadedState) {
+                        x.accountsModel = state.data;
+                        usernameController.text = state.data.name!;
+                        mobileNoController.text = state.data.contactNo!;
+                        addressController.text = state.data.address!;
+                        return Column(
+                          children: [ Account(
+                            model: x.accountsModel,
+                            usernameController: usernameController,
+                            addressController: addressController,
+                            emailController: emailController,
+                            mobileNoController: mobileNoController,
+                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: CircularButton(onTap: () {
+                                validateAccountFormData(usernameController.text,
+                                    addressController.text,
+                                    mobileNoController.text).then((value) {
+                                  if (value == true) {
+                                    saveDetails(usernameController.text,
+                                      mobileNoController.text,
+                                      addressController.text,);
+                                  }
+                                });
+                              }, child: Icon(Icons.save, color: clr.appWhite,)),
+                            ),
+                          ],
+                        );
+                      }
+                      else{
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }
                   ),
 
 
@@ -278,59 +308,4 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
   }
 }
 
-class TitleCardWidget extends StatefulWidget {
-  final ValueChanged<int> onItemChanged;
-  const TitleCardWidget({
-    Key? key,
-    required this.onItemChanged,
-  }) : super(key: key);
 
-  @override
-  State<TitleCardWidget> createState() => _TitleCardWidgetState();
-}
-
-class _TitleCardWidgetState extends State<TitleCardWidget> with AppTheme {
-  List<String> title = [
-    'Account',
-    'Academic',
-    'Experience',
-    'Project',
-    'Reference',
-    'Image',
-    'Signature'
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: title
-              .map((e) => GestureDetector(
-                    onTap: () {
-                      widget.onItemChanged(title.indexOf(e));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      height: 45,
-                      width: 140,
-                      decoration: new BoxDecoration(
-                          color: clr.appBlack,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                        child: Text(
-                          e,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              color: clr.appWhite,
-                              fontSize: size.textXMedium),
-                        ),
-                      ),
-                    ),
-                  ))
-              .toList(),
-        ));
-  }
-}

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:resume_maker/common/model/AccountsModel.dart';
 import 'package:resume_maker/common/model/UserSession.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,6 +8,9 @@ class App{
 
   static UserSession _session = UserSession.empty();
   static UserSession get currentSession => _session;
+
+
+
 
   static Future<UserSession> getCurrentSession()  async{
 
@@ -24,4 +28,5 @@ class App{
     await prefs.setString('session data', jsonEncode(session.toJson()));
     return getCurrentSession();
   }
+
 }

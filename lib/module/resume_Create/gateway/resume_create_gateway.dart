@@ -18,4 +18,15 @@ mixin ResumeCreateGateway{
     );
     });
   }
+
+  static Future<ActionResult<AccountsModel>> getAccountDetails() async{
+    return Server.instance.getRequest(url: 'my-profile').then((value){
+
+      return ActionResult<AccountsModel>.fromServerResponse(
+        response: value,
+        generateData: (x)=> AccountsModel.fromJson(x),
+      );
+    });
+  }
+
 }
