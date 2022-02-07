@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:resume_maker/common/model/UserSession.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/utils/appAssets.dart';
@@ -17,11 +18,21 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> with AppTheme,RegisterScreenService{
+  UserSession model =UserSession.empty();
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmpasswordController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    firstnameController.text=model.name;
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,15 +63,15 @@ class _RegisterScreenState extends State<RegisterScreen> with AppTheme,RegisterS
                   ),
                 ),
                 SizedBox(height: size.s16),
-                TextFieldWidget(controller: firstnameController, hintText: "Enter  Name", type: 'name'),
+                TextFieldWidget(controller: firstnameController, hintText: "Enter  Name", type: 'name',isRegistration: true,),
                 SizedBox(height: size.s4),
                 // TextFieldWidget(controller: lastnameController, hintText: "Enter Last Name", type: 'name'),
                 // SizedBox(height: size.s4),
-                TextFieldWidget(controller: emailController, hintText: "Enter Email", type: 'email'),
+                TextFieldWidget(controller: emailController, hintText: "Enter Email", type: 'email',isRegistration: true,),
                 SizedBox(height: size.s4),
-                TextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password'),
+                TextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password',isRegistration: true,),
                 SizedBox(height: size.s4),
-                TextFieldWidget(controller: confirmpasswordController, hintText: "Confirm Password", type: 'password'),
+                TextFieldWidget(controller: confirmpasswordController, hintText: "Confirm Password", type: 'password',isRegistration: true,),
                 SizedBox(height: size.s12),
                 // ActionButton(onSuccess: onRegisterButtonPress, title: "Register"),
                 ActionButton(  title: "Register",

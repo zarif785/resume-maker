@@ -148,23 +148,6 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
   final List<ExperienceModel> experienceList =[];
   final List<ReferenceModel> referenceList =[];
 
-
-  // Controllers //
-
-  // Accounts//
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController mobileNoController = TextEditingController();
-
-  // Academic //
-  TextEditingController degree = TextEditingController();
-  TextEditingController institute = TextEditingController();
-  TextEditingController cgpa = TextEditingController();
-
-
-
-
   @override
   void initState() {
 
@@ -221,28 +204,26 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
                       var state = snapshot.data;
                       if (state is DataLoadedState) {
                         x.accountsModel = state.data;
-                        usernameController.text = state.data.name!;
-                        mobileNoController.text = state.data.contactNo!;
-                        addressController.text = state.data.address!;
                         return Column(
                           children: [ Account(
                             model: x.accountsModel,
-                            usernameController: usernameController,
-                            addressController: addressController,
-                            emailController: emailController,
-                            mobileNoController: mobileNoController,
+
                           ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: CircularButton(onTap: () {
                                 validateAccountFormData(
-                                    usernameController.text,
-                                    addressController.text,
-                                    mobileNoController.text).then((value) {
+                                  x.accountsModel.name!,
+                                  x.accountsModel.contactNo!,
+                                  x.accountsModel.address!,
+
+                                ).then((value) {
                                   if (value == true) {
-                                    saveDetails(usernameController.text,
-                                      mobileNoController.text,
-                                      addressController.text,);
+                                    saveDetails(
+                                      x.accountsModel.name!,
+                                      x.accountsModel.contactNo!,
+                                      x.accountsModel.address!,
+                                    );
                                   }
                                 });
                               }, child: Icon(Icons.save, color: clr.appWhite,)),
@@ -285,20 +266,6 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
                               Toasty.of(context).showWarning("Exam name is required!",);
                               return false;
                             }
-                            // else if(Validator.isEmpty(institute)){
-                            //   _view.showWarning("Institute name is required!",false);
-                            //   _completer.complete(false);
-                            //   return _completer.future;
-                            // }
-                            // // else if(isCompleted == true && Validator.isEmpty(year)){
-                            // //   _view.showWarning("Passing Year is required!",false);
-                            // //   _completer.complete(false);
-                            // //   return _completer.future;
-                            // // }
-                            // else if( Validator.isEmpty(cgpa)){
-                            //   _view.showWarning("CGPA is required!",false);
-                            //   _completer.complete(false);
-                            //   return _completer.future;
                             // }
                             else{
                               return true;

@@ -20,6 +20,7 @@ class _DateInputState extends State<DateInput> with AppTheme{
         initialDate: DateTime.now(),
         firstDate: DateTime(1990),
         lastDate: DateTime(2050),
+
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
@@ -58,7 +59,7 @@ class _DateInputState extends State<DateInput> with AppTheme{
           ),
           borderRadius: BorderRadius.circular(size.s8),
         ),
-        child: Text(_dateTime==null?widget.hintText: DateFormat.yMMMd().format(_dateTime!).toString(),
+        child: Text(_dateTime==null?widget.hintText: DateFormat.y().format(_dateTime!).toString(),
           style:_dateTime==null?TextStyle(
             color: Colors.grey,
           fontWeight: FontWeight.w400,

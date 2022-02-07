@@ -3,12 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 
 class TextFieldWidget extends StatefulWidget{
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String hintText;
   final String initialValue;
   final String type;
   final ValueChanged<String>? onTextChanged;
-  const TextFieldWidget({Key? key, required this.controller, required this.hintText, required this.type, this.onTextChanged, this.initialValue=""}) : super(key: key);
+  final bool isRegistration;
+  const TextFieldWidget({Key? key, this.controller, required this.hintText, required this.type, this.onTextChanged, this.initialValue="", this.isRegistration=false}) : super(key: key);
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
@@ -35,7 +36,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> with AppTheme {
       child: TextField(
 
         obscureText:  widget.type=='password'? true:false,
-        controller: _controller,
+        controller: widget.isRegistration?widget.controller:_controller,
         keyboardType: widget.type=='email'? TextInputType.emailAddress: widget.type=='number'?TextInputType.number:TextInputType.text,
         maxLines: 1,
         minLines: 1,
