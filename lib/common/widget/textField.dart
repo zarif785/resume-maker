@@ -5,14 +5,19 @@ import 'package:resume_maker/common/theme/appTheme.dart';
 class TextFieldWidget extends StatefulWidget{
   final TextEditingController controller;
   final String hintText;
+  final String initialValue;
   final String type;
-  const TextFieldWidget({Key? key, required this.controller, required this.hintText, required this.type}) : super(key: key);
+  final ValueChanged<String>? onTextChanged;
+  const TextFieldWidget({Key? key, required this.controller, required this.hintText, required this.type, this.onTextChanged, this.initialValue=""}) : super(key: key);
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> with AppTheme {
+ late final TextEditingController _controller = TextEditingController(text:widget.initialValue);
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,10 +35,11 @@ class _TextFieldWidgetState extends State<TextFieldWidget> with AppTheme {
       child: TextField(
 
         obscureText:  widget.type=='password'? true:false,
-        controller: widget.controller,
+        controller: _controller,
         keyboardType: widget.type=='email'? TextInputType.emailAddress: widget.type=='number'?TextInputType.number:TextInputType.text,
         maxLines: 1,
         minLines: 1,
+        onChanged: widget.onTextChanged,
         style: TextStyle(
           color: Colors.black,
           fontSize: size.textSmall,

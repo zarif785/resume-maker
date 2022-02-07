@@ -7,6 +7,7 @@ import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
+import 'package:resume_maker/common/utils/validator.dart';
 import 'package:resume_maker/common/widget/action_button.dart';
 import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:resume_maker/common/widget/titleCard.dart';
@@ -141,6 +142,7 @@ class ResumeContent extends StatefulWidget {
 
 class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,AppTheme{
   final FormContentModel x = FormContentModel();
+  final AcademicListModel listModel = AcademicListModel.empty();
   final List<AcademicModel> academicList =[];
   final List<ProjectModel> projectList =[];
   final List<ExperienceModel> experienceList =[];
@@ -155,12 +157,19 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileNoController = TextEditingController();
 
+  // Academic //
+  TextEditingController degree = TextEditingController();
+  TextEditingController institute = TextEditingController();
+  TextEditingController cgpa = TextEditingController();
+
+
 
 
   @override
   void initState() {
 
     super.initState();
+    listModel.academicData.add(x.academicModel);
     academicList.add(x.academicModel);
     experienceList.add(x.experienceModel);
     projectList.add(x.projectModel);
@@ -169,7 +178,7 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
 
   void addFormWidget(int i) {
     setState(() {
-      if(i==1)academicList.add(x.academicModel);
+      if(i==1)listModel.academicData.add(AcademicModel.empty());
       if(i==2)experienceList.add(x.experienceModel);
       if(i==3)projectList.add(x.projectModel);
       if(i==4)referenceList.add(x.referenceModel);
@@ -178,8 +187,8 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
 
   void _deleteContent(){
     setState(() {
-      if(academicList.length>1)
-        academicList.removeLast();
+      if( listModel.academicData.length>1)
+      listModel.academicData.removeLast();
       if(experienceList.length>1)
         experienceList.removeLast();
      if(projectList.length>1)
@@ -197,6 +206,7 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
         itemCount: 7,
         onPageChanged: widget.onContentChanged,
         itemBuilder: (context, index) {
+
           return SingleChildScrollView(
             physics: BouncingScrollPhysics(),
 
@@ -225,7 +235,8 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: CircularButton(onTap: () {
-                                validateAccountFormData(usernameController.text,
+                                validateAccountFormData(
+                                    usernameController.text,
                                     addressController.text,
                                     mobileNoController.text).then((value) {
                                   if (value == true) {
@@ -251,9 +262,54 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
 
                 if (index == 1)
                   Column(
-                    children: academicList.map((e) => Academic(model: e,)).toList(),
-                  ),
+                    children: [
+                      Column(
+                        children: listModel.academicData.map((e) => Academic(model: e)).toList(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: CircularButton(onTap: () {
+                          // validateAcademicFormData(
+                          //   degree.text,
+                          //   institute.text,
+                          //   cgpa.text,
+                          //    ).then((value) {
+                          //   if (value == true) {
+                          //
+                          //     saveAccountList(listModel);
+                          //   }
+                          // });
 
+                          if(listModel.academicData.every((m){
+                            if(Validator.isEmpty(m.examName)){
+                              Toasty.of(context).showWarning("Exam name is required!",);
+                              return false;
+                            }
+                            // else if(Validator.isEmpty(institute)){
+                            //   _view.showWarning("Institute name is required!",false);
+                            //   _completer.complete(false);
+                            //   return _completer.future;
+                            // }
+                            // // else if(isCompleted == true && Validator.isEmpty(year)){
+                            // //   _view.showWarning("Passing Year is required!",false);
+                            // //   _completer.complete(false);
+                            // //   return _completer.future;
+                            // // }
+                            // else if( Validator.isEmpty(cgpa)){
+                            //   _view.showWarning("CGPA is required!",false);
+                            //   _completer.complete(false);
+                            //   return _completer.future;
+                            // }
+                            else{
+                              return true;
+                            }
+                          })){
+                            saveAccountList(listModel);
+                          }
+                        }, child: Icon(Icons.save, color: clr.appWhite,)),
+                      ),
+                    ],
+                  ),
                 if (index == 2)
                   Column(
                     children: experienceList.map((e) => Experience(model: e,)).toList(),

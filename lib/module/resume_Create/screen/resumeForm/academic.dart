@@ -246,20 +246,22 @@ import 'package:resume_maker/module/resume_Create/service/resume_create_screen_s
 // enum DegreeStatus { completed, pursuing }
 
 class Academic extends StatefulWidget {
-  // final FormContentModel model;
   final AcademicModel model;
-  const Academic({Key? key, required this.model}) : super(key: key);
+  const Academic({Key? key, required this.model,}) : super(key: key);
 
   @override
   _AcademicState createState() => _AcademicState();
 }
 
 class _AcademicState extends State<Academic> with AppTheme{
+  final TextEditingController degree = TextEditingController();
+  final TextEditingController institute = TextEditingController();
+  final TextEditingController cgpa = TextEditingController();
+
+  // final FormContentModel model;
   int? _value =0;
   bool active = false;
-  final degree = TextEditingController();
-  final institute = TextEditingController();
-  final cgpa = TextEditingController();
+
 
 
   @override
@@ -272,26 +274,26 @@ class _AcademicState extends State<Academic> with AppTheme{
     // if(widget.model.academicModel.completed ==false){
     //   _value =1;
     // }
-    degree.text = widget.model.examName;
-    institute.text= widget.model.instituteName;
-    cgpa.text = "";
-    if(widget.model.completed ==false){
+   // degree.text = widget.model.examName;
+    institute.text= widget.model.institute;
+    cgpa.text = widget.model.cgpa.toString();
+    if(widget.model.isPursuing ==false){
       _value =1;
     }
   }
 
   void onChange(){
-    if(mounted){
-      // widget.model.academicModel.examName = degree.text;
-      // widget.model.academicModel.instituteName = institute.text;
-      // widget.model.academicModel.cgpa = cgpa.text as double;
-      // widget.model.academicModel.completed = _value==2? true:false;
-      widget.model.examName = degree.text;
-      widget.model.instituteName = institute.text;
-      widget.model.cgpa = cgpa.text as double;
-      widget.model.completed = _value==2? true:false;
-
-    }
+    // if(mounted){
+    //   // widget.model.academicModel.examName = degree.text;
+    //   // widget.model.academicModel.instituteName = institute.text;
+    //   // widget.model.academicModel.cgpa = cgpa.text as double;
+    //   // widget.model.academicModel.completed = _value==2? true:false;
+    //   widget.model.examName = widget.degree.text;
+    //   widget.model.institute = widget.institute.text;
+    //   widget.model.cgpa = widget.cgpa.text as double;
+    //   widget.model.isCompleted = _value==2? true:false;
+    //
+    // }
 
   }
 
@@ -300,11 +302,11 @@ class _AcademicState extends State<Academic> with AppTheme{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TextFieldWidget(controller: degree, type: 'degree', hintText: 'Exam Name',),
-        TextFieldWidget(controller:institute, type: 'name', hintText: 'Institute Name',),
-        TextFieldWidget(controller: cgpa, type: 'number', hintText: 'CGPA',),
+              TextFieldWidget(initialValue:widget.model.examName,onTextChanged: (x){widget.model.examName = x;},controller: degree, type: 'degree', hintText: 'Exam Name',),
+              TextFieldWidget(initialValue:widget.model.institute,onTextChanged: (x){widget.model.institute = x;},controller: institute, type: 'name', hintText: 'Institute Name',),
+              TextFieldWidget(initialValue:widget.model.cgpa.toString(),onTextChanged: (x){widget.model.cgpa = double.tryParse(x)??0.0;},controller: cgpa, type: 'number', hintText: 'CGPA',),
 
-    Row(
+              Row(
                 children: [
                   Radio(
                     value:1,
@@ -312,7 +314,6 @@ class _AcademicState extends State<Academic> with AppTheme{
                     onChanged: (int? value){
                       setState(() {
                          _value= value;
-
                       });
                     },
                   ),

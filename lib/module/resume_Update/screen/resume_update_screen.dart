@@ -177,48 +177,35 @@ class _ResumeUpdateContentState extends State<ResumeUpdateContent> with ResumeUp
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
-                if(index==0)Center(
-                  child: StreamBuilder<PageState>(
-                      initialData: LoadingState(),
-                      stream: accountsInfoStream,
-                      builder: (context, snapshot){
-                        var state = snapshot.data;
-                        if(state is DataLoadedState){
-                          x.accountsModel = state.data;
-                          usernameController.text = state.data.name!;
-                          mobileNoController.text = state.data.contactNo!;
-                          addressController.text = state.data.address!;
-                          return
-                          Column(
-                            children: [
 
-                              Account(model: x.accountsModel,usernameController:usernameController, addressController: addressController, emailController: emailController, mobileNoController: mobileNoController),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: CircularButton(onTap: (){
-                                  validateAccountFormData(usernameController.text, addressController.text, mobileNoController.text).then((value){
-                                    if(value==true){
-                                      saveDetails(usernameController.text, mobileNoController.text,addressController.text, );
-                                    }
-
-                                  } );
-                                }, child: Icon(Icons.save,color: clr.appWhite,)),
-                              )
-                            ],
-                          );
-                        }
-                        else{
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(),
-                          );
-                        }
+                if(index==0)
+                  StreamBuilder<PageState>(
+                    initialData: LoadingState(),
+                    stream: academicInfoStream,
+                    builder: (context,snapshot){
+                      var data = snapshot.data;
+                      if(data is DataLoadedState){
+                        return Column(
+                          children: [
+                            Text(data.data.academicData[academicList.length].examName),
+                          ],
+                        );
                       }
+                      else{
+                        return GestureDetector(
+                            onTap: getAcademicDetails,
+                            child:Container(
+                                height: 200,
+                                width: 200,
+                                color: Colors.red,
+                                child: Text('Click Here'))
+                        );
+                      }
+                    },
                   ),
-                ),
                 if (index == 1)
                   Column(
-                    children: academicList.map((e) => Academic(model: e,)).toList(),
+                    // children: academicList.map((e) => Academic(model: e,)).toList(),
                   ),
                 !(index==0||index==5||index==6)?Row(
                   children: [

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:resume_maker/common/model/AcademicModel.dart';
 import 'package:resume_maker/common/model/AccountsModel.dart';
 import 'package:resume_maker/common/model/ActionResult.dart';
 import 'package:resume_maker/common/utils/validator.dart';
@@ -20,17 +21,17 @@ mixin ResumeUpdateService<T extends StatefulWidget> on State<T> implements _View
   void initState() {
     _view = this;
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { getAccountsDetails();});
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { });
   }
 
-  StreamController<PageState> _accountsInfoStreamController =
+  StreamController<PageState> _academicInfoStreamController =
   StreamController.broadcast();
 
-  Stream<PageState> get accountsInfoStream => _accountsInfoStreamController.stream;
+  Stream<PageState> get academicInfoStream => _academicInfoStreamController.stream;
 
-  Sink<PageState>? get _accountsInfoSink =>
-      !_accountsInfoStreamController.isClosed
-          ? _accountsInfoStreamController.sink
+  Sink<PageState>? get _academicInfoSink =>
+      !_academicInfoStreamController.isClosed
+          ? _academicInfoStreamController.sink
           : null;
 
   StreamController<String> _stepNumberStreamController =
@@ -70,15 +71,15 @@ mixin ResumeUpdateService<T extends StatefulWidget> on State<T> implements _View
     _stepNumberStreamController.close();
     _formTitleStreamController.close();
     _buttonStateStreamController.close();
-    _accountsInfoStreamController.close();
+    _academicInfoStreamController.close();
     super.dispose();
   }
 
 
-  getAccountsDetails(){
-    return ResumeUpdateGateway.getAccountDetails().then((value){
+  getAcademicDetails(){
+    return ResumeUpdateGateway.getAcademicDetails().then((value){
       if(value.isSuccess==true){
-        _accountsInfoSink!.add(DataLoadedState(value.data!));
+        _academicInfoSink!.add(DataLoadedState(value.data!));
 
       }
     });
@@ -174,6 +175,6 @@ class LoadingState extends PageState {}
 class EmptyState extends PageState {}
 
 class DataLoadedState extends PageState {
-  final AccountsModel data;
+  final AcademicListModel data;
   DataLoadedState(this.data);
 }

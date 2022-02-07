@@ -148,6 +148,36 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
         }
 
     }
+
+    Future<bool> validateAcademicFormData(String examName,String institute,String cgpa){
+    Completer<bool> _completer = Completer();
+        if(Validator.isEmpty(examName)){
+          _view.showWarning("Exam name is required!",false);
+          _completer.complete(false);
+          return _completer.future;
+        }
+        else if(Validator.isEmpty(institute)){
+          _view.showWarning("Institute name is required!",false);
+          _completer.complete(false);
+          return _completer.future;
+        }
+        // else if(isCompleted == true && Validator.isEmpty(year)){
+        //   _view.showWarning("Passing Year is required!",false);
+        //   _completer.complete(false);
+        //   return _completer.future;
+        // }
+        else if( Validator.isEmpty(cgpa)){
+          _view.showWarning("CGPA is required!",false);
+          _completer.complete(false);
+          return _completer.future;
+        }
+        else{
+          _view.showWarning("Updated Successfully!",true);
+          _completer.complete(true);
+          return _completer.future;
+        }
+
+    }
   Future<ActionResult<AccountsModel>> saveDetails(String name, String contact_no, String address) async{
     return ResumeCreateGateway.saveAccountDetails(name.trim(), contact_no.trim(), address.trim()).then((value){
       if(value.isSuccess != true){
@@ -158,6 +188,21 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
       // }
       print(value.message);
       return value;
+    });
+  }
+
+  void saveAccountList(AcademicListModel list){
+    ResumeCreateGateway.setAcademicDetails(list).then((value)  {
+      if(value.isSuccess != true){
+        _view.showWarning(value.message,value.isSuccess);
+      }
+      // else{
+      //   _view.showWarning(value.message,value.isSuccess);
+      // }
+      print(value.message);
+      return value;
+    }).catchError((e){
+      print(e);
     });
   }
 
