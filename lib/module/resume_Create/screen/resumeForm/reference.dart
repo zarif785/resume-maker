@@ -240,7 +240,7 @@ class _ReferenceState extends State<Reference> with AppTheme,AutomaticKeepAliveC
         // mobile_no.text = widget.model.referenceModel.contactNo;
         name.text = widget.model.name;
         designation.text = widget.model.designation;
-        institute.text = widget.model.institution;
+        institute.text = widget.model.organization;
         email.text = widget.model.email;
         mobile_no.text = widget.model.contactNo;
 
@@ -256,7 +256,7 @@ class _ReferenceState extends State<Reference> with AppTheme,AutomaticKeepAliveC
         // widget.model.referenceModel.contactNo = mobile_no.text;
         widget.model.name = name.text;
         widget.model.designation = designation.text;
-        widget.model.institution = institute.text;
+        widget.model.organization = institute.text;
         widget.model.email = email.text;
         widget.model.contactNo = mobile_no.text;
       }

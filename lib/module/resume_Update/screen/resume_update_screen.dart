@@ -186,20 +186,11 @@ class _ResumeUpdateContentState extends State<ResumeUpdateContent> with ResumeUp
                       var data = snapshot.data;
                       if(data is DataLoadedState){
                         return Column(
-                          children: [
-                            Text(data.data.academicData[academicList.length].examName),
-                          ],
+                          children: data.data.academicData.map((e)=> Text(e.examName)).toList(),
                         );
                       }
                       else{
-                        return GestureDetector(
-                            onTap: getAcademicDetails,
-                            child:Container(
-                                height: 200,
-                                width: 200,
-                                color: Colors.red,
-                                child: Text('Click Here'))
-                        );
+                        return CircularProgressIndicator();
                       }
                     },
                   ),

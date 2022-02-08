@@ -16,7 +16,7 @@ class AppRoute{
   static const String homeScreen = 'homeScreen';
   static const String loginScreen = 'loginScreen';
   static const String registerScreen = 'registerScreen';
-  static const String resumeCreateScreen = 'resumeCreateScreen';
+  // static const String resumeCreateScreen = 'resumeCreateScreen';
   static const String resumeCreateScreenNew = 'resumeCreateScreenNew';
   static const String resumeUpdateScreen = 'resumeUpdateScreen';
 }
@@ -28,7 +28,7 @@ mixin RouteGenerator{
         case AppRoute.homeScreen : return const HomeScreen();
         case AppRoute.loginScreen : return const LoginScreen();
         case AppRoute.registerScreen : return const RegisterScreen();
-        case AppRoute.resumeCreateScreen : return  ResumeCreateScreen();
+        // case AppRoute.resumeCreateScreen : return  ResumeCreateScreen();
         case AppRoute.resumeCreateScreenNew : return  ResumeCreateNew();
         case AppRoute.resumeUpdateScreen : return const ResumeUpdateScreen();
         default:

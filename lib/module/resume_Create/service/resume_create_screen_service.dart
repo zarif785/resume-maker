@@ -109,6 +109,7 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
         _accountsInfoSink!.add(DataLoadedState(value.data!));
 
       }
+      return value.data;
     });
   }
 
@@ -136,13 +137,14 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
           _completer.complete(false);
           return _completer.future;
         }
-        // else if(Validator.isValidMobileNumber(contact_no)){
-        //   _view.showWarning("Enter a Valid Bangladeshi Contact Number");
-        //   return false;
+        // else if(Validator.isValidMobile(contact_no)){
+        //   _view.showWarning("Enter a Valid Bangladeshi Contact Number",false);
+        //   _completer.complete(false);
+        //   return _completer.future;
         // }
 
         else{
-          _view.showWarning("Updated Successfully!",true);
+
           _completer.complete(true);
           return _completer.future;
         }
@@ -172,35 +174,29 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
           return _completer.future;
         }
         else{
-          _view.showWarning("Updated Successfully!",true);
           _completer.complete(true);
           return _completer.future;
         }
 
     }
-  Future<ActionResult<AccountsModel>> saveDetails(String name, String contact_no, String address) async{
+  void saveDetails(String name, String contact_no, String address) async{
     return ResumeCreateGateway.saveAccountDetails(name.trim(), contact_no.trim(), address.trim()).then((value){
-      if(value.isSuccess != true){
+      if(value.isSuccess == true){
         _view.showWarning(value.message,value.isSuccess);
       }
-      // else{
-      //   _view.showWarning(value.message,value.isSuccess);
-      // }
       print(value.message);
-      return value;
     });
   }
 
-  void saveAccountList(AcademicListModel list){
+  void setAcademicDetails(AcademicListModel list){
     ResumeCreateGateway.setAcademicDetails(list).then((value)  {
-      if(value.isSuccess != true){
+      if(value.isSuccess == true){
         _view.showWarning(value.message,value.isSuccess);
       }
       // else{
       //   _view.showWarning(value.message,value.isSuccess);
       // }
       print(value.message);
-      return value;
     }).catchError((e){
       print(e);
     });

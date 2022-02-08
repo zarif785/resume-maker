@@ -32,6 +32,12 @@ mixin RegisterScreenService <T extends StatefulWidget> on State<T> implements _V
       _view.showWarning("Name is required!");
       return false;
     }
+
+
+    else if(nameController.text.length>40){
+      _view.showWarning("UserName is too long!",);
+      return false;
+    }
     else if(Validator.isEmpty(emailController.text)){
       _view.showWarning("Email is required!");
       return false;

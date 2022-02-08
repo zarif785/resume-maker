@@ -9,18 +9,17 @@ class AcademicListModel {
   AcademicListModel.fromJson(Map<String, dynamic> json) {
     academicData = <AcademicModel>[];
     if (json['academic_data'] != null) {
+
       json['academic_data'].forEach((v) {
-        academicData.add(new AcademicModel.fromJson(v));
+        academicData.add(AcademicModel.fromJson(v)) ;
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-
       data['academic_data'] =
           this.academicData.map((v) => v.toJson()).toList();
-
     return data;
   }
 }
@@ -36,7 +35,7 @@ class AcademicModel{
   AcademicModel.empty(){
     examName = '';
     institute='';
-    cgpa=0.0;
+    cgpa= 0.0;
     isCompleted =false;
     isPursuing =false;
     year='';
@@ -62,6 +61,16 @@ class AcademicModel{
     data['is_pursuing'] = this.isPursuing;
     return data;
   }
+ // static List<AcademicModel> listFromJson(List<dynamic> json){
+ //   List<AcademicModel> _list = [];
+ //   json.forEach((element) {
+ //     _list.add(AcademicModel.fromJson(element));
+ //   });
+ //   return _list;
+ // }
 
+ // static List<AcademicModel> listFromJson(List<dynamic> json){
+ //   return  List.castFrom<dynamic,AcademicModel>(json.map((x)=> AcademicModel.fromJson(x)).toList());
+ // }
 
 }

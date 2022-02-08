@@ -21,18 +21,9 @@ mixin ResumeUpdateService<T extends StatefulWidget> on State<T> implements _View
   void initState() {
     _view = this;
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { });
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { getAcademicDetails();});
   }
 
-  StreamController<PageState> _academicInfoStreamController =
-  StreamController.broadcast();
-
-  Stream<PageState> get academicInfoStream => _academicInfoStreamController.stream;
-
-  Sink<PageState>? get _academicInfoSink =>
-      !_academicInfoStreamController.isClosed
-          ? _academicInfoStreamController.sink
-          : null;
 
   StreamController<String> _stepNumberStreamController =
   StreamController.broadcast();
@@ -65,25 +56,35 @@ mixin ResumeUpdateService<T extends StatefulWidget> on State<T> implements _View
           ? _buttonStateStreamController.sink
           : null;
 
+  StreamController<PageState> _academicInfoStreamController =
+  StreamController.broadcast();
+
+  Stream<PageState> get academicInfoStream => _academicInfoStreamController.stream;
+
+  Sink<PageState>? get _academicInfoSink =>
+      !_academicInfoStreamController.isClosed
+          ? _academicInfoStreamController.sink
+          : null;
+
+
+  getAcademicDetails() {
+     ResumeUpdateGateway.getAcademicDetails().then((value){
+      if(value.isSuccess==true){
+        _academicInfoSink!.add(DataLoadedState(value.data!));
+      }
+    });
+  }
+
 
   @override
   void dispose() {
     _stepNumberStreamController.close();
     _formTitleStreamController.close();
     _buttonStateStreamController.close();
-    _academicInfoStreamController.close();
+
     super.dispose();
   }
 
-
-  getAcademicDetails(){
-    return ResumeUpdateGateway.getAcademicDetails().then((value){
-      if(value.isSuccess==true){
-        _academicInfoSink!.add(DataLoadedState(value.data!));
-
-      }
-    });
-  }
 
 
   Future<bool> onBackPress() {
@@ -152,16 +153,11 @@ mixin ResumeUpdateService<T extends StatefulWidget> on State<T> implements _View
 
   }
 
-  Future<ActionResult<AccountsModel>> saveDetails(String name, String contact_no, String address) async{
+  void saveDetails(String name, String contact_no, String address) async{
     return ResumeUpdateGateway.saveAccountDetails(name.trim(), contact_no.trim(), address.trim()).then((value){
       if(value.isSuccess != true){
         _view.showWarning(value.message,value.isSuccess);
       }
-      // else{
-      //   _view.showWarning(value.message,value.isSuccess);
-      // }
-      print(value.message);
-      return value;
     });
   }
 

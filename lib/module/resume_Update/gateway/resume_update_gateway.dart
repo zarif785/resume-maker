@@ -31,13 +31,28 @@ mixin ResumeUpdateGateway {
   }
 
 
+  // static Future<ActionResult<List<AcademicModel>>> getAcademicDetails() async{
+  //   return Server.instance.getRequest(url: 'user-academic-information-list').then((value){
+  //
+  //     return ActionResult<List<AcademicModel>>.fromServerResponse(
+  //       response: value,
+  //       generateData: (x)=>AcademicModel.listFromJson(x) ,
+  //     );
+  //   });
+  // }
+
+
   static Future<ActionResult<AcademicListModel>> getAcademicDetails() async{
     return Server.instance.getRequest(url: 'user-academic-information-list').then((value){
-
+      print(value);
       return ActionResult<AcademicListModel>.fromServerResponse(
         response: value,
-        generateData: (x)=> AcademicListModel.fromJson(x),
+        generateData: (x)=> AcademicListModel.fromJson(x) ,
       );
+
     });
   }
+
+
+
 }

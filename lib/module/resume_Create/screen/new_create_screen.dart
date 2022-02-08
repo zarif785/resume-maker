@@ -5,6 +5,7 @@ import 'package:resume_maker/common/model/ExperienceModel.dart';
 import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
+import 'package:resume_maker/common/model/UserDetailsModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/utils/validator.dart';
@@ -142,6 +143,7 @@ class ResumeContent extends StatefulWidget {
 
 class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,AppTheme{
   final FormContentModel x = FormContentModel();
+  final UserDetailsModel user = UserDetailsModel.empty();
   final AcademicListModel listModel = AcademicListModel.empty();
   final List<AcademicModel> academicList =[];
   final List<ProjectModel> projectList =[];
@@ -194,6 +196,7 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
             physics: BouncingScrollPhysics(),
 
             child: Column(
+              
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 if (index == 0)
@@ -203,7 +206,7 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
                     builder: (context, snapshot) {
                       var state = snapshot.data;
                       if (state is DataLoadedState) {
-                        x.accountsModel = state.data;
+                        x.accountsModel= state.data;
                         return Column(
                           children: [ Account(
                             model: x.accountsModel,
@@ -214,8 +217,9 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
                               child: CircularButton(onTap: () {
                                 validateAccountFormData(
                                   x.accountsModel.name!,
-                                  x.accountsModel.contactNo!,
+
                                   x.accountsModel.address!,
+                                  x.accountsModel.contactNo!,
 
                                 ).then((value) {
                                   if (value == true) {
@@ -266,13 +270,28 @@ class _ResumeContentState extends State<ResumeContent> with ResumeCreateService,
                               Toasty.of(context).showWarning("Exam name is required!",);
                               return false;
                             }
+                            if(Validator.isEmpty(m.institute)){
+                              Toasty.of(context).showWarning("Institute name is required!",);
+                              return false;
+                            }
+                            if(Validator.isEmpty(m.cgpa.toString())){
+                              Toasty.of(context).showWarning("CGPA name is required!",);
+                              return false;
+                            }
+                            // if(Validator.isEmpty(m.year)){
+                            //   Toasty.of(context).showWarning("Passing Year name is required!",);
+                            //   return false;
+                            // }
+
                             // }
                             else{
                               return true;
                             }
                           })){
-                            saveAccountList(listModel);
+                            setAcademicDetails(listModel);
                           }
+
+
                         }, child: Icon(Icons.save, color: clr.appWhite,)),
                       ),
                     ],
