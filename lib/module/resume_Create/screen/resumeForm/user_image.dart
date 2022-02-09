@@ -1,13 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/ImageModel.dart';
-
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:resume_maker/common/widget/circularButton.dart';
 
 class UserImage extends StatefulWidget {
   // final FormContentModel model;

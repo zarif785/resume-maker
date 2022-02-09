@@ -7,6 +7,7 @@ import 'package:resume_maker/module/resume_Update/screen/resume_update_screen.da
 import 'module/home/screen/home_screen.dart';
 import 'module/login/screen/login_screen.dart';
 import 'module/resume_Create/screen/new_create_screen.dart';
+import 'module/resume_Create/screen/revised _create_screen.dart';
 import 'module/splashScreen/screen/splash_screen.dart';
 
 class AppRoute{

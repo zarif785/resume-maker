@@ -41,82 +41,34 @@ class _ResumeUpdateScreenState extends State<ResumeUpdateScreen> with ResumeUpda
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark, // status bar color
-    ));
-    return WillPopScope(
-      onWillPop: onBackPress,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          padding: EdgeInsets.only(top: 80.0),
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Center(
-                  child: StreamBuilder<String>(
-                    initialData: "Step 1 out of 7",
-                    stream: stepNumberStream,
-                    builder: (context, snapshot) {
-                      return Text(
-                        snapshot.data!,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Center(
-                  child: StreamBuilder<String>(
-                    initialData: "Account",
-                    stream: formTitleStream,
-                    builder: (context, snapshot) {
-                      return Text(
-                        snapshot.data!,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                TitleCardWidget(
-                  onItemChanged: (x) {
-                    controller.animateToPage(x,
-                        duration: Duration(milliseconds: 400),
-                        curve: Curves.easeIn);
-                  },
-                ),
-                SizedBox(
-                  height: 40,
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(""),
+      ),
+      body: PageView(
+        children: <Widget>[
+          _sampleForm("Page 1"),
+          _sampleForm("Page 2"),
+        ],
+      ),
+    );
+  }
 
-                Flexible(
-                    child: Container(
-                      // color: Colors.red,
-                      child: ResumeUpdateContent(
-                        controller: controller,
-                        onContentChanged: onContentChanged,
-                      ),
-                    )),
-
-
-
-              ]),
+  _sampleForm(String title) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          children: <Widget>[
+            Form(
+              child: Column(
+                children: <Widget>[
+                  ListTile(title: Text(title, textAlign: TextAlign.center)),
+                  for (int i = 0; i < 10; i++) TextFormField(decoration: InputDecoration(hintText: "field ${i+1}"),),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

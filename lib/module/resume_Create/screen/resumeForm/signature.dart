@@ -1,15 +1,12 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/SignatureModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
-import 'package:resume_maker/common/widget/circularButton.dart';
 import 'package:signature/signature.dart';
 
 class SignatureSection extends StatefulWidget {
   final SignatureModel model;
-  // final FormContentModel model;
+
   const SignatureSection({Key? key, required this.model}) : super(key: key);
 
   @override

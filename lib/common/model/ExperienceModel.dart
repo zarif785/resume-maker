@@ -21,7 +21,7 @@ class ExperienceListModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 
       data['experience_data'] =
-          this.experienceData!.map((v) => v.toJson()).toList();
+          this.experienceData.map((v) => v.toJson()).toList();
 
     return data;
   }
