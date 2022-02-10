@@ -12,7 +12,8 @@ import 'package:resume_maker/module/resume_Create/service/resume_create_screen_s
 
 class Academic extends StatefulWidget {
   final AcademicModel model;
-  const Academic({Key? key, required this.model,}) : super(key: key);
+  final VoidCallback? onClicked;
+  const Academic({Key? key, required this.model, this.onClicked,}) : super(key: key);
 
   @override
   _AcademicState createState() => _AcademicState();
@@ -37,7 +38,7 @@ class _AcademicState extends State<Academic> with AppTheme{
     degree.text = widget.model.examName;
     institute.text= widget.model.institute;
     cgpa.text = widget.model.cgpa.toString();
-    year.text = widget.model.year;
+    year.text = widget.model.year.toString();
     if(widget.model.isPursuing ==false){
       _value =1;
     }
@@ -49,6 +50,15 @@ class _AcademicState extends State<Academic> with AppTheme{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding:EdgeInsets.only(right: size.s16),
+                    child: CircularButton(onTap: widget.onClicked, child: Icon(Icons.delete,color: clr.appWhite,)),
+                  ),
+                ],
+              ),
               TextFieldWidget(initialValue:widget.model.examName,onTextChanged: (x){widget.model.examName = x;}, type: 'degree', hintText: 'Exam Name',),
               TextFieldWidget(initialValue:widget.model.institute,onTextChanged: (x){widget.model.institute = x;}, type: 'name', hintText: 'Institute Name',),
               TextFieldWidget(initialValue:widget.model.cgpa.toString(),onTextChanged: (x){widget.model.cgpa = double.tryParse(x)??0.0;}, type: 'number', hintText: 'CGPA',),
@@ -82,7 +92,7 @@ class _AcademicState extends State<Academic> with AppTheme{
                 ],
               ),
 
-        _value==1? TextFieldWidget(initialValue:widget.model.year.toString(),onTextChanged: (x){widget.model.year = x;}, type: 'number', hintText: 'Passing Year',):Offstage(),
+        _value==1? TextFieldWidget(initialValue:widget.model.year.toString(),onTextChanged: (x){widget.model.year = int.tryParse(x)??0;}, type: 'number', hintText: 'Passing Year',):Offstage(),
 
 
 

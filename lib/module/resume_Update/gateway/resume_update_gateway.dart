@@ -47,7 +47,7 @@ mixin ResumeUpdateGateway {
       print(value);
       return ActionResult<AcademicListModel>.fromServerResponse(
         response: value,
-        generateData: (x)=> AcademicListModel.fromJson(x) ,
+        generateData: (x)=> AcademicListModel.fromJsonList(x) ,
       );
 
     });
