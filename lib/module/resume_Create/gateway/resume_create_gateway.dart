@@ -49,13 +49,15 @@ mixin ResumeCreateGateway{
 
   static Future<ActionResult<AcademicListModel>> getAcademicDetails() async{
     return Server.instance.getRequest(url: 'user-academic-information-list').then((value){
-
+      print(value);
       return ActionResult<AcademicListModel>.fromServerResponse(
         response: value,
-        generateData: (x)=> AcademicListModel.fromJson(x),
+        generateData: (x)=> AcademicListModel.fromJsonList(x) ,
       );
+
     });
   }
+
 
 
 // ==================Experience===============================

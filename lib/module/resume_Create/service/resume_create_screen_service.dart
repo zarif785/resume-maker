@@ -26,7 +26,7 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   void initState() {
     _view = this;
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { getAccountsDetails();});
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { getAcademicDetails();getAccountsDetails();});
   }
 
 
@@ -73,11 +73,25 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
           ? _buttonStateStreamController.sink
           : null;
 
+
+  StreamController<PageStateAcademic> _academicInfoStreamController =
+  StreamController.broadcast();
+
+  Stream<PageStateAcademic> get academicInfoStream => _academicInfoStreamController.stream;
+
+  Sink<PageStateAcademic>? get _academicInfoSink =>
+      !_academicInfoStreamController.isClosed
+          ? _academicInfoStreamController.sink
+          : null;
+
+
+
   @override
   void dispose() {
     _stepNumberStreamController.close();
     _formTitleStreamController.close();
     _buttonStateStreamController.close();
+    _academicInfoStreamController.close();
     super.dispose();
   }
 
@@ -120,6 +134,16 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
       return value.data;
     });
   }
+
+
+  getAcademicDetails() {
+     return ResumeCreateGateway.getAcademicDetails().then((value){
+      if(value.isSuccess==true){
+        _academicInfoSink!.add(DataLoadedStateAcademic(value.data!));
+      }
+    });
+  }
+
 
   Future<bool> onBackPress() {
 
@@ -220,6 +244,19 @@ class EmptyState extends PageState {}
 
 class DataLoadedState extends PageState {
   final AccountsModel data;
+
   DataLoadedState(this.data);
+}
+
+
+abstract class PageStateAcademic {}
+
+class LoadingStateAcademic extends PageStateAcademic {}
+
+class EmptyStateAcademic extends PageStateAcademic {}
+
+class DataLoadedStateAcademic extends PageStateAcademic {
+  final AcademicListModel data;
+  DataLoadedStateAcademic(this.data);
 }
 
