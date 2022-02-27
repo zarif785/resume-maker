@@ -19,7 +19,7 @@ class Academic extends StatefulWidget {
   _AcademicState createState() => _AcademicState();
 }
 
-class _AcademicState extends State<Academic> with AppTheme{
+class _AcademicState extends State<Academic> with AppTheme,AutomaticKeepAliveClientMixin{
   final TextEditingController degree = TextEditingController();
   final TextEditingController institute = TextEditingController();
   final TextEditingController cgpa = TextEditingController();
@@ -108,4 +108,8 @@ class _AcademicState extends State<Academic> with AppTheme{
   ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

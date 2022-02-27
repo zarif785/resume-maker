@@ -135,50 +135,50 @@ class _ResumeCreateNewState extends State<ResumeCreateNew> with AppTheme,ResumeC
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                //       if (index == 0)
-                //        StreamBuilder<PageState>(
-                //       initialData: LoadingState(),
-                //       stream: accountsInfoStream,
-                //     builder: (context, snapshot) {
-                //         var state = snapshot.data;
-                //         if(state is DataLoadedState){
-                //           x.accountsModel= state.data;
-                //         return Column(
-                //           children: [ Account(
-                //             model: x.accountsModel,
-                //
-                //           ),
-                //             Padding(
-                //               padding: const EdgeInsets.all(16.0),
-                //               child: CircularButton(onTap: () {
-                //                 validateAccountFormData(
-                //                   x.accountsModel.name!,
-                //
-                //                   x.accountsModel.address!,
-                //                   x.accountsModel.contactNo!,
-                //
-                //                 ).then((value) {
-                //                   if (value == true) {
-                //                     saveDetails(
-                //                       x.accountsModel.name!,
-                //                       x.accountsModel.contactNo!,
-                //                       x.accountsModel.address!,
-                //                     );
-                //                   }
-                //                 });
-                //               }, child: Icon(Icons.save, color: clr.appWhite,)),
-                //             ),
-                //           ],
-                //         );
-                //         }
-                //         else{
-                //           return Padding(
-                //           padding: const EdgeInsets.all(8.0),
-                //           child: CircularProgressIndicator(),
-                //         );
-                //         }
-                // },
-                //        ),
+                      if (index == 0)
+                       StreamBuilder<PageState>(
+                      initialData: LoadingState(),
+                      stream: accountsInfoStream,
+                    builder: (context, snapshot) {
+                        var state = snapshot.data;
+                        if(state is DataLoadedState){
+                          x.accountsModel= state.data;
+                        return Column(
+                          children: [ Account(
+                            model: x.accountsModel,
+
+                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: CircularButton(onTap: () {
+                                validateAccountFormData(
+                                  x.accountsModel.name!,
+
+                                  x.accountsModel.address!,
+                                  x.accountsModel.contactNo!,
+
+                                ).then((value) {
+                                  if (value == true) {
+                                    saveDetails(
+                                      x.accountsModel.name!,
+                                      x.accountsModel.contactNo!,
+                                      x.accountsModel.address!,
+                                    );
+                                  }
+                                });
+                              }, child: Icon(Icons.save, color: clr.appWhite,)),
+                            ),
+                          ],
+                        );
+                        }
+                        else{
+                          return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        );
+                        }
+                },
+                       ),
                       if(index == 1)
                 StreamBuilder<PageStateAcademic>(
                   initialData: LoadingStateAcademic(),
@@ -229,7 +229,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew> with AppTheme,ResumeC
                     }
 
                   }
-                )
+                ),
 
                     ],
                   ),

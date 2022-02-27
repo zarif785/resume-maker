@@ -74,12 +74,12 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
           : null;
 
 
-  StreamController<PageStateAcademic> _academicInfoStreamController =
+  StreamController<PageState> _academicInfoStreamController =
   StreamController.broadcast();
 
-  Stream<PageStateAcademic> get academicInfoStream => _academicInfoStreamController.stream;
+  Stream<PageState> get academicInfoStream => _academicInfoStreamController.stream;
 
-  Sink<PageStateAcademic>? get _academicInfoSink =>
+  Sink<PageState>? get _academicInfoSink =>
       !_academicInfoStreamController.isClosed
           ? _academicInfoStreamController.sink
           : null;
@@ -139,7 +139,7 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   getAcademicDetails() {
      return ResumeCreateGateway.getAcademicDetails().then((value){
       if(value.isSuccess==true){
-        _academicInfoSink!.add(DataLoadedStateAcademic(value.data!));
+        _academicInfoSink!.add(AcademicLoadedState(value.data!));
       }
     });
   }
@@ -244,19 +244,13 @@ class EmptyState extends PageState {}
 
 class DataLoadedState extends PageState {
   final AccountsModel data;
-
   DataLoadedState(this.data);
 }
-
-
-abstract class PageStateAcademic {}
-
-class LoadingStateAcademic extends PageStateAcademic {}
-
-class EmptyStateAcademic extends PageStateAcademic {}
-
-class DataLoadedStateAcademic extends PageStateAcademic {
+class AcademicLoadedState extends PageState {
   final AcademicListModel data;
-  DataLoadedStateAcademic(this.data);
+  AcademicLoadedState(this.data);
 }
+
+
+
 
