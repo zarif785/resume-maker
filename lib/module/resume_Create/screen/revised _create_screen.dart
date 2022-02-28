@@ -187,8 +187,13 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                               children: [
                                 listModel.academicData.length>0?Column(
                                   children: listModel.academicData
-                                      .map((e) => Academic(model: e,
-                                      onClicked:()=>removeItem(e),
+                                      .map((e) => Academic(
+                                    key: ObjectKey(DateTime.now().toString()),
+                                    model: e,
+                                      onClicked:(){
+                                        deleteAcademicInfo(e.id);
+
+                                      },
                                   ))
                                       .toList(),
                                 ):Text("Press the  +  button to add your field"),
@@ -429,6 +434,13 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
     listModel.academicData.removeAt(i);
     setState(() {
 
+    });
+  }
+
+  @override
+  void onAcademicDataDelete(int id) {
+    listModel.academicData.removeWhere((element) => element.id==id);
+    setState(() {
     });
   }
 }

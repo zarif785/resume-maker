@@ -67,6 +67,27 @@ class Server{
       return ServerResponse(success: false, data: _, message: "Request failed! Unknown error occurred.");
     }
   }
+
+  Future<dynamic> deleteRequest({required String url,String? token}) async {
+    try {
+      var response = await _client.delete(
+          Uri.parse("$host/api/$url"),
+          headers: {"Accept": "application/json", "Content-Type":"application/json", "Authorization": "${App.currentSession.tokenType} ${App.currentSession.accessToken}"}
+      );
+
+      debugPrint("REQUEST => ${response.request.toString()}\nRESPONSE DATA => ${response.body.toString()}");
+
+      var jsonData = jsonDecode(response.body);
+      return ServerResponse.fromJson(jsonData);
+    }
+    on SocketException catch(_){
+      return ServerResponse(success: false, data: _, message: "Request failed!. Check internet connection.");
+    }
+    on Exception catch(_)
+    {
+      return ServerResponse(success: false, data: _, message: "Request failed! Unknown error occurred.");
+    }
+  }
 }
 
 class ServerResponse {

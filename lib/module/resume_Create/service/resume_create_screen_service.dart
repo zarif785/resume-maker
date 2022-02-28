@@ -8,13 +8,14 @@ import 'package:resume_maker/common/model/ExperienceModel.dart';
 import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
+import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/utils/validator.dart';
 import 'package:resume_maker/common/widget/AlertBox.dart';
 import 'package:resume_maker/module/resume_Create/gateway/resume_create_gateway.dart';
 import 'package:resume_maker/module/resume_Create/screen/resumeForm/academic.dart';
 
 abstract class _ViewModel{
-
+  void onAcademicDataDelete(int id);
   void showWarning(String message,bool successValue);
 }
 
@@ -295,6 +296,15 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
     });
   }
 
+  deleteAcademicInfo(int id){
+    return ResumeCreateGateway.deleteAcademicDetails(id).then((value){
+      if(value.isSuccess==true){
+        // _userInfoSink!.add(AcademicLoadedState(value.data!));
+        Toasty.of(context).showSuccess("Deleted Successfully");
+        _view.onAcademicDataDelete(id);
+      }
+    });
+  }
 }
 
 abstract class PageState {}

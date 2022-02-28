@@ -34,6 +34,7 @@ class AcademicListModel {
 }
 
 class AcademicModel{
+ late int id;
  late String examName;
  late String institute;
  late double cgpa;
@@ -42,6 +43,7 @@ class AcademicModel{
  late bool isPursuing;
 
   AcademicModel.empty(){
+    id = 0;
     examName = '';
     institute='';
     cgpa= 0.0;
@@ -51,6 +53,7 @@ class AcademicModel{
   }
 
   AcademicModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     examName = json['exam_name'];
     institute = json['institute'];
     cgpa = json['cgpa']?.toDouble()??0.0;
@@ -62,6 +65,7 @@ class AcademicModel{
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['exam_name'] = this.examName;
     data['institute'] = this.institute;
     data['cgpa'] = this.cgpa;

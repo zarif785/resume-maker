@@ -58,7 +58,15 @@ mixin ResumeCreateGateway{
     });
   }
 
+  static Future<ActionResult<AcademicListModel>> deleteAcademicDetails(int id) async{
+    return Server.instance.deleteRequest(url: 'user-academic-information-delete/${id}').then((value){
 
+      return ActionResult<AcademicListModel>.fromServerResponse(
+        response: value,
+        generateData: (x)=> AcademicListModel.fromJsonList(x),
+      );
+    });
+  }
 
 // ==================Experience===============================
 
@@ -83,6 +91,8 @@ mixin ResumeCreateGateway{
       );
     });
   }
+
+
 
   // ==================Project===============================
 
