@@ -18,6 +18,15 @@ class ReferenceListModel {
     }
   }
 
+  ReferenceListModel.fromJsonList(List<dynamic>? json) {
+    referenceData = <ReferenceModel>[];
+    if (json != null) {
+      json.forEach((v) {
+        referenceData.add(ReferenceModel.fromJson(v)) ;
+      });
+    }
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 
@@ -44,11 +53,11 @@ class ReferenceModel{
   }
 
   ReferenceModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    designation = json['designation'];
-    organization = json['organization'];
-    email = json['email'];
-    contactNo = json['mobile'];
+    name = json['name']??'';
+    designation = json['designation']??'';
+    organization = json['organization']??'';
+    email = json['email']??'';
+    contactNo = json['mobile']??'';
   }
 
   Map<String, dynamic> toJson() {

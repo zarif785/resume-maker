@@ -269,10 +269,14 @@ class _ProjectState extends State<Project> with AppTheme,AutomaticKeepAliveClien
   Widget build(BuildContext context) {
     return Column(
       children: [
-      TextFieldWidget(controller: projectName, type: 'degree', hintText: 'Project Name',),
-      MultiLineTextFieldWidget(controller:description, type: 'name', hintText: 'Description',),
-      TextFieldWidget(controller: role, type: 'number', hintText: 'Role',),
-      TextFieldWidget(controller: links, type: 'name', hintText: 'Link(if any)',),
+        TextFieldWidget(hintText: 'Project Name', type: 'name',initialValue:widget.model.projectName,onTextChanged: (x){widget.model.projectName = x;}
+        ),
+        MultiLineTextFieldWidget(hintText: "Description", type: 'address',onTextChanged: (x){widget.model.description = x;},initialValue:widget.model.description),
+
+        TextFieldWidget(hintText: 'Role', type: 'name',initialValue:widget.model.role,onTextChanged: (x){widget.model.role = x;}
+        ),
+        TextFieldWidget(hintText: 'Link(if any)', type: 'name',initialValue:widget.model.link,onTextChanged: (x){widget.model.link = x;}
+        ),
         // CircularButton(onTap: onChange, icon: Icons.save),
         SizedBox(height: size.s12,),
         Divider(

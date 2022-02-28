@@ -5,6 +5,7 @@ import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/utils/appAssets.dart';
 import 'package:resume_maker/common/widget/action_button.dart';
+import 'package:resume_maker/common/widget/loginTextField.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 import 'package:resume_maker/module/register/service/register_screen_service.dart';
 
@@ -63,15 +64,15 @@ class _RegisterScreenState extends State<RegisterScreen> with AppTheme,RegisterS
                   ),
                 ),
                 SizedBox(height: size.s16),
-                TextFieldWidget(controller: firstnameController, hintText: "Enter  Name", type: 'name',isRegistration: true,),
+                LoginTextFieldWidget(controller: firstnameController, hintText: "Enter  Name", type: 'name',),
                 SizedBox(height: size.s4),
                 // TextFieldWidget(controller: lastnameController, hintText: "Enter Last Name", type: 'name'),
                 // SizedBox(height: size.s4),
-                TextFieldWidget(controller: emailController, hintText: "Enter Email", type: 'email',isRegistration: true,),
+                LoginTextFieldWidget(controller: emailController, hintText: "Enter Email", type: 'email',),
                 SizedBox(height: size.s4),
-                TextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password',isRegistration: true,),
+                LoginTextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password'),
                 SizedBox(height: size.s4),
-                TextFieldWidget(controller: confirmpasswordController, hintText: "Confirm Password", type: 'password',isRegistration: true,),
+                LoginTextFieldWidget(controller: confirmpasswordController, hintText: "Confirm Password", type: 'password'),
                 SizedBox(height: size.s12),
                 // ActionButton(onSuccess: onRegisterButtonPress, title: "Register"),
                 ActionButton(  title: "Register",

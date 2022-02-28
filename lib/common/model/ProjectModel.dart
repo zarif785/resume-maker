@@ -15,6 +15,15 @@ class ProjectListModel {
     }
   }
 
+  ProjectListModel.fromJsonList(List<dynamic>? json) {
+    projectData = <ProjectModel>[];
+    if (json != null) {
+      json.forEach((v) {
+        projectData.add(ProjectModel.fromJson(v)) ;
+      });
+    }
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 
@@ -42,7 +51,7 @@ class ProjectModel{
     projectName = json['project_name'];
     description = json['description'];
     role = json['responsibility'];
-    link = json['project_link'];
+    link = json['project_link']??'';
   }
 
   Map<String, dynamic> toJson() {

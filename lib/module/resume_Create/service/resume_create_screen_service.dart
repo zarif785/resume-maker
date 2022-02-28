@@ -26,20 +26,20 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   void initState() {
     _view = this;
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { getAcademicDetails();getAccountsDetails();});
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {      getAccountsDetails(); });
   }
 
 
 
 
-  StreamController<PageState> _accountsInfoStreamController =
+  StreamController<PageState> _userInfoStreamController =
   StreamController.broadcast();
 
-  Stream<PageState> get accountsInfoStream => _accountsInfoStreamController.stream;
+  Stream<PageState> get userInfoStream => _userInfoStreamController.stream;
 
-  Sink<PageState>? get _accountsInfoSink =>
-      !_accountsInfoStreamController.isClosed
-          ? _accountsInfoStreamController.sink
+  Sink<PageState>? get _userInfoSink =>
+      !_userInfoStreamController.isClosed
+          ? _userInfoStreamController.sink
           : null;
 
   StreamController<String> _stepNumberStreamController =
@@ -74,15 +74,6 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
           : null;
 
 
-  StreamController<PageState> _academicInfoStreamController =
-  StreamController.broadcast();
-
-  Stream<PageState> get academicInfoStream => _academicInfoStreamController.stream;
-
-  Sink<PageState>? get _academicInfoSink =>
-      !_academicInfoStreamController.isClosed
-          ? _academicInfoStreamController.sink
-          : null;
 
 
 
@@ -91,7 +82,7 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
     _stepNumberStreamController.close();
     _formTitleStreamController.close();
     _buttonStateStreamController.close();
-    _academicInfoStreamController.close();
+    _userInfoStreamController.close();
     super.dispose();
   }
 
@@ -100,14 +91,19 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
     _stepNumberSink!.add("Step ${index + 1} out of ${7}");
     if (index == 0) {
       _formTitleSink!.add("Account");
+      getAccountsDetails();
     } else if (index == 1) {
       _formTitleSink!.add("Academic");
+      getAcademicDetails();
     } else if (index == 2) {
       _formTitleSink!.add("Experience");
+      getExperienceDetails();
     } else if (index == 3) {
       _formTitleSink!.add("Project");
+      getProjectDetails();
     } else if (index == 4) {
       _formTitleSink!.add("Reference");
+      getReferenceDetails();
     } else if (index == 5) {
       _formTitleSink!.add("Image");
     } else {
@@ -128,7 +124,7 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   getAccountsDetails(){
     return ResumeCreateGateway.getAccountDetails().then((value){
       if(value.isSuccess==true){
-        _accountsInfoSink!.add(DataLoadedState(value.data!));
+        _userInfoSink!.add(DataLoadedState(value.data!));
 
       }
       return value.data;
@@ -139,10 +135,34 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   getAcademicDetails() {
      return ResumeCreateGateway.getAcademicDetails().then((value){
       if(value.isSuccess==true){
-        _academicInfoSink!.add(AcademicLoadedState(value.data!));
+        _userInfoSink!.add(AcademicLoadedState(value.data!));
       }
     });
   }
+
+  getExperienceDetails() {
+    return ResumeCreateGateway.getExperienceDetails().then((value){
+      if(value.isSuccess==true){
+        _userInfoSink!.add(ExperienceLoadedState(value.data!));
+      }
+    });
+  }
+  getProjectDetails() {
+    return ResumeCreateGateway.getProjectDetails().then((value){
+      if(value.isSuccess==true){
+        _userInfoSink!.add(ProjectLoadedState(value.data!));
+      }
+    });
+  }
+
+  getReferenceDetails() {
+    return ResumeCreateGateway.getReferenceDetails().then((value){
+      if(value.isSuccess==true){
+        _userInfoSink!.add(ReferenceLoadedState(value.data!));
+      }
+    });
+  }
+
 
 
   Future<bool> onBackPress() {
@@ -233,6 +253,47 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
       print(e);
     });
   }
+  void setExperienceDetails(ExperienceListModel list){
+    ResumeCreateGateway.setExperienceDetails(list).then((value)  {
+      if(value.isSuccess == true){
+        _view.showWarning(value.message,value.isSuccess);
+      }
+      // else{
+      //   _view.showWarning(value.message,value.isSuccess);
+      // }
+      print(value.message);
+    }).catchError((e){
+      print(e);
+    });
+  }
+
+  void setProjectDetails(ProjectListModel list){
+    ResumeCreateGateway.setProjectDetails(list).then((value)  {
+      if(value.isSuccess == true){
+        _view.showWarning(value.message,value.isSuccess);
+      }
+      // else{
+      //   _view.showWarning(value.message,value.isSuccess);
+      // }
+      print(value.message);
+    }).catchError((e){
+      print(e);
+    });
+  }
+
+  void setReferenceDetails(ReferenceListModel list){
+    ResumeCreateGateway.setReferenceDetails(list).then((value)  {
+      if(value.isSuccess == true){
+        _view.showWarning(value.message,value.isSuccess);
+      }
+      else{
+        _view.showWarning(value.message,value.isSuccess);
+      }
+      print(value.message);
+    }).catchError((e){
+      print(e);
+    });
+  }
 
 }
 
@@ -249,6 +310,18 @@ class DataLoadedState extends PageState {
 class AcademicLoadedState extends PageState {
   final AcademicListModel data;
   AcademicLoadedState(this.data);
+}
+class ExperienceLoadedState extends PageState {
+  final ExperienceListModel data;
+  ExperienceLoadedState(this.data);
+}
+class ProjectLoadedState extends PageState {
+  final ProjectListModel data;
+  ProjectLoadedState(this.data);
+}
+class ReferenceLoadedState extends PageState {
+  final ReferenceListModel data;
+  ReferenceLoadedState(this.data);
 }
 
 

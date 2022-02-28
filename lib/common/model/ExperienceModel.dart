@@ -17,6 +17,15 @@ class ExperienceListModel {
     }
   }
 
+ ExperienceListModel.fromJsonList(List<dynamic>? json) {
+   experienceData = <ExperienceModel>[];
+   if (json != null) {
+     json.forEach((v) {
+       experienceData.add(ExperienceModel.fromJson(v)) ;
+     });
+   }
+ }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 
@@ -46,12 +55,12 @@ class ExperienceModel{
   }
 
   ExperienceModel.fromJson(Map<String, dynamic> json) {
-    organizationName = json['organization'];
-    designation = json['designation'];
-    startDate = json['from_date'];
+    organizationName = json['organization']??"";
+    designation = json['designation']??'';
+    startDate = json['from_date']??'';
     completed = json['is_left_job'];
-    endDate = json['to_date'];
-    isStillActive = json['is_still_active'];
+    endDate = json['to_date']??"";
+     isStillActive = json['is_still_active'];
   }
 
   Map<String, dynamic> toJson() {
@@ -59,9 +68,9 @@ class ExperienceModel{
     data['organization'] = this.organizationName;
     data['designation'] = this.designation;
     data['from_date'] = this.startDate;
-    data['is_left_job'] = this.completed;
+    data['is_left_job'] = false;
     data['to_date'] = this.endDate;
-    data['is_still_active'] = this.isStillActive;
+    data['is_still_active'] = false;
     return data;
   }
 

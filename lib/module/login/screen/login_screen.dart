@@ -5,6 +5,7 @@ import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/utils/appAssets.dart';
 import 'package:resume_maker/common/widget/action_button.dart';
+import 'package:resume_maker/common/widget/loginTextField.dart';
 import 'package:resume_maker/common/widget/textField.dart';
 import 'package:resume_maker/module/login/service/login_screen_service.dart';
 
@@ -54,9 +55,9 @@ class _LoginScreenState extends State<LoginScreen> with AppTheme,LoginScreenServ
                   ),
                 ),
                 SizedBox(height: size.s16),
-                TextFieldWidget(controller: emailController, hintText: "Enter Email", type: 'email'),
+                LoginTextFieldWidget(controller: emailController, hintText: "Enter Email", type: 'email'),
                 SizedBox(height: size.s8),
-                TextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password'),
+                LoginTextFieldWidget(controller: passwordController, hintText: "Enter Password", type: 'password'),
                 SizedBox(height: size.s12),
                 ActionButton(  title: "Login",
                   onCheck:()=> validateLoginFormData(emailController,passwordController),

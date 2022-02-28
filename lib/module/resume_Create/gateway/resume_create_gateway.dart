@@ -75,11 +75,11 @@ mixin ResumeCreateGateway{
   }
 
   static Future<ActionResult<ExperienceListModel>> getExperienceDetails() async{
-    return Server.instance.getRequest(url: 'user-academic-information-list').then((value){
+    return Server.instance.getRequest(url: 'user-experiences').then((value){
 
       return ActionResult<ExperienceListModel>.fromServerResponse(
         response: value,
-        generateData: (x)=> ExperienceListModel.fromJson(x),
+        generateData: (x)=> ExperienceListModel.fromJsonList(x),
       );
     });
   }
@@ -88,7 +88,7 @@ mixin ResumeCreateGateway{
 
   static Future<ActionResult<ProjectListModel>> setProjectDetails( ProjectListModel e ){
     return Server.instance.postRequest(
-      url: 'academic-create-or-update',
+      url: 'user-projects',
       postData: e.toJson(),
     ).then((value)  {
       return ActionResult<ProjectListModel>.fromServerResponse(
@@ -99,11 +99,11 @@ mixin ResumeCreateGateway{
   }
 
   static Future<ActionResult<ProjectListModel>> getProjectDetails() async{
-    return Server.instance.getRequest(url: 'user-academic-information-list').then((value){
+    return Server.instance.getRequest(url: 'user-projects').then((value){
 
       return ActionResult<ProjectListModel>.fromServerResponse(
         response: value,
-        generateData: (x)=> ProjectListModel.fromJson(x),
+        generateData: (x)=> ProjectListModel.fromJsonList(x),
       );
     });
   }
@@ -112,7 +112,7 @@ mixin ResumeCreateGateway{
 
   static Future<ActionResult<ReferenceListModel>> setReferenceDetails( ReferenceListModel e ){
     return Server.instance.postRequest(
-      url: 'academic-create-or-update',
+      url: 'user-references',
       postData: e.toJson(),
     ).then((value)  {
       return ActionResult<ReferenceListModel>.fromServerResponse(
@@ -123,11 +123,11 @@ mixin ResumeCreateGateway{
   }
 
   static Future<ActionResult<ReferenceListModel>> getReferenceDetails() async{
-    return Server.instance.getRequest(url: 'user-academic-information-list').then((value){
+    return Server.instance.getRequest(url: 'user-references').then((value){
 
       return ActionResult<ReferenceListModel>.fromServerResponse(
         response: value,
-        generateData: (x)=> ReferenceListModel.fromJson(x),
+        generateData: (x)=> ReferenceListModel.fromJsonList(x),
       );
     });
   }

@@ -264,11 +264,16 @@ class _ReferenceState extends State<Reference> with AppTheme,AutomaticKeepAliveC
   Widget build(BuildContext context) {
     return Column(
       children: [
-            TextFieldWidget(controller: name, type: 'degree', hintText: 'Name',),
-            TextFieldWidget(controller:designation, type: 'name', hintText: 'Designation',),
-            TextFieldWidget(controller: institute, type: 'number', hintText: 'Institute',),
-            TextFieldWidget(controller: email, type: 'email', hintText: 'Email',),
-            TextFieldWidget(controller: mobile_no, type: 'number', hintText: 'Mobile Number',),
+        TextFieldWidget(hintText: 'Name', type: 'name',initialValue:widget.model.name,onTextChanged: (x){widget.model.name = x;}
+        ),
+        TextFieldWidget(hintText: 'Designation', type: 'name',initialValue:widget.model.designation,onTextChanged: (x){widget.model.designation = x;}
+        ),
+        TextFieldWidget(hintText: 'Organization', type: 'name',initialValue:widget.model.organization,onTextChanged: (x){widget.model.organization = x;}
+        ),
+        TextFieldWidget(hintText: 'Email', type: 'email',initialValue:widget.model.email,onTextChanged: (x){widget.model.email = x;}
+        ),
+        TextFieldWidget(hintText: 'Number', type: 'number',initialValue:widget.model.contactNo,onTextChanged: (x){widget.model.contactNo = x;}
+        ),
         SizedBox(height: size.s12,),
         Divider(
           thickness: 1,

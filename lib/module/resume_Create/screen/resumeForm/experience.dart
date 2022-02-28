@@ -261,38 +261,39 @@ class Experience extends StatefulWidget {
 class _ExperienceState extends State<Experience> with AppTheme,AutomaticKeepAliveClientMixin{
 
 
-    final organization = TextEditingController();
-    final designation = TextEditingController();
+    final TextEditingController organization = TextEditingController();
+    final TextEditingController designation = TextEditingController();
+    final TextEditingController startYear = TextEditingController();
+    final TextEditingController endYear = TextEditingController();
+
     int _value= 0;
 
     @override
     void initState() {
-      // organization.text = widget.model.experienceModel.organizationName;
-      // designation.text = widget.model.experienceModel.designation;
+
       organization.text = widget.model.organizationName;
       designation.text = widget.model.designation;
-      // emailController.text = widget.model.email;
-      // mobileNoController.text = widget.model.contactNo;
+      startYear.text = widget.model.startDate;
+      endYear.text = widget.model.endDate;
+      // if(widget.model.completed ==true ){
+      //   _value =1;
+      // }
 
       super.initState();
 
     }
 
-    onChange(){
-      // widget.model.experienceModel.organizationName = organization.text;
-      // widget.model.experienceModel.designation = designation.text;
-      widget.model.organizationName = organization.text;
-      widget.model.designation = designation.text;
-    }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
 
-    TextFieldWidget(controller: organization, type: 'degree', hintText: 'Organization',),
-    TextFieldWidget(controller:designation, type: 'name', hintText: 'Designation',),
-    DateInput(hintText: "From(Duration)"),
+        TextFieldWidget(initialValue:widget.model.organizationName,onTextChanged: (x){widget.model.organizationName = x;}, type: 'degree', hintText: 'Organization Name',),
+        TextFieldWidget(initialValue:widget.model.designation,onTextChanged: (x){widget.model.designation = x;}, type: 'degree', hintText: 'Designation',),
+        TextFieldWidget(initialValue:widget.model.startDate,onTextChanged: (x){widget.model.startDate = x;}, type: 'number', hintText: 'Starting Year',),
+
+
 
 
 
@@ -327,7 +328,7 @@ class _ExperienceState extends State<Experience> with AppTheme,AutomaticKeepAliv
           ],
         ),
 
-        _value==1?DateInput(hintText: "To(Duration"):Offstage(),
+        _value==1?TextFieldWidget(initialValue:widget.model.endDate,onTextChanged: (x){widget.model.endDate = x;}, type: 'number', hintText: 'Ending Year',):Offstage(),
         SizedBox(height: size.s12,),
         Divider(
           thickness: 1,
