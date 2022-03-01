@@ -1,10 +1,19 @@
 import 'dart:io';
 
 class ImageModel{
-  File? image;
+  late File profileImage;
 
   ImageModel.empty(){
-    image = null;
+    profileImage = File("");
+  }
+
+  ImageModel.fromJson(Map<String, dynamic> json){
+    profileImage = json['profile_image'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['profile_image'] = this.profileImage;
+    return data;
   }
 }
 

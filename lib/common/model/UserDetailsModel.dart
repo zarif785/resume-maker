@@ -28,8 +28,9 @@ class UserDetailsModel{
     address = json['address']??"";
     academicData = <AcademicModel>[];
     if (json['academic_data'] != null) {
+
       json['academic_data'].forEach((v) {
-        academicData.add(new AcademicModel.fromJson(v));
+        academicData.add(AcademicModel.fromJson(v)) ;
       });
     }
   }

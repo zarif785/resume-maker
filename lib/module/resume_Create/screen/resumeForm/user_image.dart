@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/model/ImageModel.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:resume_maker/common/widget/circularButton.dart';
+import 'package:resume_maker/module/resume_Create/service/resume_create_screen_service.dart';
 
 class UserImage extends StatefulWidget {
   // final FormContentModel model;
@@ -19,7 +22,7 @@ class _UserImageState extends State<UserImage>with AppTheme ,AutomaticKeepAliveC
   File? imageFile;
 
   void initState() {
-    imageFile = widget.model.image;
+    imageFile = widget.model.profileImage;
     // imageFile = widget.model.imageModel.image;
 
 
@@ -27,16 +30,15 @@ class _UserImageState extends State<UserImage>with AppTheme ,AutomaticKeepAliveC
 
   }
 
-  onChange(){
-    // widget.model.imageModel.image = imageFile;
-    widget.model.image = imageFile;
-  }
+
+
 
  Future  getImage(ImageSource source) async{
    Navigator.of(context).pop();
    final image = await ImagePicker().pickImage(source: source);
    setState(() {
      imageFile = File(image!.path);
+     print(imageFile);
    });
 
  }
@@ -164,6 +166,8 @@ class _UserImageState extends State<UserImage>with AppTheme ,AutomaticKeepAliveC
 
           ),
         ),
+        SizedBox(height: 20.w,),
+
         // CircularButton(onTap: onChange, icon: Icons.save),
       ],
     );
@@ -172,4 +176,5 @@ class _UserImageState extends State<UserImage>with AppTheme ,AutomaticKeepAliveC
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
 }

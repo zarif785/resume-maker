@@ -7,8 +7,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/io_client.dart' as _io;
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'app.dart';
-
 
 class Server{
   static final Server _s = Server._();
@@ -20,7 +21,12 @@ class Server{
     _client = _io.IOClient(_httpClient);
   }
 
+  void dispose(){
+    _client.close();
+    _sessionExpireStreamController.close();
+  }
 
+  final StreamController<String> _sessionExpireStreamController = StreamController.broadcast();
   static String get host => "http://cv-api.bacbontutors.com";
 
   Future<ServerResponse> postRequest({required String url, required Map postData,}) async {
@@ -86,6 +92,39 @@ class Server{
     on Exception catch(_)
     {
       return ServerResponse(success: false, data: _, message: "Request failed! Unknown error occurred.");
+    }
+  }
+
+  void uploadFile({required String url, required File file,required void Function(ServerResponse response) onComplete}) async {
+    try {
+
+      var request =  http.MultipartRequest("POST", Uri.parse("$host/api/$url"));
+      request.headers.addAll({"Accept": "application/json", "Authorization": "${App.currentSession.tokenType} ${App.currentSession.accessToken}"});
+      var attachedFile = await http.MultipartFile.fromPath('image', file.path,contentType: MediaType('image', 'jpeg'));
+      request.files.add(attachedFile);
+
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        response.stream.transform(utf8.decoder).listen((value) {
+          var jsonData = jsonDecode(value);
+          onComplete(ServerResponse.fromJson(jsonData));
+        });
+      }
+      else if(response.statusCode != 401) {
+        if(!_sessionExpireStreamController.isClosed){
+          _sessionExpireStreamController.sink.add("Session expired!");
+        }
+        onComplete(ServerResponse(success: false, data: "", message: "Upload failed! Unauthorized user."));
+      }else{
+        onComplete(ServerResponse(success: false, data: "", message: "Upload failed! Unknown error occurred."));
+      }
+    }
+    on SocketException catch(_){
+      onComplete(ServerResponse(success: false, data: _, message:  "Request failed! Check internet connection."));
+    }
+    on Exception catch(_)
+    {
+      onComplete(ServerResponse(success: false, data: _, message: "Request failed! Unknown error occurred."));
     }
   }
 }
