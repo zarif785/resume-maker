@@ -340,6 +340,35 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
       }
     });
   }
+
+  deleteExperienceInfo(int id){
+    return ResumeCreateGateway.deleteExperienceDetails(id).then((value){
+      if(value.isSuccess==true){
+        // _userInfoSink!.add(AcademicLoadedState(value.data!));
+        Toasty.of(context).showSuccess("Deleted Successfully");
+      }
+    });
+  }
+
+  deleteProjectInfo(int id){
+    return ResumeCreateGateway.deleteProjectDetails(id).then((value){
+      if(value.isSuccess==true){
+        // _userInfoSink!.add(AcademicLoadedState(value.data!));
+        Toasty.of(context).showSuccess("Deleted Successfully");
+      }
+    });
+  }
+
+  deleteReferenceInfo(int id){
+    return ResumeCreateGateway.deleteReferenceDetails(id).then((value){
+      if(value.isSuccess==true){
+        // _userInfoSink!.add(AcademicLoadedState(value.data!));
+        Toasty.of(context).showSuccess("Deleted Successfully");
+      }
+    });
+  }
+
+
 }
 
 abstract class PageState {}

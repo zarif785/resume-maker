@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:resume_maker/common/model/AcademicModel.dart';
-import 'package:resume_maker/common/model/AccountsModel.dart';
 import 'package:resume_maker/common/model/ExperienceModel.dart';
 import 'package:resume_maker/common/model/FormContentModels.dart';
-import 'package:resume_maker/common/model/ImageModel.dart';
 import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
 import 'package:resume_maker/common/model/SignatureModel.dart';
@@ -164,15 +161,15 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                   child: CircularButton(
                                       onTap: () {
                                         validateAccountFormData(
-                                          x.accountsModel.name!,
-                                          x.accountsModel.address!,
-                                          x.accountsModel.contactNo!,
+                                          x.accountsModel.name,
+                                          x.accountsModel.address,
+                                          x.accountsModel.contactNo,
                                         ).then((value) {
                                           if (value == true) {
                                             saveDetails(
-                                              x.accountsModel.name!,
-                                              x.accountsModel.contactNo!,
-                                              x.accountsModel.address!,
+                                              x.accountsModel.name,
+                                              x.accountsModel.contactNo,
+                                              x.accountsModel.address,
                                             );
                                           }
                                         });
@@ -257,7 +254,21 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                     ? Column(
                                         children: _experienceListModel
                                             .experienceData
-                                            .map((e) => Experience(model: e))
+                                            .map((e) => Experience(
+                                                  model: e,
+                                                  onClicked: () {
+                                                    _experienceListModel
+                                                        .experienceData
+                                                        .removeWhere(
+                                                            (element) =>
+                                                                element.id ==
+                                                                e.id);
+                                                    setState(() {
+                                                      deleteExperienceInfo(
+                                                          e.id);
+                                                    });
+                                                  },
+                                                ))
                                             .toList(),
                                       )
                                     : Text(
@@ -317,7 +328,21 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                 _projectListModel.projectData.length > 0
                                     ? Column(
                                         children: _projectListModel.projectData
-                                            .map((e) => Project(model: e))
+                                            .map((e) => Project(
+                                                  model: e,
+                                                  onClicked: () {
+                                                    _projectListModel.projectData
+                                                        .removeWhere(
+                                                            (element) =>
+                                                                element.id ==
+                                                                e.id);
+                                                    deleteProjectInfo(
+                                                        e.id);
+                                                    setState(() {
+
+                                                    });
+                                                  },
+                                                ))
                                             .toList(),
                                       )
                                     : Text(
@@ -370,7 +395,21 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                     ? Column(
                                         children: _referenceListModel
                                             .referenceData
-                                            .map((e) => Reference(model: e))
+                                            .map((e) => Reference(model: e,
+                                              onClicked: (){
+                                                _referenceListModel
+                                                    .referenceData
+                                                    .removeWhere(
+                                                        (element) =>
+                                                    element.id ==
+                                                        e.id);
+                                                deleteReferenceInfo(
+                                                    e.id);
+                                                setState(() {
+
+                                                });
+                                              },
+                                          ))
                                             .toList(),
                                       )
                                     : Text(
@@ -431,7 +470,6 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                             return Column(
                               children: [
                                 UserImage(model: x.imageModel),
-
                               ],
                             );
                           } else if (index == 6) {
@@ -467,14 +505,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ResumeDisplay(
-                                          academicListModel: listModel,
-                                          accountsModel: x.accountsModel,
-                                          referenceListModel: _referenceListModel,
-                                          projectListModel: _projectListModel,
-                                          experienceListModel: _experienceListModel,
-                                          imageModel: x.imageModel,
-                                        )),
+                                    builder: (context) => ResumeDisplay()),
                               );
                             },
                             child: Text(

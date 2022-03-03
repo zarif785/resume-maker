@@ -53,13 +53,13 @@ class AcademicModel{
   }
 
   AcademicModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    examName = json['exam_name'];
-    institute = json['institute'];
+    id = json['id']??0;
+    examName = json['exam_name']??'';
+    institute = json['institute']??'';
     cgpa = json['cgpa']?.toDouble()??0.0;
     year = json['year']??0;
-    isCompleted = json['is_completed'];
-    isPursuing = json['is_pursuing'];
+    isCompleted = json['is_completed']??false;
+    isPursuing = json['is_pursuing']??false;
 
   }
 

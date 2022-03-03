@@ -4,6 +4,7 @@ import 'package:resume_maker/common/core/app.dart';
 import 'package:resume_maker/common/theme/appTheme.dart';
 import 'package:resume_maker/common/widget/background.dart';
 import 'package:resume_maker/module/home/service/home_screen_service.dart';
+import 'package:resume_maker/module/resume_display/screen/resume_display_screen.dart';
 
 import '../../../app_route.dart';
 
@@ -51,7 +52,14 @@ class _HomeScreenState extends State<HomeScreen> with AppTheme,HomeScreenService
                         SizedBox(height: size.s16),
                         ElevatedButton(onPressed: onUpdate, child: Text("Update Resume"),),
                         SizedBox(height: size.s8),
-                        ElevatedButton(onPressed: onCreate, child: Text("Create Resume"),)
+                        ElevatedButton(onPressed: onCreate, child: Text("Create Resume"),),
+                        SizedBox(height: size.s8),
+                        ElevatedButton(onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  ResumeDisplay()),
+                          );
+                        }, child: Text("Display Resume"),)
                       ],
                     ),
                   )

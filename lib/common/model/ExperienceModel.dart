@@ -38,6 +38,7 @@ class ExperienceListModel {
 
 
 class ExperienceModel{
+  late int id;
   late String organizationName;
   late String designation;
   late String startDate;
@@ -46,6 +47,7 @@ class ExperienceModel{
   late String endDate;
 
   ExperienceModel.empty(){
+    id  = 0;
     organizationName = '';
     designation='';
     startDate='';
@@ -55,16 +57,18 @@ class ExperienceModel{
   }
 
   ExperienceModel.fromJson(Map<String, dynamic> json) {
+    id = json["id"]??0;
     organizationName = json['organization']??"";
     designation = json['designation']??'';
     startDate = json['from_date']??'';
-    completed = json['is_left_job'];
+    completed = json['is_left_job']??false;
     endDate = json['to_date']??"";
-     isStillActive = json['is_still_active'];
+     isStillActive = json['is_still_active']??"false";
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id']= this.id;
     data['organization'] = this.organizationName;
     data['designation'] = this.designation;
     data['from_date'] = this.startDate;

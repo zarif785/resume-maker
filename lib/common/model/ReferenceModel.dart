@@ -38,6 +38,7 @@ class ReferenceListModel {
 }
 
 class ReferenceModel{
+  late int id;
   late String name;
   late String designation;
   late String organization;
@@ -45,6 +46,7 @@ class ReferenceModel{
   late String contactNo;
 
   ReferenceModel.empty(){
+    id = 0;
     name='';
     designation='';
     organization='';
@@ -53,6 +55,7 @@ class ReferenceModel{
   }
 
   ReferenceModel.fromJson(Map<String, dynamic> json) {
+    id = json['id']??0;
     name = json['name']??'';
     designation = json['designation']??'';
     organization = json['organization']??'';
@@ -62,6 +65,7 @@ class ReferenceModel{
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['name'] = this.name;
     data['designation'] = this.designation;
     data['organization'] = this.organization;

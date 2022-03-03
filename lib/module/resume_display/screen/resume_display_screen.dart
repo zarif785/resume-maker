@@ -5,21 +5,27 @@ import 'package:resume_maker/common/model/ExperienceModel.dart';
 import 'package:resume_maker/common/model/ImageModel.dart';
 import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
+import 'package:resume_maker/module/resume_display/service/resume_display_service.dart';
 
 class ResumeDisplay extends StatefulWidget {
-  final AccountsModel accountsModel;
-  final AcademicListModel academicListModel;
-  final ExperienceListModel experienceListModel;
-  final ProjectListModel projectListModel;
-  final ReferenceListModel referenceListModel;
-  final ImageModel imageModel;
-  const ResumeDisplay({Key? key, required this.academicListModel, required this.accountsModel, required this.experienceListModel, required this.projectListModel, required this.referenceListModel, required this.imageModel}) : super(key: key);
+
+  const ResumeDisplay({Key? key,}) : super(key: key);
 
   @override
   _ResumeDisplayState createState() => _ResumeDisplayState();
 }
 
-class _ResumeDisplayState extends State<ResumeDisplay> {
+
+class _ResumeDisplayState extends State<ResumeDisplay> with ResumeDisplayService {
+
+  @override
+  void initState() {
+
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) { getAccountsDetails();});
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +33,33 @@ class _ResumeDisplayState extends State<ResumeDisplay> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ...widget.academicListModel.academicData.map((e) => Text(e.id.toString())).toList(),
-            Text(widget.accountsModel.address!),
-            ...widget.referenceListModel.referenceData.map((e) => Text(e.email)),
-            ...widget.projectListModel.projectData.map((e) => Text(e.role)),
+            StreamBuilder<PageState>(
+              initialData: LoadingState(),
+               stream: userInfoStream,
+              builder: (context, snapshot){
+                var state = snapshot.data;
+                if(state is DataLoadedState){
+                  return Column(
+                    children: [
+                      Text(state.data.accountsModel!.name),
+                      ...state.data.academicListModel!.academicData.map((e) => Text(e.id.toString())),
+                      ... state.data.experienceListModel!.experienceData.map((e) => Text(e.organizationName)),
+                      state.data.projectListModel == null? Offstage():
+                      Column(
+                        children:state.data.projectListModel!.projectData.map((e) => Text(e.projectName)).toList(),
+                      ),
+
+                      ...state.data.referenceListModel!.referenceData.map((e) => Text(e.email)),
+
+
+                    ],
+                  );
+                }
+                else{
+                  return CircularProgressIndicator();
+                }
+              }
+            )
           ],
         ),
       ),

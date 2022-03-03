@@ -31,10 +31,10 @@ class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClie
 
   @override
   void initState() {
-    usernameController.text = widget.model.name!;
-    addressController.text = widget.model.address!;
+    usernameController.text = widget.model.name;
+    addressController.text = widget.model.address;
     emailController.text = App.currentSession.email;
-    mobileNoController.text = widget.model.contactNo!;
+    mobileNoController.text = widget.model.contactNo;
 
     super.initState();
 
@@ -45,11 +45,11 @@ class _AccountState extends State<Account> with AppTheme, AutomaticKeepAliveClie
     return Container(
       child: Column(
                 children: [
-                  TextFieldWidget(hintText: 'Name', type: 'name',initialValue:widget.model.name!,onTextChanged: (x){widget.model.name = x;}
+                  TextFieldWidget(hintText: 'Name', type: 'name',initialValue:widget.model.name,onTextChanged: (x){widget.model.name = x;}
                   ),
-                  TextFieldWidget(hintText: 'Number', type: 'number',initialValue:widget.model.contactNo!,onTextChanged: (x){widget.model.contactNo = x;}),
-                  TextFieldWidget(hintText: 'Email', type: 'email',initialValue:widget.model.email!,onTextChanged: (x){widget.model.email = x;}),
-                  MultiLineTextFieldWidget(hintText: "Address", type: 'address',onTextChanged: (x){widget.model.address = x;},initialValue:widget.model.address!),
+                  TextFieldWidget(hintText: 'Number', type: 'number',initialValue:widget.model.contactNo,onTextChanged: (x){widget.model.contactNo = x;}),
+                  TextFieldWidget(hintText: 'Email', type: 'email',initialValue:widget.model.email,onTextChanged: (x){widget.model.email = x;}),
+                  MultiLineTextFieldWidget(hintText: "Address", type: 'address',onTextChanged: (x){widget.model.address = x;},initialValue:widget.model.address),
                   // CircularButton(onTap: onChange, icon: Icons.save),
                   // SizedBox(height: size.s24,),
 

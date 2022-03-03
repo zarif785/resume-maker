@@ -35,12 +35,14 @@ class ProjectListModel {
 
 
 class ProjectModel{
+  late int id;
   late String projectName;
   late String description;
   late String role;
   late String link;
 
   ProjectModel.empty(){
+    id = 0;
     projectName = '';
     description='';
     role='';
@@ -48,14 +50,16 @@ class ProjectModel{
   }
 
   ProjectModel.fromJson(Map<String, dynamic> json) {
-    projectName = json['project_name'];
-    description = json['description'];
-    role = json['responsibility'];
+    id = json['id']??0;
+    projectName = json['project_name']??'';
+    description = json['description']??'';
+    role = json['responsibility']??'';
     link = json['project_link']??'';
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['project_name'] = this.projectName;
     data['description'] = this.description;
     data['responsibility'] = this.role;

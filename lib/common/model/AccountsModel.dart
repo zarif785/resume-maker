@@ -2,10 +2,10 @@ import 'package:resume_maker/common/core/app.dart';
 
 class AccountsModel{
 
-   String? name;
-   String? email;
-   String? contactNo;
-   String? address;
+   late String  name;
+   late String  email;
+   late String  contactNo;
+   late String  address;
 
 
   AccountsModel.empty(){
