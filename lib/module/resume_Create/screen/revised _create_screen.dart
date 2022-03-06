@@ -220,7 +220,10 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                                                 e.id);
                                                     setState(() {
                                                       deleteAcademicInfo(e.id);
+                                                      addButtonHandler(index);
                                                     });
+
+
                                                   },
                                                 ))
                                             .toList(),
@@ -286,6 +289,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                                     setState(() {
                                                       deleteExperienceInfo(
                                                           e.id);
+                                                      addButtonHandler(index);
                                                     });
                                                   },
                                                 ))
@@ -356,7 +360,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                                     _projectListModel.projectData.removeWhere((element) => element.id == e.id);
 
                                                     setState(() {
-
+                                                      addButtonHandler(index);
                                                     });
                                                   },
                                                 ))
@@ -427,7 +431,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                                 deleteReferenceInfo(
                                                     e.id);
                                                 setState(() {
-
+                                                  addButtonHandler(index);
                                                 });
                                               },
                                           ))
