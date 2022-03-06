@@ -79,30 +79,42 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                         ),
                       );
                     }),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      addFormWidget(controller.page!.round());
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: size.s16, vertical: size.s8),
-                      margin: EdgeInsets.only(top: 80.w, right: size.s8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(size.s8),
-                        color: clr.appBlack,
-                      ),
-                      child: Text(
-                        "+",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: clr.appWhite,
-                          fontWeight: FontWeight.w700,
+                StreamBuilder<bool>(
+                  stream: addButtonStream,
+                  initialData: false,
+                  builder: (context, snapshot) {
+                    var data = snapshot.data;
+                    if(data == true){
+                    return Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          addFormWidget(controller.page!.round());
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: size.s16, vertical: size.s8),
+                          margin: EdgeInsets.only(top: 80.w, right: size.s8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(size.s8),
+                            color: clr.appBlack,
+                          ),
+                          child: Text(
+                            "+",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: clr.appWhite,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                    }
+                    else{
+                      return Offstage();
+                    }
+                  }
                 ),
               ],
             ),
@@ -128,7 +140,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
             TitleCardWidget(
               onItemChanged: (x) {
                 controller.animateToPage(x,
-                    duration: Duration(milliseconds: 100), curve: Curves.ease);
+                    duration: Duration(milliseconds: 1000), curve: Curves.ease);
               },
             ),
             SizedBox(
@@ -144,13 +156,14 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                 return SingleChildScrollView(
                   child: Column(
                     children: [
+
                       StreamBuilder<PageState>(
                         initialData: LoadingState(),
                         stream: userInfoStream,
                         builder: (context, snapshot) {
                           var state = snapshot.data;
                           if (state is DataLoadedState && index == 0) {
-                            x.accountsModel = state.data;
+                            x.accountsModel = state.data.accountsModel!;
                             return Column(
                               children: [
                                 Account(
@@ -181,9 +194,8 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                 ),
                               ],
                             );
-                          } else if (index == 1 &&
-                              state is AcademicLoadedState) {
-                            listModel = state.data;
+                          } else if (index == 1 && state is DataLoadedState) {
+                            listModel = state.data.academicListModel!;
                             return Column(
                               children: [
                                 listModel.academicData.length > 0
@@ -246,8 +258,8 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                               ],
                             );
                           } else if (index == 2 &&
-                              state is ExperienceLoadedState) {
-                            _experienceListModel = state.data;
+                              state is DataLoadedState) {
+                            _experienceListModel = state.data.experienceListModel!;
                             return Column(
                               children: [
                                 _experienceListModel.experienceData.length > 0
@@ -255,6 +267,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                                         children: _experienceListModel
                                             .experienceData
                                             .map((e) => Experience(
+                                                  key: Key(e.id.toString()),
                                                   model: e,
                                                   onClicked: () {
                                                     _experienceListModel
@@ -321,23 +334,20 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                               ],
                             );
                           } else if (index == 3 &&
-                              state is ProjectLoadedState) {
-                            _projectListModel = state.data;
+                              state is DataLoadedState) {
+                            _projectListModel = state.data.projectListModel!;
                             return Column(
                               children: [
                                 _projectListModel.projectData.length > 0
                                     ? Column(
                                         children: _projectListModel.projectData
                                             .map((e) => Project(
+                                                  key: Key(e.id.toString()),
                                                   model: e,
                                                   onClicked: () {
-                                                    _projectListModel.projectData
-                                                        .removeWhere(
-                                                            (element) =>
-                                                                element.id ==
-                                                                e.id);
-                                                    deleteProjectInfo(
-                                                        e.id);
+                                                    deleteProjectInfo(e.id);
+                                                    _projectListModel.projectData.removeWhere((element) => element.id == e.id);
+
                                                     setState(() {
 
                                                     });
@@ -387,15 +397,19 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                               ],
                             );
                           } else if (index == 4 &&
-                              state is ReferenceLoadedState) {
-                            _referenceListModel = state.data;
+                              state is DataLoadedState) {
+                            _referenceListModel = state.data.referenceListModel!;
                             return Column(
                               children: [
                                 _referenceListModel.referenceData.length > 0
                                     ? Column(
                                         children: _referenceListModel
                                             .referenceData
-                                            .map((e) => Reference(model: e,
+
+                                            .map((e) => Reference(
+                                          key: ObjectKey(DateTime.now()
+                                              .toString()),
+                                          model: e,
                                               onClicked: (){
                                                 _referenceListModel
                                                     .referenceData

@@ -11,6 +11,7 @@ import 'package:resume_maker/common/model/FormContentModels.dart';
 import 'package:resume_maker/common/model/ImageModel.dart';
 import 'package:resume_maker/common/model/ProjectModel.dart';
 import 'package:resume_maker/common/model/ReferenceModel.dart';
+import 'package:resume_maker/common/model/UserDetailsModel.dart';
 import 'package:resume_maker/common/utils/Toasty.dart';
 import 'package:resume_maker/common/utils/validator.dart';
 import 'package:resume_maker/common/widget/AlertBox.dart';
@@ -29,9 +30,48 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   void initState() {
     _view = this;
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {getAccountsDetails(); });
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      getAccountsDetails();
+    });
   }
 
+  UserDetailsModel _userDetailsModel = UserDetailsModel();
+
+  getAccountsDetails()async{
+    ResumeCreateGateway.getAccountDetails().then((value){
+      if(value.isSuccess==true) {
+        _userDetailsModel.accountsModel = value.data;
+      }
+    });
+    await ResumeCreateGateway.getAcademicDetails().then((value_academic){
+      if(value_academic.isSuccess==true){
+        _userDetailsModel.academicListModel = value_academic.data;
+
+      }
+    });
+    await ResumeCreateGateway.getExperienceDetails().then((value_exp){
+      if(value_exp.isSuccess==true){
+        _userDetailsModel.experienceListModel = value_exp.data;
+
+      }
+    });
+    await  ResumeCreateGateway.getProjectDetails().then((value_project){
+      if(value_project.isSuccess==true){
+        _userDetailsModel.projectListModel = value_project.data;
+
+      }
+    });
+    Future.delayed(Duration(seconds: 4));
+    await ResumeCreateGateway.getReferenceDetails().then((value_reference){
+      if(value_reference.isSuccess==true){
+        _userDetailsModel.referenceListModel = value_reference.data;}
+
+    });
+    _userInfoSink!.add(DataLoadedState(_userDetailsModel));
+
+
+
+  }
 
 
 
@@ -77,6 +117,15 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
           : null;
 
 
+  StreamController<bool> _addButtonStreamController =
+  StreamController.broadcast();
+
+  Stream<bool> get addButtonStream => _addButtonStreamController.stream;
+
+  Sink<bool>? get _addButtonSink =>
+      !_addButtonStreamController.isClosed
+          ? _addButtonStreamController.sink
+          : null;
 
 
 
@@ -91,26 +140,41 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
 
 
   onContentChanged(int index) {
+
     _stepNumberSink!.add("Step ${index + 1} out of ${7}");
     if (index == 0) {
       _formTitleSink!.add("Account");
+      _addButtonSink!.add(false);
+
       getAccountsDetails();
     } else if (index == 1){
       _formTitleSink!.add("Academic");
-      getAcademicDetails();
+      _addButtonSink!.add(true);
+      getAccountsDetails();
+
     } else if (index == 2) {
       _formTitleSink!.add("Experience");
-       getExperienceDetails();
+      _addButtonSink!.add(true);
+
+      getAccountsDetails();
     } else if (index == 3) {
       _formTitleSink!.add("Project");
-       getProjectDetails();
+      _addButtonSink!.add(true);
+
+      getAccountsDetails();
     } else if (index == 4) {
       _formTitleSink!.add("Reference");
-       getReferenceDetails();
+      _addButtonSink!.add(true);
+
+
     } else if (index == 5) {
       _formTitleSink!.add("Image");
+      _addButtonSink!.add(false);
+
     } else {
       _formTitleSink!.add("Signature");
+      _addButtonSink!.add(false);
+
     }
 
     if(index==6){
@@ -122,47 +186,37 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
 
   }
 
-  getAccountsDetails(){
-    return ResumeCreateGateway.getAccountDetails().then((value){
-      if(value.isSuccess==true){
-        _userInfoSink!.add(DataLoadedState(value.data!));
 
-      }
-      return value.data;
-    });
-  }
-
-
-  getAcademicDetails() {
-     return ResumeCreateGateway.getAcademicDetails().then((value){
-      if(value.isSuccess==true){
-        _userInfoSink!.add(AcademicLoadedState(value.data!));
-      }
-    });
-  }
-
-  getExperienceDetails() {
-    return ResumeCreateGateway.getExperienceDetails().then((value){
-      if(value.isSuccess==true){
-        _userInfoSink!.add(ExperienceLoadedState(value.data!));
-      }
-    });
-  }
-  getProjectDetails() {
-    return ResumeCreateGateway.getProjectDetails().then((value){
-      if(value.isSuccess==true){
-        _userInfoSink!.add(ProjectLoadedState(value.data!));
-      }
-    });
-  }
-
-  getReferenceDetails() {
-    return ResumeCreateGateway.getReferenceDetails().then((value){
-      if(value.isSuccess==true){
-        _userInfoSink!.add(ReferenceLoadedState(value.data!));
-      }
-    });
-  }
+  // getAcademicDetails() {
+  //    return ResumeCreateGateway.getAcademicDetails().then((value){
+  //     if(value.isSuccess==true){
+  //       _userInfoSink!.add(AcademicLoadedState(value.data!));
+  //     }
+  //   });
+  // }
+  //
+  // getExperienceDetails() {
+  //   return ResumeCreateGateway.getExperienceDetails().then((value){
+  //     if(value.isSuccess==true){
+  //       _userInfoSink!.add(ExperienceLoadedState(value.data!));
+  //     }
+  //   });
+  // }
+  // getProjectDetails() {
+  //   return ResumeCreateGateway.getProjectDetails().then((value){
+  //     if(value.isSuccess==true){
+  //       _userInfoSink!.add(ProjectLoadedState(value.data!));
+  //     }
+  //   });
+  // }
+  //
+  // getReferenceDetails() {
+  //   return ResumeCreateGateway.getReferenceDetails().then((value){
+  //     if(value.isSuccess==true){
+  //       _userInfoSink!.add(ReferenceLoadedState(value.data!));
+  //     }
+  //   });
+  // }
 
   // getImageDetails() {
   //   return ResumeCreateGateway.getImage().then((value){
@@ -319,19 +373,6 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   //   });
   // }
 
-
-  void onImageCropped(File? image) {
-    if(image == null) return;
-    ResumeCreateGateway.uploadProfilePic(image, (result) {
-      if(!mounted) return;
-
-
-      if(result.isSuccess == true){
-        _userInfoSink!.add(ImageLoadedState(result.data!));
-      }
-    });
-  }
-
   deleteAcademicInfo(int id){
     return ResumeCreateGateway.deleteAcademicDetails(id).then((value){
       if(value.isSuccess==true){
@@ -378,30 +419,10 @@ class LoadingState extends PageState {}
 class EmptyState extends PageState {}
 
 class DataLoadedState extends PageState {
-  final AccountsModel data;
+  final UserDetailsModel data;
   DataLoadedState(this.data);
 }
-class AcademicLoadedState extends PageState {
-  final AcademicListModel data;
-  AcademicLoadedState(this.data);
-}
-class ExperienceLoadedState extends PageState {
-  final ExperienceListModel data;
-  ExperienceLoadedState(this.data);
-}
-class ProjectLoadedState extends PageState {
-  final ProjectListModel data;
-  ProjectLoadedState(this.data);
-}
-class ReferenceLoadedState extends PageState {
-  final ReferenceListModel data;
-  ReferenceLoadedState(this.data);
-}
 
-class ImageLoadedState extends PageState {
-  final ImageModel data;
-  ImageLoadedState(this.data);
-}
 
 
 

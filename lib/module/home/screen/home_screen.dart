@@ -49,9 +49,7 @@ class _HomeScreenState extends State<HomeScreen> with AppTheme,HomeScreenService
                           style:TextStyle(
                               fontSize: size.textXLarge,fontWeight: FontWeight.w600
                           ),),
-                        SizedBox(height: size.s16),
-                        ElevatedButton(onPressed: onUpdate, child: Text("Update Resume"),),
-                        SizedBox(height: size.s8),
+                       SizedBox(height: size.s8),
                         ElevatedButton(onPressed: onCreate, child: Text("Create Resume"),),
                         SizedBox(height: size.s8),
                         ElevatedButton(onPressed: (){
