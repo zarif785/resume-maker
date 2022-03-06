@@ -144,7 +144,7 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
     _stepNumberSink!.add("Step ${index + 1} out of ${7}");
     if (index == 0) {
       _formTitleSink!.add("Account");
-      _addButtonSink!.add(false);
+
 
       getAccountsDetails();
     } else if (index == 1){
@@ -152,14 +152,17 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
       _addButtonSink!.add(true);
       getAccountsDetails();
 
+
     } else if (index == 2) {
       _formTitleSink!.add("Experience");
       _addButtonSink!.add(true);
+
 
       getAccountsDetails();
     } else if (index == 3) {
       _formTitleSink!.add("Project");
       _addButtonSink!.add(true);
+
 
       getAccountsDetails();
     } else if (index == 4) {
@@ -167,14 +170,13 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
       _addButtonSink!.add(true);
 
 
+
     } else if (index == 5) {
       _formTitleSink!.add("Image");
-      _addButtonSink!.add(false);
 
     } else {
       _formTitleSink!.add("Signature");
-      _addButtonSink!.add(false);
-
+ 
     }
 
     if(index==6){
@@ -306,6 +308,7 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
   void setAcademicDetails(AcademicListModel list){
     ResumeCreateGateway.setAcademicDetails(list).then((value)  {
       if(value.isSuccess == true){
+        _addButtonSink!.add(true);
         _view.showWarning(value.message,value.isSuccess);
       }
       // else{
@@ -409,6 +412,13 @@ mixin ResumeCreateService<T extends StatefulWidget> on State<T> implements _View
     });
   }
 
+  void addButtonHandler(int i){
+    if(i==1){
+      bool flag = _userDetailsModel.academicListModel!.academicData.any((element) => element.id==0);
+      if(flag){_addButtonSink!.add(false);}
+    }
+
+  }
 
 }
 

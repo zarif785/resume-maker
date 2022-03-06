@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,6 +40,8 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
   ProjectListModel _projectListModel = ProjectListModel.empty();
   ReferenceListModel _referenceListModel = ReferenceListModel.empty();
 
+
+
   void addFormWidget(int i) {
     print(controller.page!.round());
     setState(() {
@@ -48,6 +52,8 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
       if (i == 4) _referenceListModel.referenceData.add(ReferenceModel.empty());
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +96,7 @@ class _ResumeCreateNewState extends State<ResumeCreateNew>
                       child: GestureDetector(
                         onTap: () {
                           addFormWidget(controller.page!.round());
+                          addButtonHandler(controller.page!.round());
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
