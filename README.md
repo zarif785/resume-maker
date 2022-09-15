@@ -21,3 +21,11 @@ POST: http://cv-api.bacbontutors.com/academic-create-or-update - For updating us
 DELETE: http://cv-api.bacbontutors.com/user-academic-information-delete/${id} - For deleting a particular academic information
 
 GET: http://cv-api.bacbontutors.comuser-academic-information-list - Fetching user's all academic info
+
+## Tech Stack
+
+1. Flutter
+2. Laravel
+3. Postman
+4. Intellij CE (Editor)
+5. Visual Studio Code
